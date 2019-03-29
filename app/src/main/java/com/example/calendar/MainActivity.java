@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String formattedDate;
     TextView []timeSlots;
     ArrayList<TextView>clickabletimeSlots;
+    ArrayList<Booking>Bookings;
     String highlightDate;
     Dialog diagBooked;
     Dialog diagBlocked;
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+            Bookings=new ArrayList<>();
         //initialize timeslots and calendar
         calendar=(CalendarView)findViewById(R.id.calendar);
         timeSlots=new TextView[11];
@@ -175,6 +176,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Booking temp = new Booking(Date, Time, Patient, Validity);
                             Slots.add(temp);
                         }
+
+                        Bookings=Slots;
 
                         for (int i = 0; i < clickabletimeSlots.size(); ++i) {
                             String line = clickabletimeSlots.get(i).getText().toString();
@@ -392,6 +395,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             else if(instruction.equals("Free")){
                 diagUnblocked.show();
+            }
+
+            else if(instruction.equals("Appointment")){
+                Booking temp=new Booking("","","",-1);
+                for(int i=0;i<Bookings.size();++i){
+                    if(Bookings.get(i).getTime().equals(time)){
+                        temp=Bookings.get(i);
+                    }
+                }
+
+                String identity=temp.getPatient();
+                if(!identity.equals("")){
+                    ContentValues info=new ContentValues();
+                    info.put("id",identity);
+                    AsyncHTTPPost details=new AsyncHTTPPost("http://lamp.ms.wits.ac.za/~s1611821/details.php",info) {
+                        @Override
+                        protected void onPostExecute(String output) {
+                            try {
+                                JSONArray result =new JSONArray(output);
+                                String name="",surname="",contact="",email="";
+                                for(int i=0;i<result.length();++i){
+                                    JSONObject obj=result.getJSONObject(i);
+                                     name="\nNAME : "+obj.getString("NAME");
+                                     surname="SURNAME :"+obj.getString("SURNAME");
+                                     contact="CONTACT : 0"+obj.getString("CONTACT_NO");
+                                     email="EMAIL : "+obj.getString("EMAIL_ADDRESS");
+                                }
+                                String infoformat=name+"\n\n"+surname+"\n\n"+contact+"\n\n"+email;
+                                TextView Pinformation=(TextView)diagBooked.findViewById(R.id.details);
+                                Pinformation.setTextColor(Color.BLACK);
+                                Pinformation.setText(infoformat);
+                                diagBooked.show();
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    };
+
+                    details.execute();
+                }
+
+
+
+
             }
 
 
