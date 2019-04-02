@@ -132,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 timeSlots[i-1].setText(t+":00");
              }
 
+
              ++t;
         }
 
