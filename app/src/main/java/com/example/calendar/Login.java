@@ -50,7 +50,7 @@ public class Login extends AppCompatActivity {
         }
 
         else{
-            Toast.makeText(getApplicationContext(),"Incorrect credentials",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Incorrect Credentials",Toast.LENGTH_SHORT).show();
         }
 
     }
