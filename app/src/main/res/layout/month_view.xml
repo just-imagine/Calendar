@@ -24,12 +24,12 @@
                 app:layout_constraintHorizontal_bias="0.33"
                 app:layout_constraintLeft_toRightOf="parent"
                 app:layout_constraintRight_toLeftOf="parent">
-                <ImageView
+                <!--<ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleX="1.6"
                     android:src="@drawable/april"
-                    android:id="@+id/display"
+                    android:id="@+id/display"-->
                     />
 
 
