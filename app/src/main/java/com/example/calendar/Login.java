@@ -32,8 +32,9 @@ public class Login extends AppCompatActivity {
         String userna="Admin";
         String pass="Admin";
         if(username.getText().toString().equals(userna) && password.getText().toString().equals(pass) ){
-            Intent Calendar_view=new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(Calendar_view);
+            Intent Home=new Intent(getApplicationContext(),HomeScreen.class);
+            startActivity(Home);
+
         }
 
         else if(username.getText().length()==0 && password.getText().length()==0){
