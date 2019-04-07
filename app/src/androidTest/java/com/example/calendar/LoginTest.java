@@ -58,14 +58,12 @@ public class LoginTest {
         onView(withId(R.id.loginbut)).perform(click());
         onView(withId(R.id.password)).check(matches(hasErrorText("Enter password.")));
     }
-    //@Test
+    @Test
     public void testforsuccessfulLogin(){
         onView(withId(R.id.user)).perform(typeText("Admin"),closeSoftKeyboard());
         onView(withId(R.id.password)).perform(typeText("Admin"),closeSoftKeyboard());
         onView(withId(R.id.loginbut)).perform(click());
-        ViewInteraction textView = onView(allOf(withText("Mon"),
-                        childAtPosition(allOf(withContentDescription("Calendar"), withParent(withId(R.id.mcv_pager))), 1), isDisplayed()));
-        textView.check(matches(withText("Mon")));
+        onView(withId(R.id.fab)).check(matches(isDisplayed()));
     }
     @Test
     public void testforIncorrectCredentials(){
