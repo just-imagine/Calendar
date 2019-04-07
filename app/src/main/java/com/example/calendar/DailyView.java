@@ -436,7 +436,7 @@ public class DailyView extends AppCompatActivity
         ContentValues Params=new ContentValues();
         Params.put("DATE",date);
 
-        if(current_val-checked_val<0) {
+        if(true) {
             AsyncHTTPPost Schedule = new AsyncHTTPPost("http://lamp.ms.wits.ac.za/~s1611821/ConsultationSearch.php", Params) {
                 @Override
                 protected void onPostExecute(String output) {

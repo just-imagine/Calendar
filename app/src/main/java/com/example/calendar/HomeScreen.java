@@ -152,6 +152,7 @@ public class HomeScreen extends AppCompatActivity
             public void onClick(View view) {
                 Calendar.setSelectedDate(FirstHighlight);
                 Calendar.setCurrentDate(FirstHighlight);
+                checked_date=current_date;
 
             }
         });
