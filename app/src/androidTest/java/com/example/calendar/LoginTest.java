@@ -58,7 +58,7 @@ public class LoginTest {
         onView(withId(R.id.loginbut)).perform(click());
         onView(withId(R.id.password)).check(matches(hasErrorText("Enter password.")));
     }
-    /*@Test
+    @Test
     public void testforsuccessfulLogin(){
         onView(withId(R.id.user)).perform(typeText("Admin"),closeSoftKeyboard());
         onView(withId(R.id.password)).perform(typeText("Admin"),closeSoftKeyboard());
@@ -66,7 +66,7 @@ public class LoginTest {
         ViewInteraction textView = onView(allOf(withText("Mon"),
                         childAtPosition(allOf(withContentDescription("Calendar"), withParent(withId(R.id.mcv_pager))), 1), isDisplayed()));
         textView.check(matches(withText("Mon")));
-    }*/
+    }
     @Test
     public void testforIncorrectCredentials(){
         onView(withId(R.id.user)).perform(typeText("hello"),closeSoftKeyboard());
@@ -76,7 +76,7 @@ public class LoginTest {
         onView(withText("Incorrect Credentials")).
                 inRoot(withDecorView(CoreMatchers.not(CoreMatchers.is(activity.getWindow().getDecorView())))).check(matches(isDisplayed()));
     }
-    /*
+
     private static Matcher<View> childAtPosition(
             final Matcher<View> parentMatcher, final int position) {
 
@@ -94,5 +94,5 @@ public class LoginTest {
                         && view.equals(((ViewGroup) parent).getChildAt(position));
             }
         };
-    }*/
+    }
 }
