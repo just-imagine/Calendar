@@ -39,43 +39,88 @@ public class LoginTest {
         LoginRule.getActivity();
     }
     @Test
-    public void testforEmptyUsernameandpassword() throws InterruptedException {
+    public void testforEmptyUsernameandpassword(){
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.user)).perform(typeText(""),closeSoftKeyboard());
         onView(withId(R.id.password)).perform(typeText(""),closeSoftKeyboard());
-        Thread.sleep(2000);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.loginbut)).perform(click());
         onView(withId(R.id.user)).check(matches(hasErrorText("Enter username.")));
         onView(withId(R.id.password)).check(matches(hasErrorText("Enter password.")));
     }
     @Test
-    public void testforEmptyusername() throws InterruptedException {
+    public void testforEmptyusername(){
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.user)).perform(typeText(""),closeSoftKeyboard());
         onView(withId(R.id.password)).perform(typeText("assda"),closeSoftKeyboard());
-        Thread.sleep(2000);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.loginbut)).perform(click());
         onView(withId(R.id.user)).check(matches(hasErrorText("Enter username.")));
     }
     @Test
-    public void testforEmptypassword() throws InterruptedException {
+    public void testforEmptypassword(){
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.user)).perform(typeText("asdasd"),closeSoftKeyboard());
         onView(withId(R.id.password)).perform(typeText(""),closeSoftKeyboard());
-        Thread.sleep(2000);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.loginbut)).perform(click());
         onView(withId(R.id.password)).check(matches(hasErrorText("Enter password.")));
     }
     @Test
-    public void testforsuccessfulLogin() throws InterruptedException {
+    public void testforsuccessfulLogin(){
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.user)).perform(typeText("Admin"),closeSoftKeyboard());
         onView(withId(R.id.password)).perform(typeText("Admin"),closeSoftKeyboard());
-        Thread.sleep(2000);
-        onView(withId(R.id.loginbut)).perform(scrollTo(),click());
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        onView(withId(R.id.loginbut)).perform(click());
         onView(withId(R.id.fab)).check(matches(isDisplayed()));
     }
     @Test
-    public void testforIncorrectCredentials() throws InterruptedException {
+    public void testforIncorrectCredentials(){
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.user)).perform(typeText("hello"),closeSoftKeyboard());
         onView(withId(R.id.password)).perform(typeText("admin"),closeSoftKeyboard());
-        Thread.sleep(2000);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.loginbut)).perform(click());
         Login activity = LoginRule.getActivity();
         onView(withText("Incorrect Credentials")).
