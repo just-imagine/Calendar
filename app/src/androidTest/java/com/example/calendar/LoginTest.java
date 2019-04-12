@@ -39,38 +39,43 @@ public class LoginTest {
         LoginRule.getActivity();
     }
     @Test
-    public void testforEmptyUsernameandpassword(){
+    public void testforEmptyUsernameandpassword() throws InterruptedException {
         onView(withId(R.id.user)).perform(typeText(""),closeSoftKeyboard());
         onView(withId(R.id.password)).perform(typeText(""),closeSoftKeyboard());
+        Thread.sleep(2000);
         onView(withId(R.id.loginbut)).perform(click());
         onView(withId(R.id.user)).check(matches(hasErrorText("Enter username.")));
         onView(withId(R.id.password)).check(matches(hasErrorText("Enter password.")));
     }
     @Test
-    public void testforEmptyusername(){
+    public void testforEmptyusername() throws InterruptedException {
         onView(withId(R.id.user)).perform(typeText(""),closeSoftKeyboard());
         onView(withId(R.id.password)).perform(typeText("assda"),closeSoftKeyboard());
+        Thread.sleep(2000);
         onView(withId(R.id.loginbut)).perform(click());
         onView(withId(R.id.user)).check(matches(hasErrorText("Enter username.")));
     }
     @Test
-    public void testforEmptypassword(){
+    public void testforEmptypassword() throws InterruptedException {
         onView(withId(R.id.user)).perform(typeText("asdasd"),closeSoftKeyboard());
         onView(withId(R.id.password)).perform(typeText(""),closeSoftKeyboard());
+        Thread.sleep(2000);
         onView(withId(R.id.loginbut)).perform(click());
         onView(withId(R.id.password)).check(matches(hasErrorText("Enter password.")));
     }
     @Test
-    public void testforsuccessfulLogin(){
+    public void testforsuccessfulLogin() throws InterruptedException {
         onView(withId(R.id.user)).perform(typeText("Admin"),closeSoftKeyboard());
         onView(withId(R.id.password)).perform(typeText("Admin"),closeSoftKeyboard());
+        Thread.sleep(2000);
         onView(withId(R.id.loginbut)).perform(scrollTo(),click());
         onView(withId(R.id.fab)).check(matches(isDisplayed()));
     }
     @Test
-    public void testforIncorrectCredentials(){
+    public void testforIncorrectCredentials() throws InterruptedException {
         onView(withId(R.id.user)).perform(typeText("hello"),closeSoftKeyboard());
         onView(withId(R.id.password)).perform(typeText("admin"),closeSoftKeyboard());
+        Thread.sleep(2000);
         onView(withId(R.id.loginbut)).perform(click());
         Login activity = LoginRule.getActivity();
         onView(withText("Incorrect Credentials")).
