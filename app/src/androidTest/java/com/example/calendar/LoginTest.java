@@ -11,6 +11,8 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
+
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -62,7 +64,7 @@ public class LoginTest {
     public void testforsuccessfulLogin(){
         onView(withId(R.id.user)).perform(typeText("Admin"),closeSoftKeyboard());
         onView(withId(R.id.password)).perform(typeText("Admin"),closeSoftKeyboard());
-        onView(withId(R.id.loginbut)).perform(click());
+        onView(withId(R.id.loginbut)).perform(scrollTo(),click());
         onView(withId(R.id.fab)).check(matches(isDisplayed()));
     }
     @Test
