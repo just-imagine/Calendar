@@ -52,6 +52,7 @@ public class LoginTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        onView(withId(R.id.loginbut)).check(matches(isDisplayed()));
         onView(withId(R.id.loginbut)).perform(click());
         onView(withId(R.id.user)).check(matches(hasErrorText("Enter username.")));
         onView(withId(R.id.password)).check(matches(hasErrorText("Enter password.")));
@@ -70,6 +71,7 @@ public class LoginTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        onView(withId(R.id.loginbut)).check(matches(isDisplayed()));
         onView(withId(R.id.loginbut)).perform(click());
         onView(withId(R.id.user)).check(matches(hasErrorText("Enter username.")));
     }
@@ -87,6 +89,7 @@ public class LoginTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        onView(withId(R.id.loginbut)).check(matches(isDisplayed()));
         onView(withId(R.id.loginbut)).perform(click());
         onView(withId(R.id.password)).check(matches(hasErrorText("Enter password.")));
     }
@@ -104,6 +107,7 @@ public class LoginTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        onView(withId(R.id.loginbut)).check(matches(isDisplayed()));
         onView(withId(R.id.loginbut)).perform(click());
         onView(withId(R.id.fab)).check(matches(isDisplayed()));
     }
@@ -121,6 +125,7 @@ public class LoginTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        onView(withId(R.id.loginbut)).check(matches(isDisplayed()));
         onView(withId(R.id.loginbut)).perform(click());
         Login activity = LoginRule.getActivity();
         onView(withText("Incorrect Credentials")).
