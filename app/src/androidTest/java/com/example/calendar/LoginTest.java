@@ -11,6 +11,8 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Test;
+
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -38,37 +40,92 @@ public class LoginTest {
     }
     @Test
     public void testforEmptyUsernameandpassword(){
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.user)).perform(typeText(""),closeSoftKeyboard());
         onView(withId(R.id.password)).perform(typeText(""),closeSoftKeyboard());
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        onView(withId(R.id.loginbut)).check(matches(isDisplayed()));
         onView(withId(R.id.loginbut)).perform(click());
         onView(withId(R.id.user)).check(matches(hasErrorText("Enter username.")));
         onView(withId(R.id.password)).check(matches(hasErrorText("Enter password.")));
     }
     @Test
     public void testforEmptyusername(){
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.user)).perform(typeText(""),closeSoftKeyboard());
         onView(withId(R.id.password)).perform(typeText("assda"),closeSoftKeyboard());
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        onView(withId(R.id.loginbut)).check(matches(isDisplayed()));
         onView(withId(R.id.loginbut)).perform(click());
         onView(withId(R.id.user)).check(matches(hasErrorText("Enter username.")));
     }
     @Test
     public void testforEmptypassword(){
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.user)).perform(typeText("asdasd"),closeSoftKeyboard());
         onView(withId(R.id.password)).perform(typeText(""),closeSoftKeyboard());
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        onView(withId(R.id.loginbut)).check(matches(isDisplayed()));
         onView(withId(R.id.loginbut)).perform(click());
         onView(withId(R.id.password)).check(matches(hasErrorText("Enter password.")));
     }
-    //@Test
+    @Test
     public void testforsuccessfulLogin(){
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.user)).perform(typeText("Admin"),closeSoftKeyboard());
         onView(withId(R.id.password)).perform(typeText("Admin"),closeSoftKeyboard());
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        onView(withId(R.id.loginbut)).check(matches(isDisplayed()));
         onView(withId(R.id.loginbut)).perform(click());
         onView(withId(R.id.fab)).check(matches(isDisplayed()));
     }
     @Test
     public void testforIncorrectCredentials(){
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.user)).perform(typeText("hello"),closeSoftKeyboard());
         onView(withId(R.id.password)).perform(typeText("admin"),closeSoftKeyboard());
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        onView(withId(R.id.loginbut)).check(matches(isDisplayed()));
         onView(withId(R.id.loginbut)).perform(click());
         Login activity = LoginRule.getActivity();
         onView(withText("Incorrect Credentials")).
