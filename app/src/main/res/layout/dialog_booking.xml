@@ -89,19 +89,21 @@
 
 
                     <TextView
+
                         android:layout_gravity="center_vertical"
                         android:gravity="center"
                         android:drawableLeft="@mipmap/ic_checkout"
                         android:textColor="#000"
                         android:textSize="18sp"
-                        android:text="Checkout"
+                        android:text="Checkout "
+                        android:onClick="Action"
                         android:id="@+id/checkout"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent" />
 
                     <FrameLayout
                         android:id="@+id/verticaldiv"
-                        android:layout_marginLeft="12dp"
+
                         android:background="@android:color/darker_gray"
                         android:layout_width="1.5dp"
                         android:layout_height="match_parent"/>

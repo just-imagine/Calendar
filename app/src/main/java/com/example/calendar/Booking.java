@@ -77,7 +77,7 @@ public class Booking {
     }
 
     boolean Booked(){
-        if(!Identity.equals("null") && !Blocked()){
+        if(!Identity.equals("null") && !Blocked() && state==0){
             return  true;
         }
 
@@ -104,6 +104,11 @@ public class Booking {
                     Slot.setTextColor(Color.WHITE);
                 }
 
+                else if(this.Completed()){
+                    Slot.setBackgroundColor(Color.parseColor("#32CD32"));
+                    Slot.setText("Attended");
+                    Slot.setTextColor(Color.WHITE);
+                }
                 else if(this.Blocked()){
                     Slot.setBackgroundColor(Color.parseColor("#d13c04"));
                     Slot.setText("Blocked");
@@ -116,9 +121,10 @@ public class Booking {
                     Slot.setTextColor(Color.WHITE);
                 }
 
-
                 break;
             }
+
+
         }
     }
 

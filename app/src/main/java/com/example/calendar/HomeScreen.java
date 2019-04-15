@@ -47,22 +47,14 @@ public class HomeScreen extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     MaterialCalendarView Calendar;
-    boolean FirstClick=false;
-    int HighlightYear=0,HighlightMonth=0,HighlightDay=0;
-
     Date currentDate;
     String current_date,checked_date;
     String DayOfWeek;
     String DayOfMonth;
-    String Year;
     String MonthOfYear;
     String globalDate;
     String globalDateDay;
     ImageView display;
-    String Months[]={"January","February","March","April","May","June","July","August","September","October","November","December"};
-
-    boolean isFirstClick=true;
-
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -71,8 +63,6 @@ public class HomeScreen extends AppCompatActivity
         setContentView(R.layout.activity_home_screen);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -89,16 +79,11 @@ public class HomeScreen extends AppCompatActivity
         current_date=FormattedDate;
         checked_date=current_date;
 
-
-
         Calendar=(MaterialCalendarView) findViewById(R.id.thing);
         final Calendar calendar = java.util.Calendar.getInstance();
         Calendar.setDateSelected(calendar.getTime(), true);
         Calendar.setSelectionColor(Color.RED);
-
         Calendar.addDecorator(new CurrentDateDecorator(this));
-
-
         display=(ImageView)findViewById(R.id.display);
         Calendar.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
@@ -128,8 +113,6 @@ public class HomeScreen extends AppCompatActivity
         Calendar.setOnDateLongClickListener(new OnDateLongClickListener() {
             @Override
             public void onDateLongClick(@NonNull MaterialCalendarView materialCalendarView, @NonNull CalendarDay calendarDay) {
-
-
                 int day=calendarDay.getDay();
                 String Long=""+calendarDay.getDate();
                 int month=calendarDay.getMonth()+1;
@@ -157,9 +140,7 @@ public class HomeScreen extends AppCompatActivity
             }
         });
 
-
        currentDate=java.util.Calendar.getInstance().getTime();
-       String line=""+Calendar.getCurrentDate();
        globalDate=df.format(currentDate);
         Date date=null;
         try {
@@ -171,7 +152,6 @@ public class HomeScreen extends AppCompatActivity
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
 
         Display(globalDateDay);
         toolbar.setTitleTextColor(Color.BLACK);
@@ -216,8 +196,10 @@ public class HomeScreen extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_schedule) {
-            // Handle the camera action
+        if (id == R.id.nav_progress) {
+            Intent Progress=new Intent(getApplicationContext(),Progress.class);
+            startActivity(Progress);
+            //
         } else if (id == R.id.nav_day) {
             Intent DailyView=new Intent(getApplicationContext(),DailyView.class);
             DailyView.putExtra("WeekDay",DayOfWeek);
@@ -229,6 +211,8 @@ public class HomeScreen extends AppCompatActivity
 
 
         } else if (id == R.id.nav_week) {
+            Intent weekView=new Intent(getApplicationContext(),WeekView.class);
+            startActivity(weekView);
 
         } else if (id == R.id.nav_month) {
 
@@ -332,7 +316,6 @@ public class HomeScreen extends AppCompatActivity
 
         }
 
-
         else if(x.equals("Aug")){
             return  "August";
         }
@@ -353,7 +336,7 @@ public class HomeScreen extends AppCompatActivity
 
     public  String AssignVariables(int month,int day,int year,String LongDate){
         String weekday=LongDate.substring(0,3);
-        String g="";
+        String g;
         if(month<10){
             if(day<10)
                 g=""+year+"0"+month+"0"+day;
@@ -372,7 +355,6 @@ public class HomeScreen extends AppCompatActivity
                 g=""+year+month+""+day;
             }
         }
-
         checked_date=g;
         DayOfMonth=""+day;
         DayOfWeek=weekday;

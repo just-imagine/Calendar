@@ -2,6 +2,7 @@ package com.example.calendar;
 
 import android.annotation.TargetApi;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Color;
@@ -50,12 +51,13 @@ public class DailyView extends AppCompatActivity
     ArrayList<TextView>TimeSlots;
     ArrayList<Booking>Bookings;
     Toolbar Heading;
-    String Months[]={"January","February","March","April","May","June","July","August","September","October","November","December"};
     Dialog booking;
     String DayOfWeek,DayOfMonth,MonthOfYear;
     TextView Checkout;
     TextView Cancel;
     ScrollView UpdateData;
+    String clickedtime;
+    ProgressDialog dialog;
 
     @TargetApi(Build.VERSION_CODES.M)
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -96,6 +98,8 @@ public class DailyView extends AppCompatActivity
         display=(ImageView)findViewById(R.id.dayDisplay);
 
         Bookings=new ArrayList<>();
+
+        //retrieve current intent to get the passed information from previous intent
         m=getIntent();
         DayOfWeek=m.getStringExtra("WeekDay");
         DayOfMonth=m.getStringExtra("Date");
@@ -107,10 +111,12 @@ public class DailyView extends AppCompatActivity
         WeekDay.setText(Information);
 
         Display(Picture);
-        MonthOfYear=Months[Index(Picture)];
+
+        MonthOfYear=Month(Picture);
         setTitle(MonthOfYear+" "+checked_date.substring(0,4));
         TimeSlots=new ArrayList<>();
         PopulateView();
+
         DailySchedule(checked_date);
         booking=new Dialog(this);
         booking.setContentView(R.layout.dialog_booking);
@@ -127,9 +133,7 @@ public class DailyView extends AppCompatActivity
         });
 
         toolbar.setTitleTextColor(Color.BLACK);
-
-
-
+        dialog = new ProgressDialog(this);
 
     }
 
@@ -153,15 +157,10 @@ public class DailyView extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -171,8 +170,9 @@ public class DailyView extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_schedule) {
-            // Handle the camera action
+        if (id == R.id.nav_progress) {
+            Intent Progress=new Intent(getApplicationContext(),Progress.class);
+            startActivity(Progress);
         } else if (id == R.id.nav_week) {
 
         } else if (id == R.id.nav_month) {
@@ -183,7 +183,6 @@ public class DailyView extends AppCompatActivity
         } else if (id == R.id.nav_send) {
 
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -225,7 +224,6 @@ public class DailyView extends AppCompatActivity
 
             }
 
-
             else if(Month.equals("Aug")){
                 display.setImageResource(R.drawable.august);
             }
@@ -248,6 +246,10 @@ public class DailyView extends AppCompatActivity
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void PopulateView(){
+        /*what this method does is it populates the day view layout with textviews representing time slots
+         the layout starts out with one textview that has the first slot for the day and then duplicates it to
+        produce all other timeslots */
+
         int value=15;
         int hour=8;
         int current_val= Integer.parseInt(current_date);
@@ -264,9 +266,6 @@ public class DailyView extends AppCompatActivity
                 ++hour;
             }
             properTime=""+(hour)+":"+value;
-
-
-
             String Time="";
             if(hour<10){
                 if(value!=0){
@@ -331,8 +330,6 @@ public class DailyView extends AppCompatActivity
 
             //note setting hint is used as way of keeping track of which textview belongs to which time
 
-            //more than a week ago old data pointless
-
             View c=new View(this);
             c.setLayoutParams(Divider.getLayoutParams());
             c.setBackgroundColor(Color.LTGRAY);
@@ -356,7 +353,6 @@ public class DailyView extends AppCompatActivity
                     PopUp(v);
                 }
             });
-
             TimeSlots.add(b);
         }
 
@@ -365,8 +361,8 @@ public class DailyView extends AppCompatActivity
         Slot.setHint("08:00");
         Slot.setPadding(12,12,12,12);
 
-
         TimeSlots.add(Slot);
+
         CardView cardView=new CardView(this);
         View c=new View(this);
         c.setLayoutParams(Divider.getLayoutParams());
@@ -376,67 +372,56 @@ public class DailyView extends AppCompatActivity
         cardView.addView(c);
         cardView.addView(space);
         Items.addView(cardView);
-
     }
 
-    public  int Index(String x){
-
+    public  String Month(String x){
         if(x.equals("Apr")){
-           return  3;
+           return  "April";
         }
-
         else if(x.equals("Mar")){
-            return  2;
+            return  "March";
         }
 
         else if(x.equals("Jan")){
-            return  0;
+            return  "January";
         }
 
         else if(x.equals("Feb")){
-            return  1;
+            return  "February";
         }
 
         else if(x.equals("May")){
 
-            return  4;
+            return  "May";
         }
 
         else if(x.equals("Jun")){
-            return  5;
+            return  "June";
         }
 
         else if(x.equals("Jul")){
-            return  6;
-
-        }
-
+            return  "July";}
 
         else if(x.equals("Aug")){
-            return  7;
+            return  "August";
         }
 
         else if(x.equals("Sep")){
-            return  8;}
+            return  "September";}
 
         else if(x.equals("Oct")){
-            return  9;}
+            return  "October";}
 
         else if(x.equals("Nov")){
-            return  10;}
-
+            return  "November";}
         else{
-            return  11;}
-    }
+            return  "December";}
+        }
 
     public void DailySchedule(String date){
         Bookings.clear();
-        int current_val=Integer.parseInt(current_date);
-        int checked_val=Integer.parseInt(checked_date);
         ContentValues Params=new ContentValues();
         Params.put("DATE",date);
-
-        if(true) {
             AsyncHTTPPost Schedule = new AsyncHTTPPost("http://lamp.ms.wits.ac.za/~s1611821/ConsultationSearch.php", Params) {
                 @Override
                 protected void onPostExecute(String output) {
@@ -461,6 +446,12 @@ public class DailyView extends AppCompatActivity
                         e.printStackTrace();
                     }
 
+                    for(int i=0;i<TimeSlots.size();++i){
+                        TextView s=TimeSlots.get(i);
+                        s.setBackgroundColor(Color.parseColor("#008577"));
+                        s.setText("Free");
+                        s.setTextColor(Color.WHITE);
+                    }
 
                     for (int j = 0; j < Bookings.size(); ++j) {
                         Bookings.get(j).OccupySlots(TimeSlots);
@@ -470,34 +461,68 @@ public class DailyView extends AppCompatActivity
             };
 
             Schedule.execute();
-        }
+
 
     }
 
     public void PopUp(View V){
-        V=(TextView)V;
         TextView timeDetails=(TextView)booking.findViewById(R.id.timedetails);
         TextView Patient=(TextView)booking.findViewById(R.id.patient);
         TextView Patientemail=(TextView)booking.findViewById(R.id.email);
         String time=((TextView) V).getHint().toString();
+        clickedtime=((TextView) V).getHint().toString();
+
         int value=Integer.parseInt(time.substring(3,5))+15;
 
-        timeDetails.setText(DayOfWeek+" , "+DayOfMonth+" "+MonthOfYear+"\n\nDuration "+time+"-"+time.substring(0,3)+""+value);
+        int duration=Integer.parseInt(time.substring(3,5))+value;
+
+        Toast.makeText(getApplicationContext(),""+duration,Toast.LENGTH_LONG).show();
+        if(duration==105){
+            int hour=Integer.parseInt(time.substring(0,2));
+            hour=hour+1;
+            timeDetails.setText(DayOfWeek+" , "+DayOfMonth+" "+MonthOfYear+"\n\nDuration "+time+"-0"+hour+":00");
+        }
+
+
+        else{
+            timeDetails.setText(DayOfWeek+" , "+DayOfMonth+" "+MonthOfYear+"\n\nDuration "+time+"-"+time.substring(0,3)+""+value);
+        }
 
         if(((TextView) V).getText().toString().equals("Appointment")){
 
             Booking viewing=FindBooking(time);
+            Checkout.setText("Checkout");
+            Cancel.setText("Cancel");
+            Checkout.setBackgroundColor(Color.TRANSPARENT);
 
             if(viewing!=null){
-
-                String Date=DayOfMonth;
-                String Day=MatchDay(DayOfWeek);
                 String Name=viewing.getName();
                 String Surname=viewing.getSurname();
                 String Email=viewing.getEmail();
                 Patient.setText(Name+"  "+Surname);
                 Patientemail.setText(Email);
-                Cancel.setText("Cancel");
+
+                Checkout.setVisibility(View.VISIBLE);
+                Cancel.setVisibility(View.VISIBLE);
+                booking.show();
+
+            }
+        }
+
+
+        else if(((TextView) V).getText().toString().equals("Attended")){
+            Booking viewing=FindBooking(time);
+
+            if(viewing!=null){
+                String Name=viewing.getName();
+                String Surname=viewing.getSurname();
+                String Email=viewing.getEmail();
+                Patient.setText(Name+"  "+Surname);
+                Patientemail.setText(Email);
+                Checkout.setVisibility(View.VISIBLE);
+                Checkout.setText("  Attended ");
+                Checkout.setBackgroundColor(Color.parseColor("#32CD32"));
+                Cancel.setVisibility(View.INVISIBLE);
                 booking.show();
 
             }
@@ -508,6 +533,7 @@ public class DailyView extends AppCompatActivity
             Patientemail.setText("");
             Patient.setText("");
             Checkout.setVisibility(View.INVISIBLE);
+            Cancel.setVisibility(View.VISIBLE);
             Cancel.setText("Block");
             booking.show();
         }
@@ -535,27 +561,41 @@ public class DailyView extends AppCompatActivity
     }
 
 
-
-    public  String MatchDay(String line){
-        String WeekDays[]={"Monday","TuesDay","Wednesday","Thursday","Friday","Saturday","Sunday"};
-
-        for(int i=0;i<WeekDays.length;++i){
-            if(WeekDays[i].substring(0,3).equals(line)){
-                return WeekDays[i];
-            }
-        }
-        return  line;
-    }
-
-
     public  void BlockSlot(){
 
     }
 
-
     public void CancelSlot(){
 
     }
+
+    public void Action(View v){
+        //we want to do stuff depending on whether there was appoinment or slot is free or blocked
+        v=(TextView)v;
+        if(((TextView) v).getText().toString().equals("Checkout"))
+            if(current_date.equals(checked_date)){
+            ContentValues Params=new ContentValues();
+            Params.put("DATE",current_date);
+            Params.put("TIME",clickedtime);
+
+            AsyncHTTPPost chekoutAppointment=new AsyncHTTPPost("http://lamp.ms.wits.ac.za/~s1611821/Check.php",Params) {
+                @Override
+                protected void onPostExecute(String output) {
+                    if(output.equals("success")){
+                        booking.dismiss();
+                        DailySchedule(current_date);
+                        dialog.dismiss();
+                    }
+
+
+                }
+            };
+
+            chekoutAppointment.execute();
+            dialog = ProgressDialog.show(DailyView.this, "",
+                    "Loading. Please wait...", true);
+
+        }}
 
 
     }
