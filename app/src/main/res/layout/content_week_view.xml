@@ -19,7 +19,8 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardElevation="4dp"
+            app:cardElevation="8dp"
+            app:cardCornerRadius="4dp"
             >
 
             <LinearLayout
@@ -27,33 +28,18 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-              <!--  <TextView
-
-                    android:background="@drawable/circle"
-                    android:layout_marginTop="29dp"
-                    android:layout_marginLeft="18.25dp"
-                    android:layout_marginBottom="10dp"
-                    android:gravity="center"
-                    android:textColor="#000"
-                    android:textSize="15sp"
-                    android:text="FRI\n5"
-                    android:id="@+id/weekDay"
-                    android:textAlignment="center"
+                <TextView
+                    android:id="@+id/ChangeCalendar"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="0dp" />
 
-                <FrameLayout
-                    android:layout_marginLeft="12dp"
-                    android:background="@android:color/darker_gray"
-                    android:layout_width="0.5dp"
-                    android:layout_height="match_parent"/> -->
-
-                <ImageView
-                    android:id="@+id/dayDisplay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:scaleX="2.1"/>
-
+              <com.prolificinteractive.materialcalendarview.MaterialCalendarView
+                  android:id="@+id/DropDownCalendar"
+                  android:layout_width="wrap_content"
+                  android:elevation="4dp"
+                  app:mcv_calendarMode="month"
+                  app:mcv_showWeekDays="true"
+                  android:layout_height="0dp"></com.prolificinteractive.materialcalendarview.MaterialCalendarView>
 
 
             </LinearLayout>
@@ -70,7 +56,7 @@
         android:background="@android:color/darker_gray"
         />
     <android.support.v7.widget.CardView
-        android:elevation="4dp"
+        android:elevation="3.2dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -84,16 +70,7 @@
             android:layout_height="match_parent"
             android:elevation="4.4dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="4dp"
-                android:paddingHorizontal="11.1dp"
-                android:paddingVertical="0dp"
-                android:text="8 AM"
-                android:textAlignment="center"
+       "
                 android:textColor="#FFF" />
         </android.support.v7.widget.CardView>
 
@@ -109,8 +86,8 @@
             android:scrollbars="none"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:layout_marginTop="8dp"
+            android:layout_marginLeft="62dp"
         >
 
             <TableLayout
@@ -126,13 +103,13 @@
                     android:showDividers="beginning|middle">
 
 
-
                     <TextView
-                        android:layout_width="match_parent"
+                        android:id="@+id/Mon"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="4dp"
                         android:layout_marginTop="0dp"
-                        android:layout_marginRight="4dp"
+                        android:layout_marginRight="0dp"
                         android:hint="Mon"
                         android:paddingHorizontal="12dp"
                         android:paddingVertical="12dp"
@@ -144,11 +121,12 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/Tue"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
                         android:layout_marginTop="0dp"
-                        android:layout_marginRight="4dp"
+                        android:layout_marginRight="0dp"
                         android:paddingHorizontal="12dp"
                         android:paddingVertical="12dp"
                         android:text="Tue"
@@ -159,11 +137,12 @@
 
 
                     <TextView
+                        android:id="@+id/Wed"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
                         android:layout_marginTop="0dp"
-                        android:layout_marginRight="4dp"
+                        android:layout_marginRight="0dp"
                         android:hint="Mon"
                         android:paddingHorizontal="12dp"
                         android:paddingVertical="12dp"
@@ -181,11 +160,12 @@
 
 
                     <TextView
+                        android:id="@+id/Thu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
                         android:layout_marginTop="0dp"
-                        android:layout_marginRight="4dp"
+                        android:layout_marginRight="0dp"
                         android:hint="Mon"
                         android:paddingHorizontal="12dp"
                         android:paddingVertical="12dp"
@@ -197,11 +177,12 @@
 
 
                     <TextView
+                        android:id="@+id/Fri"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
                         android:layout_marginTop="0dp"
-                        android:layout_marginRight="4dp"
+                        android:layout_marginRight="0dp"
                         android:hint="Mon"
                         android:paddingHorizontal="12dp"
                         android:paddingVertical="12dp"
@@ -213,11 +194,12 @@
 
 
                     <TextView
+                        android:id="@+id/Sat"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
                         android:layout_marginTop="0dp"
-                        android:layout_marginRight="4dp"
+                        android:layout_marginRight="0dp"
                         android:hint="Mon"
                         android:paddingHorizontal="12dp"
                         android:paddingVertical="12dp"
@@ -229,11 +211,12 @@
 
 
                     <TextView
+                        android:id="@+id/Sun"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
                         android:layout_marginTop="0dp"
-                        android:layout_marginRight="4dp"
+                        android:layout_marginRight="0dp"
                         android:hint="Mon"
                         android:paddingHorizontal="12dp"
                         android:paddingVertical="12dp"
@@ -292,7 +275,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="4dp"
                 android:layout_marginLeft="4dp"
-                android:text="8 AM"
+                android:text="7 AM"
                 android:textAlignment="center"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"

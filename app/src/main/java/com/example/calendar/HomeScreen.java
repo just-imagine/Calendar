@@ -85,6 +85,7 @@ public class HomeScreen extends AppCompatActivity
         Calendar.setSelectionColor(Color.RED);
         Calendar.addDecorator(new CurrentDateDecorator(this));
         display=(ImageView)findViewById(R.id.display);
+
         Calendar.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView materialCalendarView, @NonNull CalendarDay calendarDay, boolean b) {
@@ -155,7 +156,7 @@ public class HomeScreen extends AppCompatActivity
 
         Display(globalDateDay);
         toolbar.setTitleTextColor(Color.BLACK);
-        setTitle(Index(MonthOfYear)+" "+checked_date.substring(0,4));
+        setTitle(getMonth(MonthOfYear)+" "+checked_date.substring(0,4));
     }
 
     @Override
@@ -207,11 +208,16 @@ public class HomeScreen extends AppCompatActivity
             DailyView.putExtra("Month",MonthOfYear);
             DailyView.putExtra("Current",current_date);
             DailyView.putExtra("Checked",checked_date);
+
             startActivity(DailyView);
 
 
         } else if (id == R.id.nav_week) {
             Intent weekView=new Intent(getApplicationContext(),WeekView.class);
+            weekView.putExtra("Month",MonthOfYear);
+            weekView.putExtra("CurrentDate",current_date);
+            weekView.putExtra("CheckedDate",checked_date);
+            weekView.putExtra("LongCurrentDate",""+Calendar.getSelectedDate().getDate());
             startActivity(weekView);
 
         } else if (id == R.id.nav_month) {
@@ -284,7 +290,7 @@ public class HomeScreen extends AppCompatActivity
     }
 
 
-    public  String Index(String x){
+    public  String getMonth(String x){
 
         if(x.equals("Apr")){
             return  "April";
@@ -360,7 +366,7 @@ public class HomeScreen extends AppCompatActivity
         DayOfWeek=weekday;
         MonthOfYear=LongDate.substring(4,8).trim();
         Display(LongDate);
-        setTitle(Index(MonthOfYear)+" "+checked_date.substring(0,4));
+        setTitle(getMonth(MonthOfYear)+" "+checked_date.substring(0,4));
         return  g;
     }
 
