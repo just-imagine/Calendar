@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -32,6 +33,7 @@ import android.widget.Toast;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -116,15 +118,30 @@ public class WeekView extends AppCompatActivity
         DropDownCalendar.setSelectionColor(Color.RED);
         DropDownCalendar.addDecorator(new CurrentDateDecorator(this));
 
+        DropDownCalendar.setOnDateChangedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(@NonNull MaterialCalendarView materialCalendarView, @NonNull CalendarDay calendarDay, boolean b) {
+                int year=calendarDay.getYear();
+                int month=calendarDay.getMonth();
+                int day=calendarDay.getDay();
+                String date=""+calendarDay.getDate();
+
+                AssignVariables(month,day,year,date);
+                setDays();
+
+            }
+        });
+
+
         WeekDays=Weekdays();
 
 
         setDays();
 
-        setTitle(getMonth(CurrentMonth));
+        setTitle(getMonth(CurrentMonth)+" "+CheckedDate.substring(0,4));
         toolbar.setTitleTextColor(Color.BLACK);
 
-        Weekdays();
+       // Weekdays();
 
     }
 
@@ -308,7 +325,6 @@ public class WeekView extends AppCompatActivity
             TextView weekday;
             weekday = (TextView) findViewById(r.getIdentifier(WeekDays[i], "id", name));
             Weekdays[i]=weekday;
-          //  Weekdays[i].setTextSize(18);
 
         }
 
@@ -361,9 +377,6 @@ public class WeekView extends AppCompatActivity
 
     public void setDays(){
         CalendarDay Day=DropDownCalendar.getSelectedDate();
-        //Toast.makeText(getApplicationContext(),""+Day.getDate(),Toast.LENGTH_LONG).show();
-
-
         Date selectedDate=Day.getDate();
 
         String LongDate=""+selectedDate;
@@ -371,6 +384,9 @@ public class WeekView extends AppCompatActivity
         Calendar calendar=Calendar.getInstance();
         calendar.setTime(selectedDate);
 
+      //  Toast.makeText(getApplicationContext(),CurrenDate,Toast.LENGTH_LONG).show();
+
+        int compare=Integer.parseInt(CheckedDate.substring(6,8).trim());
         int startNumber=Integer.parseInt(CheckedDate.substring(6,8).trim())-Offset(DayOfWeek);
         int max=calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
@@ -400,13 +416,18 @@ public class WeekView extends AppCompatActivity
             Feb=true;
         }
 
-
-
-
-
         for(int i=0;i<WeekDays.length;++i){
+            String line=WeekDays[i].getText().toString().substring(0,3);
 
+            int a=2;
             if(startNumber<=max){
+
+              /*  if(startNumber==compare){
+                    WeekDays[i].setTextColor(Color.BLUE);
+                }*/
+
+
+
                 if(startNumber<=0){
                     int val=startNumber+priormax;
                     if(Feb){
@@ -414,17 +435,18 @@ public class WeekView extends AppCompatActivity
                             startNumber=max;
                         }
                     }
-            WeekDays[i].append("\n"+val);}
+
+            WeekDays[i].setText(line+"\n"+val);}
 
                 else{
-                    WeekDays[i].append("\n"+startNumber);
+                    WeekDays[i].setText(line+"\n"+startNumber);
                 }
 
             }
 
             else{
                 startNumber=1;
-                WeekDays[i].append("\n"+startNumber);
+                WeekDays[i].setText(line+"\n"+startNumber);
             }
 
             ++startNumber;
@@ -432,9 +454,32 @@ public class WeekView extends AppCompatActivity
 
     }
 
+    public  String AssignVariables(int month,int day,int year,String LongDate){
+
+        String g;
+        if(month<10){
+            if(day<10)
+                g=""+year+"0"+month+"0"+day;
+
+            else {
+                g=""+year+"0"+month+""+day;
+            }
+        }
 
 
+        else{
+            if(day<10)
+                g=""+year+month+"0"+day;
 
+            else {
+                g=""+year+month+""+day;
+            }
+        }
+        CheckedDate=g;
+        String MonthOfYear=LongDate.substring(4,8).trim();
+        setTitle(getMonth(MonthOfYear)+" "+CheckedDate.substring(0,4));
+        return  g;
+    }
 
 
 }
