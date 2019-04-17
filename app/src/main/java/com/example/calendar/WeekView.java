@@ -37,6 +37,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class WeekView extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -364,6 +365,7 @@ public class WeekView extends AppCompatActivity
 
 
         Date selectedDate=Day.getDate();
+
         String LongDate=""+selectedDate;
         String DayOfWeek=LongDate.substring(0,3);
         Calendar calendar=Calendar.getInstance();
@@ -372,11 +374,53 @@ public class WeekView extends AppCompatActivity
         int startNumber=Integer.parseInt(CheckedDate.substring(6,8).trim())-Offset(DayOfWeek);
         int max=calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
-        //Toast.makeText(getApplicationContext(),""+DayOfWeek +" "+Offset(DayOfWeek),Toast.LENGTH_LONG).show();
+        GregorianCalendar date= (GregorianCalendar) GregorianCalendar.getInstance();
+        date.set(selectedDate.getYear(),1,1);
+        boolean Feb=false;
+
+        int priormax=30;
+
+        if(max==30){
+            priormax=31;
+        }
+
+        else if( max==31){
+            priormax=30;
+        }
+
+
+        if(selectedDate.getMonth()==2){
+            if(date.isLeapYear(selectedDate.getYear())){
+                priormax=29;
+            }
+
+            else{
+                priormax=28;
+            }
+            Feb=true;
+        }
+
+
+
+
 
         for(int i=0;i<WeekDays.length;++i){
-            if(startNumber<=max)
-            WeekDays[i].append("\n"+startNumber);
+
+            if(startNumber<=max){
+                if(startNumber<=0){
+                    int val=startNumber+priormax;
+                    if(Feb){
+                        if(val==priormax){
+                            startNumber=max;
+                        }
+                    }
+            WeekDays[i].append("\n"+val);}
+
+                else{
+                    WeekDays[i].append("\n"+startNumber);
+                }
+
+            }
 
             else{
                 startNumber=1;
@@ -386,8 +430,9 @@ public class WeekView extends AppCompatActivity
             ++startNumber;
         }
 
-
     }
+
+
 
 
 
