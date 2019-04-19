@@ -421,7 +421,12 @@ public class DailyView extends AppCompatActivity
     public void DailySchedule(String date){
         Bookings.clear();
         ContentValues Params=new ContentValues();
+
+        int current_value=Integer.parseInt(current_date);
+        int checked_value=Integer.parseInt(checked_date);
         Params.put("DATE",date);
+
+        if(checked_value-current_value>=0){
             AsyncHTTPPost Schedule = new AsyncHTTPPost("http://lamp.ms.wits.ac.za/~s1611821/ConsultationSearch.php", Params) {
                 @Override
                 protected void onPostExecute(String output) {
@@ -460,8 +465,17 @@ public class DailyView extends AppCompatActivity
                 }
             };
 
-            Schedule.execute();
+            Schedule.execute();}
 
+        else{
+            for(int i=0;i<TimeSlots.size();++i){
+                TextView s=TimeSlots.get(i);
+                s.setBackgroundColor(Color.parseColor("#d13c04"));
+                s.setText("unavailable");
+                s.setTextColor(Color.WHITE);
+            }
+
+        }
 
     }
 

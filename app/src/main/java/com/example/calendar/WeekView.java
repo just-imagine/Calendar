@@ -1,5 +1,6 @@
 package com.example.calendar;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -35,11 +36,17 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Random;
 
 public class WeekView extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -53,6 +60,10 @@ public class WeekView extends AppCompatActivity
     Intent currentIntent;
     MaterialCalendarView DropDownCalendar;
     TextView WeekDays[];
+    TextView MaskWeekdays[];
+    ArrayList<Booking>Schedule;
+    LinearLayout WeekEvents[];
+    boolean tryFirst;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -80,8 +91,8 @@ public class WeekView extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        Schedule=new ArrayList<>();
         TopHorizontal=(HorizontalScrollView)findViewById(R.id.Tophorizontal);
-
         BottomHorizontal=(HorizontalScrollView)findViewById(R.id.horizontalScroll);
         TopWeekdays=(TableRow)findViewById(R.id.TopWeekdays);
         BottomWeekdays=(TableRow)findViewById(R.id.WeekDays);
@@ -91,6 +102,7 @@ public class WeekView extends AppCompatActivity
             @Override
             public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
               TopHorizontal.scrollTo(scrollX,scrollY);
+            //  AddEvents();
             }
         });
 
@@ -106,7 +118,7 @@ public class WeekView extends AppCompatActivity
         CurrentMonth=currentIntent.getStringExtra("Month");
         CurrenDate=currentIntent.getStringExtra("CurrentDate");
         CheckedDate=currentIntent.getStringExtra("CheckedDate");
-        //String =currentIntent.getStringExtra("LongCurrentDate");
+
 
         DropDownCalendar=(MaterialCalendarView)findViewById(R.id.DropDownCalendar);
         String formateddate=CheckedDate.substring(0,4)+"/"+CheckedDate.substring(4,6)+"/"+CheckedDate.substring(6,8);
@@ -122,26 +134,27 @@ public class WeekView extends AppCompatActivity
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView materialCalendarView, @NonNull CalendarDay calendarDay, boolean b) {
                 int year=calendarDay.getYear();
-                int month=calendarDay.getMonth();
+                int month=calendarDay.getMonth()+1;
                 int day=calendarDay.getDay();
                 String date=""+calendarDay.getDate();
 
-                AssignVariables(month,day,year,date);
+                CheckedDate=AssignVariables(month,day,year,date);
+
                 setDays();
+
+                AddEvents();
+
 
             }
         });
 
-
+        MaskWeekdays=new TextView[7];
         WeekDays=Weekdays();
-
-
         setDays();
-
         setTitle(getMonth(CurrentMonth)+" "+CheckedDate.substring(0,4));
         toolbar.setTitleTextColor(Color.BLACK);
-
-       // Weekdays();
+        WeekEvents=Events();
+        AddEvents();
 
     }
 
@@ -203,11 +216,6 @@ public class WeekView extends AppCompatActivity
         return true;
     }
 
-
-    public void  PopulateView(){
-
-
-    }
 
     public  String[] Time() {
         int value = 15;
@@ -313,21 +321,93 @@ public class WeekView extends AppCompatActivity
             return  "December";}
     }
 
-    public TextView[] Weekdays(){
+    public  LinearLayout[] Events(){
+        Resources r = getResources();
+        String name = getPackageName();
+        String EventNames[]={"M","T","W","TH","FR","SA","SU"};
+        LinearLayout Events[]=new LinearLayout[77];
+        int  value=0;
+        for(int i=0;i<7;++i){
+            String column=EventNames[i];
+            for(int j=8;j<=18;++j){
+                LinearLayout temp=(LinearLayout)findViewById(r.getIdentifier(column+""+j,"id",name));
+                Events[value]=temp;
+                ++value;
 
+                temp.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getApplicationContext(), "you clicked me", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+        }
+        return Events;
+    }
+
+
+    public void AddEvents(){
+        final ArrayList<Booking>tempSchedule=Schedule;
+
+        Schedule.clear();
+        String line1=WeekDays[0].getText().toString();
+        String line2=WeekDays[WeekDays.length-1].getText().toString();
+        String Order[]=DateOrder(line1.split("\n")[1],line2.split("\n")[1]);
+        ContentValues Params=new ContentValues();
+        Params.put("LDATE",Order[0]);
+        Params.put("UDATE",Order[1]);
+        final AsyncHTTPPost WeekSchedule=new AsyncHTTPPost("http://lamp.ms.wits.ac.za/~s1611821/ConsultationWeek.php",Params) {
+            @Override
+            protected void onPostExecute(String output) {
+                try {
+                    JSONArray results = new JSONArray(output);
+                    for (int i = 0; i < results.length(); ++i) {
+
+
+                         JSONObject obj = results.getJSONObject(i);
+                        String Name=obj.getString("NAME");
+                        String Surname = obj.getString("SURNAME");
+                       String Identity = obj.getString("ID_NUMBER");
+                       String Email = obj.getString("EMAIL_ADDRESS");
+                        String Contact = obj.getString("CONTACT_NO");
+                        String Date = obj.getString("DATE");
+                        String Time = obj.getString("TIME").substring(0, 5);
+                        int State = obj.getInt("STATE");
+                        Booking temp = new Booking(Name, Surname, Identity, Contact, Email, Date, Time, State);
+                        Schedule.add(temp);
+                    }
+
+                        PopulateDays(WeekDays);
+
+
+                } catch (JSONException e) {
+                     PopulateDays(WeekDays);
+                    e.printStackTrace();
+                }
+
+            }
+        };
+
+        WeekSchedule.execute();
+    }
+
+    public TextView[] Weekdays(){
 
         Resources r = getResources();
         String name = getPackageName();
         String WeekDays[]={"Mon","Tue","Wed","Thu","Fri","Sat","Sun"};
+        String DummyWeekDays[]={"F1","F2","F3","F4","F5","F6","F7"};
         TextView Weekdays[]=new TextView[7];
         DropDownCalendar.setCurrentDate(Calendar.getInstance());
         for(int i=0;i<WeekDays.length;++i) {
-            TextView weekday;
+            TextView weekday,dummyWeekday;
             weekday = (TextView) findViewById(r.getIdentifier(WeekDays[i], "id", name));
+            dummyWeekday=(TextView)findViewById(r.getIdentifier(DummyWeekDays[i],"id",name));
             Weekdays[i]=weekday;
+            MaskWeekdays[i]=dummyWeekday;
 
         }
-
         return  Weekdays;
     }
 
@@ -375,7 +455,10 @@ public class WeekView extends AppCompatActivity
         }
     }
 
+
+
     public void setDays(){
+
         CalendarDay Day=DropDownCalendar.getSelectedDate();
         Date selectedDate=Day.getDate();
 
@@ -384,16 +467,15 @@ public class WeekView extends AppCompatActivity
         Calendar calendar=Calendar.getInstance();
         calendar.setTime(selectedDate);
 
-      //  Toast.makeText(getApplicationContext(),CurrenDate,Toast.LENGTH_LONG).show();
-
-        int compare=Integer.parseInt(CheckedDate.substring(6,8).trim());
+        int compare=Integer.parseInt(CurrenDate.substring(6,8).trim());
+        int comparemonth=Integer.parseInt(CurrenDate.substring(4,6));
         int startNumber=Integer.parseInt(CheckedDate.substring(6,8).trim())-Offset(DayOfWeek);
         int max=calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
         GregorianCalendar date= (GregorianCalendar) GregorianCalendar.getInstance();
         date.set(selectedDate.getYear(),1,1);
-        boolean Feb=false;
 
+        boolean Feb=false;
         int priormax=30;
 
         if(max==30){
@@ -419,14 +501,16 @@ public class WeekView extends AppCompatActivity
         for(int i=0;i<WeekDays.length;++i){
             String line=WeekDays[i].getText().toString().substring(0,3);
 
-            int a=2;
+
             if(startNumber<=max){
 
-              /*  if(startNumber==compare){
+                if(startNumber==compare && comparemonth==Day.getMonth()+1){
                     WeekDays[i].setTextColor(Color.BLUE);
-                }*/
+                }
 
-
+                else{
+                    WeekDays[i].setTextColor(Color.BLACK);
+                }
 
                 if(startNumber<=0){
                     int val=startNumber+priormax;
@@ -449,8 +533,11 @@ public class WeekView extends AppCompatActivity
                 WeekDays[i].setText(line+"\n"+startNumber);
             }
 
+            MaskWeekdays[i].setText(line+"\n"+startNumber);
             ++startNumber;
         }
+
+        DropDownCalendar.setDateSelected(Calendar.getInstance().getTime(), true);
 
     }
 
@@ -481,5 +568,186 @@ public class WeekView extends AppCompatActivity
         return  g;
     }
 
+    public  String[] DateOrder(String DateOne,String DateTwo){
 
-}
+
+        int DateOneValue=Integer.parseInt(DateOne);
+        int DateTwoValue=Integer.parseInt(DateTwo);
+
+        if(DateOneValue<DateTwoValue){
+            if(DateOneValue<10){
+            DateOne=CheckedDate.substring(0,4)+CheckedDate.substring(4,6)+"0"+DateOneValue;}
+
+            else{
+                DateOne=CheckedDate.substring(0,4)+CheckedDate.substring(4,6)+""+DateOneValue;
+            }
+            if(DateTwoValue<10){
+                DateTwo=CheckedDate.substring(0,4)+CheckedDate.substring(4,6)+"0"+DateTwoValue;
+            }
+
+            else{
+                DateTwo=CheckedDate.substring(0,4)+CheckedDate.substring(4,6)+""+DateTwoValue;
+            }
+            String Dates[]={DateOne,DateTwo};
+            return  Dates;
+        }
+
+        else{
+            int nextmonth=Integer.parseInt(CheckedDate.substring(4,6))+1;
+            int year=Integer.parseInt(CheckedDate.substring(0,4));
+            if(nextmonth==13){
+                year=year+1;
+                nextmonth=1;
+
+            }
+            String month="";
+
+
+            if(nextmonth<10){
+                month="0"+nextmonth;
+            }
+
+            else{
+                month=""+nextmonth;
+            }
+
+            if(DateOneValue<10){
+                DateOne=CheckedDate.substring(0,4)+CheckedDate.substring(4,6)+"0"+DateOneValue;}
+
+            else{
+                DateOne=CheckedDate.substring(0,4)+CheckedDate.substring(4,6)+""+DateOneValue;
+            }
+            if(DateTwoValue<10){
+                DateTwo=""+year+""+month+"0"+DateTwoValue;
+            }
+
+            else{
+                DateTwo=year+""+month+""+DateTwoValue;
+            }
+
+
+            String Dates[]={DateOne,DateTwo};
+            return  Dates;
+        }
+
+    }
+
+    public void PopulateDays(TextView[] Days){
+        for(int i=0;i<Days.length;++i){
+            TextView day=Days[i];
+            String info[]=day.getText().toString().split("\n");
+            String line=info[0];
+            String line2=info[1];
+            PopulateHours(line,line2);
+        }
+
+    }
+
+    public void  PopulateHours(String day,String date){
+        for(int i=8;i<=18;++i){
+            String Id=Identifier(day)+""+i;
+            LinearLayout L=getLinearLayout(Id);
+            L.removeAllViews();
+            ArrayList<Booking>Hour=getBookings(i,date);
+            if(!Hour.isEmpty()){
+            for(int j=0;j<Hour.size();++j){
+                Booking temp=Hour.get(j);
+                LinearLayout t=(LinearLayout) View.inflate(this,R.layout.booking_textview,null);
+                if(temp.Booked()) {
+                    String time = temp.getTime().substring(1, 5);
+                    String duration = "";
+                    int value = Integer.parseInt(time.substring(2, 4)) + 15;
+                    if (value < 60) {
+                        duration = time.substring(0, 2) + "" + value;
+
+                    } else {
+                        int nexthour = Integer.parseInt(time.substring(0, 1)) + 1;
+                        duration = "" + nexthour + "00";
+                    }
+                    TextView a = (TextView) t.findViewById(R.id.hourdivision);
+                    a.setText("APPOINTMENT" + "\n" + time + "-" + duration);
+                    L.addView(t);
+
+                }
+            }
+
+        }
+
+        else{
+             LinearLayout t=(LinearLayout) View.inflate(this,R.layout.booking_textview,null);
+            TextView a=(TextView)t.findViewById(R.id.hourdivision) ;
+             a.setText("APPOINTMENT"+"\n"+"9:15-9:30");
+               a.setTextColor(Color.TRANSPARENT);
+               a.setVisibility(View.INVISIBLE);
+               L.addView(t);
+
+        }
+        }
+
+    }
+
+    public ArrayList<Booking> getBookings(int time,String date){
+        ArrayList<Booking>Hours=new ArrayList<>();
+        for(int i=0;i<Schedule.size();++i){
+            Booking temp=Schedule.get(i);   
+             String Day=temp.getDate();
+             int Datevalue=Integer.parseInt(Day.substring(8,10));
+             int Value=Integer.parseInt(date);
+            if(time<10) {
+                if (temp.getTime().substring(0, 2).equals("0"+time) && Datevalue==Value){
+                    Hours.add(temp);
+                }
+
+            }
+
+            else{
+                if (temp.getTime().substring(0, 2).equals(""+time) && Datevalue==Value){
+                    Hours.add(temp);
+                }
+            }
+        }
+
+        return  Hours;
+    }
+
+
+    public  String Identifier(String day){
+        if(day.equals("Mon")){
+            return  "M";
+        }
+
+        else if(day.equals("Tue")){
+            return  "T";
+        }
+
+        else if(day.equals("Wed")){
+            return  "W";
+        }
+
+        else if(day.equals("Thu")){
+            return  "TH";
+        }
+
+        else if(day.equals("Fri")){
+            return  "FR";
+        }
+
+        else if(day.equals("Sat")){
+            return  "SA";
+        }
+
+        else{
+            return  "SU";
+        }
+    }
+
+    public LinearLayout getLinearLayout(String line){
+
+        Resources r = getResources();
+        String name = getPackageName();
+        LinearLayout L=(LinearLayout)findViewById(r.getIdentifier(line,"id",name));
+        L.removeAllViews();
+        return  L;
+    }
+
+    }
