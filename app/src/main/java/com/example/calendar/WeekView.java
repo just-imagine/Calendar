@@ -48,9 +48,21 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Random;
 
+/* the Weekview for the doctor is to display appointments in a week , the week will be a week that includes the selected day from the
+ month view , the days are from monday to sunday */
+
 public class WeekView extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+
+    /*We have two horizontal scrollviews so that we can hide the one that has Weekdays and show the one
+    with fixed weekdays their horizontal scroll should move the same */
+
+
+    /* a list of of global variables that will need access to everywhere this includes our scrollviews the current date
+    the checked date the current month. the schedulewhich has bookings
+
+     */
     HorizontalScrollView TopHorizontal;
     HorizontalScrollView BottomHorizontal;
     TableRow TopWeekdays;
@@ -63,7 +75,6 @@ public class WeekView extends AppCompatActivity
     TextView MaskWeekdays[];
     ArrayList<Booking>Schedule;
     LinearLayout WeekEvents[];
-    boolean tryFirst;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -92,6 +103,11 @@ public class WeekView extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         Schedule=new ArrayList<>();
+        /*
+            We assign our two scrollviews the bottom one will always be invisible and the top one be visible
+            when the bottom one scrolls the top one should scroll in the same  way
+            this is done by setting onscroll listeners and moving one scroll view to position of the other
+         */
         TopHorizontal=(HorizontalScrollView)findViewById(R.id.Tophorizontal);
         BottomHorizontal=(HorizontalScrollView)findViewById(R.id.horizontalScroll);
         TopWeekdays=(TableRow)findViewById(R.id.TopWeekdays);
@@ -102,7 +118,6 @@ public class WeekView extends AppCompatActivity
             @Override
             public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
               TopHorizontal.scrollTo(scrollX,scrollY);
-            //  AddEvents();
             }
         });
 
@@ -113,22 +128,24 @@ public class WeekView extends AppCompatActivity
                 BottomHorizontal.scrollTo(scrollX,scrollY);
             }
         });
-
+        //get the current intent so we can get the extra information that was passed from the previous intent
         currentIntent=getIntent();
         CurrentMonth=currentIntent.getStringExtra("Month");
         CurrenDate=currentIntent.getStringExtra("CurrentDate");
         CheckedDate=currentIntent.getStringExtra("CheckedDate");
 
 
+        //assign thed ropdown calendar which will allow the user to change weeks within the weekiview
         DropDownCalendar=(MaterialCalendarView)findViewById(R.id.DropDownCalendar);
         String formateddate=CheckedDate.substring(0,4)+"/"+CheckedDate.substring(4,6)+"/"+CheckedDate.substring(6,8);
-
         DropDownCalendar.setDateSelected(Calendar.getInstance().getTime(), true);
         DropDownCalendar.setCurrentDate(ToDate(CheckedDate));
         DropDownCalendar.setDateSelected(ToDate(formateddate), true);
         DropDownCalendar.setCurrentDate(Calendar.getInstance());
         DropDownCalendar.setSelectionColor(Color.RED);
         DropDownCalendar.addDecorator(new CurrentDateDecorator(this));
+
+        //set the onDatechange listener which should get the week the user has selected to view
 
         DropDownCalendar.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
@@ -139,21 +156,32 @@ public class WeekView extends AppCompatActivity
                 String date=""+calendarDay.getDate();
 
                 CheckedDate=AssignVariables(month,day,year,date);
-
+                //set the new dates then add events
                 setDays();
-
                 AddEvents();
-
 
             }
         });
 
+
+        //the mask weekdays are the hidden ones but we scroll using them
         MaskWeekdays=new TextView[7];
+
+        //the top weekdays will be assigned relevant dates
         WeekDays=Weekdays();
+
+        //assign corresponding dates to weekdays from Mon - Sun
         setDays();
+
+        //set the title of the intent to the current month and year
+
+
         setTitle(getMonth(CurrentMonth)+" "+CheckedDate.substring(0,4));
         toolbar.setTitleTextColor(Color.BLACK);
+        // Weekevents is an array of linear layouts each day has hours that have linear layouts to fill in hours of the day
+        // Events initialises the array and Addevents  populates the linear layouts
         WeekEvents=Events();
+        //populate textviews
         AddEvents();
 
     }
@@ -172,7 +200,6 @@ public class WeekView extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.week_view, menu);
-
         return true;
     }
 
@@ -184,10 +211,9 @@ public class WeekView extends AppCompatActivity
         int id = item.getItemId();
 
         if(id==R.id.item1){
-
+            //this shows and hides the dropdown calendar
             ShowCalendar();
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -197,130 +223,70 @@ public class WeekView extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
+        if (id == R.id.nav_month) {
+            finish();
+        } else if (id == R.id.nav_progress) {
 
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-
-    public  String[] Time() {
-        int value = 15;
-        int hour = 8;
-        String Times[]=new String[40];
-        String Time="";
-        String properTime="";
-        for (int i = 0; i < 40; ++i) {
-
-            if (value == 60) {
-                value = 0;
-                ++hour;
-            }
-            properTime = "" + (hour) + ":" + value;
-            Time = "";
-            if (hour < 10) {
-                if (value != 0) {
-                    Time = "0" + properTime;
-                } else {
-                    Time = "0" + properTime + "0";
-                }
-            } else {
-                if (value != 0) {
-                    Time = "" + properTime;
-                } else {
-                    Time = "" + properTime + "0";
-                }
-            }
-            String hint = Time;
-            if (hour < 12) {
-                Time = Time + " AM";
-            } else {
-                Time = Time + " PM";
-            }
-            value=value+15;
-            Times[i]=Time;
-        }
-        return Times;
-
-    }
-
+    /*The show calendar method is used to show / hide the dropdown calendar for changing dates
+     */
     public  void ShowCalendar(){
-
-
-
         TextView ChangeCalendar=(TextView)findViewById(R.id.ChangeCalendar);
         if(DropDownCalendar.getLayoutParams().height==0){
             DropDownCalendar.setLayoutParams(TopWeekdays.getLayoutParams());
         }
-
         else{
             DropDownCalendar.setLayoutParams(ChangeCalendar.getLayoutParams());
         }
-
     }
 
+    //get month generates the full name of a month given a substring of the month
     public  String getMonth(String x){
 
-        if(x.equals("Apr")){
+        if(x.contains("Apr")){
             return  "April";
         }
-
-        else if(x.equals("Mar")){
+        else if(x.contains("Mar")){
             return  "March";
         }
-
-        else if(x.equals("Jan")){
+        else if(x.contains("Jan")){
             return  "January";
         }
-
-        else if(x.equals("Feb")){
+        else if(x.contains("Feb")){
             return  "February";
         }
-
-        else if(x.equals("May")){
-
+        else if(x.contains("May")){
             return  "May";
         }
-
-        else if(x.equals("Jun")){
+        else if(x.contains("Jun")){
             return "June";
         }
-
-        else if(x.equals("Jul")){
-            return  "Jul";
-
+        else if(x.contains("Jul")){
+            return  "July";
         }
-
-        else if(x.equals("Aug")){
+        else if(x.contains("Aug")){
             return  "August";
         }
-
-        else if(x.equals("Sep")){
+        else if(x.contains("Sep")){
             return  "September";}
-
-        else if(x.equals("Oct")){
+        else if(x.contains("Oct")){
             return  "October";}
-
-        else if(x.equals("Nov")){
+        else if(x.contains("Nov")){
             return  "November";}
-
         else{
             return  "December";}
     }
 
+    //Events initialises the array of linear layouts and returns an array with all layouts
     public  LinearLayout[] Events(){
         Resources r = getResources();
         String name = getPackageName();
@@ -333,13 +299,6 @@ public class WeekView extends AppCompatActivity
                 LinearLayout temp=(LinearLayout)findViewById(r.getIdentifier(column+""+j,"id",name));
                 Events[value]=temp;
                 ++value;
-
-                temp.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(getApplicationContext(), "you clicked me", Toast.LENGTH_SHORT).show();
-                    }
-                });
             }
 
         }
@@ -347,9 +306,33 @@ public class WeekView extends AppCompatActivity
     }
 
 
-    public void AddEvents(){
-        final ArrayList<Booking>tempSchedule=Schedule;
+    //Weekdays initialises the array of textviews that have weekdays
+    public TextView[] Weekdays(){
+        Resources r = getResources();
+        String name = getPackageName();
+        String WeekDays[]={"Mon","Tue","Wed","Thu","Fri","Sat","Sun"};
+        String DummyWeekDays[]={"F1","F2","F3","F4","F5","F6","F7"};
+        TextView Weekdays[]=new TextView[7];
+        DropDownCalendar.setCurrentDate(Calendar.getInstance());
+        for(int i=0;i<WeekDays.length;++i) {
+            TextView weekday,dummyWeekday;
+            weekday = (TextView) findViewById(r.getIdentifier(WeekDays[i], "id", name));
+            dummyWeekday=(TextView)findViewById(r.getIdentifier(DummyWeekDays[i],"id",name));
+            Weekdays[i]=weekday;
+            dummyWeekday.setTextColor(Color.TRANSPARENT);
+            dummyWeekday.setHintTextColor(Color.TRANSPARENT);
+            MaskWeekdays[i]=dummyWeekday;;
 
+        }
+        return  Weekdays;
+    }
+
+    /*AddEvents queries the databas e for the week and retrieves all relevant information for the week
+    it calls Populatedays which the calls populatehours
+     */
+
+    public void AddEvents(){
+        //clear the array so that new data is added in it
         Schedule.clear();
         String line1=WeekDays[0].getText().toString();
         String line2=WeekDays[WeekDays.length-1].getText().toString();
@@ -363,9 +346,7 @@ public class WeekView extends AppCompatActivity
                 try {
                     JSONArray results = new JSONArray(output);
                     for (int i = 0; i < results.length(); ++i) {
-
-
-                         JSONObject obj = results.getJSONObject(i);
+                        JSONObject obj = results.getJSONObject(i);
                         String Name=obj.getString("NAME");
                         String Surname = obj.getString("SURNAME");
                        String Identity = obj.getString("ID_NUMBER");
@@ -377,9 +358,7 @@ public class WeekView extends AppCompatActivity
                         Booking temp = new Booking(Name, Surname, Identity, Contact, Email, Date, Time, State);
                         Schedule.add(temp);
                     }
-
                         PopulateDays(WeekDays);
-
 
                 } catch (JSONException e) {
                      PopulateDays(WeekDays);
@@ -392,25 +371,8 @@ public class WeekView extends AppCompatActivity
         WeekSchedule.execute();
     }
 
-    public TextView[] Weekdays(){
 
-        Resources r = getResources();
-        String name = getPackageName();
-        String WeekDays[]={"Mon","Tue","Wed","Thu","Fri","Sat","Sun"};
-        String DummyWeekDays[]={"F1","F2","F3","F4","F5","F6","F7"};
-        TextView Weekdays[]=new TextView[7];
-        DropDownCalendar.setCurrentDate(Calendar.getInstance());
-        for(int i=0;i<WeekDays.length;++i) {
-            TextView weekday,dummyWeekday;
-            weekday = (TextView) findViewById(r.getIdentifier(WeekDays[i], "id", name));
-            dummyWeekday=(TextView)findViewById(r.getIdentifier(DummyWeekDays[i],"id",name));
-            Weekdays[i]=weekday;
-            MaskWeekdays[i]=dummyWeekday;
-
-        }
-        return  Weekdays;
-    }
-
+    //converts a given string to java date form that can be used by calendar
     public Date ToDate(String line){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         try {
@@ -421,52 +383,46 @@ public class WeekView extends AppCompatActivity
             Log.v("Exception", ex.getLocalizedMessage());
             return  null;
         }
-
-
     }
 
+    /*Offset is used to compute the dates that should be in the depending on the selected day
+     i.e if selected day is wednes day then ofset is 2 we are 2 days away from Monday this value is used by set days
+     mthod
+     */
     public  int Offset(String line){
         if(line.equals("Mon")){
             return  0;
         }
-
         else if(line.equals("Tue")){
             return 1;
         }
-
         else if(line.equals("Wed")){
             return  2;
         }
-
         else if(line.equals("Thu")){
             return  3;
         }
-
         else if(line.equals("Fri")){
             return  4;
         }
-
         else if(line.equals("Sat")){
             return  5;
         }
-
         else{
             return  6;
         }
     }
 
-
-
+    /*uses the return value of the offset function to assign dates to the weekdays i needed to cover leap years abd february as special case
+     */
     public void setDays(){
 
         CalendarDay Day=DropDownCalendar.getSelectedDate();
         Date selectedDate=Day.getDate();
-
         String LongDate=""+selectedDate;
         String DayOfWeek=LongDate.substring(0,3);
         Calendar calendar=Calendar.getInstance();
         calendar.setTime(selectedDate);
-
         int compare=Integer.parseInt(CurrenDate.substring(6,8).trim());
         int comparemonth=Integer.parseInt(CurrenDate.substring(4,6));
         int startNumber=Integer.parseInt(CheckedDate.substring(6,8).trim())-Offset(DayOfWeek);
@@ -481,11 +437,9 @@ public class WeekView extends AppCompatActivity
         if(max==30){
             priormax=31;
         }
-
         else if( max==31){
             priormax=30;
         }
-
 
         if(selectedDate.getMonth()==2){
             if(date.isLeapYear(selectedDate.getYear())){
@@ -497,21 +451,16 @@ public class WeekView extends AppCompatActivity
             }
             Feb=true;
         }
-
         for(int i=0;i<WeekDays.length;++i){
             String line=WeekDays[i].getText().toString().substring(0,3);
 
-
             if(startNumber<=max){
-
                 if(startNumber==compare && comparemonth==Day.getMonth()+1){
                     WeekDays[i].setTextColor(Color.BLUE);
                 }
-
                 else{
                     WeekDays[i].setTextColor(Color.BLACK);
                 }
-
                 if(startNumber<=0){
                     int val=startNumber+priormax;
                     if(Feb){
@@ -527,7 +476,6 @@ public class WeekView extends AppCompatActivity
                 }
 
             }
-
             else{
                 startNumber=1;
                 WeekDays[i].setText(line+"\n"+startNumber);
@@ -536,13 +484,13 @@ public class WeekView extends AppCompatActivity
             MaskWeekdays[i].setText(line+"\n"+startNumber);
             ++startNumber;
         }
-
         DropDownCalendar.setDateSelected(Calendar.getInstance().getTime(), true);
-
     }
 
+    /* Everytime when  date is changed the variable month year and day change theyb must be assigned accordingly to get the new
+    checked date
+     */
     public  String AssignVariables(int month,int day,int year,String LongDate){
-
         String g;
         if(month<10){
             if(day<10)
@@ -552,8 +500,6 @@ public class WeekView extends AppCompatActivity
                 g=""+year+"0"+month+""+day;
             }
         }
-
-
         else{
             if(day<10)
                 g=""+year+month+"0"+day;
@@ -568,9 +514,10 @@ public class WeekView extends AppCompatActivity
         return  g;
     }
 
+    /* this method is use to get the range of dates for the week from min - max i.e if we have Mon 2 the sun will be 8
+        and range is 1-8 whereas if we have values for monday in which the week ends before sunday we must increment the month
+     */
     public  String[] DateOrder(String DateOne,String DateTwo){
-
-
         int DateOneValue=Integer.parseInt(DateOne);
         int DateTwoValue=Integer.parseInt(DateTwo);
 
@@ -601,12 +548,9 @@ public class WeekView extends AppCompatActivity
 
             }
             String month="";
-
-
             if(nextmonth<10){
                 month="0"+nextmonth;
             }
-
             else{
                 month=""+nextmonth;
             }
@@ -625,13 +569,14 @@ public class WeekView extends AppCompatActivity
                 DateTwo=year+""+month+""+DateTwoValue;
             }
 
-
             String Dates[]={DateOne,DateTwo};
             return  Dates;
         }
 
     }
-
+    /* this method is used by add Events to fill in the week schedule a day has several working hours that have different appointments
+    hence populateDays calls populate hours which fills in the relevent activities for those hours of the day
+     */
     public void PopulateDays(TextView[] Days){
         for(int i=0;i<Days.length;++i){
             TextView day=Days[i];
@@ -643,6 +588,7 @@ public class WeekView extends AppCompatActivity
 
     }
 
+    /* Populate hours is used by Populatedays to fill in activities for different hours of the day */
     public void  PopulateHours(String day,String date){
         for(int i=8;i<=18;++i){
             String Id=Identifier(day)+""+i;
@@ -667,24 +613,23 @@ public class WeekView extends AppCompatActivity
                     TextView a = (TextView) t.findViewById(R.id.hourdivision);
                     a.setText("APPOINTMENT" + "\n" + time + "-" + duration);
                     L.addView(t);
-
                 }
             }
-
         }
 
         else{
              LinearLayout t=(LinearLayout) View.inflate(this,R.layout.booking_textview,null);
             TextView a=(TextView)t.findViewById(R.id.hourdivision) ;
-             a.setText("APPOINTMENT"+"\n"+"9:15-9:30");
-               a.setTextColor(Color.TRANSPARENT);
-               a.setVisibility(View.INVISIBLE);
-               L.addView(t);
-
+            a.setText("APPOINTMENT"+"\n"+"9:15-9:30");
+            a.setTextColor(Color.TRANSPARENT);
+            a.setVisibility(View.INVISIBLE);
+            L.addView(t);}
         }
-        }
-
     }
+
+    /* getBookings maps down to which day and hour of day the activity belongs this is done by using the time and date that the booking has
+    which are unique
+     */
 
     public ArrayList<Booking> getBookings(int time,String date){
         ArrayList<Booking>Hours=new ArrayList<>();
@@ -697,52 +642,46 @@ public class WeekView extends AppCompatActivity
                 if (temp.getTime().substring(0, 2).equals("0"+time) && Datevalue==Value){
                     Hours.add(temp);
                 }
-
             }
-
             else{
                 if (temp.getTime().substring(0, 2).equals(""+time) && Datevalue==Value){
                     Hours.add(temp);
                 }
             }
         }
-
         return  Hours;
     }
-
-
+    /* getIdentifier is used by PopulateHours  l as means of converting String values of a day to relevent string that is
+    part of id and can be passed to getLinearlayout
+     */
     public  String Identifier(String day){
         if(day.equals("Mon")){
             return  "M";
         }
-
         else if(day.equals("Tue")){
             return  "T";
         }
-
         else if(day.equals("Wed")){
             return  "W";
         }
-
         else if(day.equals("Thu")){
             return  "TH";
         }
-
         else if(day.equals("Fri")){
             return  "FR";
         }
-
         else if(day.equals("Sat")){
             return  "SA";
         }
-
         else{
             return  "SU";
         }
     }
 
+    /* retrieves the relevent linear layout corresponding to certain hour of particular day
+        makes use of Identifier
+     */
     public LinearLayout getLinearLayout(String line){
-
         Resources r = getResources();
         String name = getPackageName();
         LinearLayout L=(LinearLayout)findViewById(r.getIdentifier(line,"id",name));
@@ -750,4 +689,4 @@ public class WeekView extends AppCompatActivity
         return  L;
     }
 
-    }
+}

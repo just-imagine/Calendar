@@ -34,11 +34,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 
 public class DailyView extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    //cglobal variables which we need access to
     Intent m;
     LinearLayout Items;
     TextView time;
@@ -58,7 +59,6 @@ public class DailyView extends AppCompatActivity
     ScrollView UpdateData;
     String clickedtime;
     ProgressDialog dialog;
-
     @TargetApi(Build.VERSION_CODES.M)
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
@@ -86,9 +86,10 @@ public class DailyView extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+        //change the colour of the heading
         Heading=(Toolbar)findViewById(R.id.toolbar);
         Heading.setTitleTextColor(Color.BLACK);
+        //assign variables Items is the linear layout containing everything
         Items=(LinearLayout)findViewById(R.id.col);
         time=(TextView)findViewById(R.id.slotOne);
         Slot=(TextView)findViewById(R.id.g);
@@ -97,8 +98,8 @@ public class DailyView extends AppCompatActivity
         WeekDay=(TextView)findViewById(R.id.weekDay);
         display=(ImageView)findViewById(R.id.dayDisplay);
 
+        //initialize array of bookings for the day
         Bookings=new ArrayList<>();
-
         //retrieve current intent to get the passed information from previous intent
         m=getIntent();
         DayOfWeek=m.getStringExtra("WeekDay");
@@ -108,22 +109,31 @@ public class DailyView extends AppCompatActivity
         current_date=m.getStringExtra("Current");
         checked_date=m.getStringExtra("Checked");
 
+
         WeekDay.setText(Information);
 
         Display(Picture);
 
         MonthOfYear=Month(Picture);
         setTitle(MonthOfYear+" "+checked_date.substring(0,4));
+
+        //assign timeslots array
         TimeSlots=new ArrayList<>();
+
+        //fill in all timeslots by duplicating first one
         PopulateView();
 
+        //generate schedule for the day
         DailySchedule(checked_date);
+
+        //these views are for the popup when a slot is free or marked as appointment
+
         booking=new Dialog(this);
         booking.setContentView(R.layout.dialog_booking);
-
         Checkout=(TextView)booking.findViewById(R.id.checkout);
         Cancel=(TextView)booking.findViewById(R.id.cancel);
 
+        //everytime you scroll we want to check whether data from database has changed or not and display rel time data
         UpdateData=(ScrollView)findViewById(R.id.touchslots);
         UpdateData.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
@@ -133,8 +143,8 @@ public class DailyView extends AppCompatActivity
         });
 
         toolbar.setTitleTextColor(Color.BLACK);
+        //dialog used for loading
         dialog = new ProgressDialog(this);
-
     }
 
     @Override
@@ -174,6 +184,12 @@ public class DailyView extends AppCompatActivity
             Intent Progress=new Intent(getApplicationContext(),Progress.class);
             startActivity(Progress);
         } else if (id == R.id.nav_week) {
+            Intent weekView=new Intent(getApplicationContext(),WeekView.class);
+            weekView.putExtra("Month",MonthOfYear);
+            weekView.putExtra("CurrentDate",current_date);
+            weekView.putExtra("CheckedDate",checked_date);
+            weekView.putExtra("LongCurrentDate",""+ Calendar.getInstance().getTime());
+            startActivity(weekView);
 
         } else if (id == R.id.nav_month) {
             finish();
@@ -187,69 +203,51 @@ public class DailyView extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
+    /* sets relevent picture depending on month*/
     public void  Display(String input){
-
         if(!input.equals("")){
-
             String Month=input;
-
             if(Month.equals("Apr")){
                 display.setImageResource(R.drawable.april);
             }
-
             else if(Month.equals("Mar")){
                 display.setImageResource(R.drawable.march);
             }
-
             else if(Month.equals("Jan")){
                 display.setImageResource(R.drawable.january);
             }
-
             else if(Month.equals("Feb")){
                 display.setImageResource(R.drawable.february);
             }
-
             else if(Month.equals("May")){
-
                 display.setImageResource(R.drawable.may);
             }
-
             else if(Month.equals("Jun")){
                 display.setImageResource(R.drawable.june);
             }
-
             else if(Month.equals("Jul")){
                 display.setImageResource(R.drawable.july);
-
             }
-
             else if(Month.equals("Aug")){
                 display.setImageResource(R.drawable.august);
             }
-
             else if(Month.equals("Sep")){
                 display.setImageResource(R.drawable.september);}
-
             else if(Month.equals("Oct")){
                 display.setImageResource(R.drawable.october);}
-
             else if(Month.equals("Nov")){
                 display.setImageResource(R.drawable.november);}
 
             else{
                 display.setImageResource(R.drawable.december);}
-
-
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public void PopulateView(){
-        /*what this method does is it populates the day view layout with textviews representing time slots
+    /*what this method does is it populates the day view layout with textviews representing time slots
          the layout starts out with one textview that has the first slot for the day and then duplicates it to
         produce all other timeslots */
-
+    public void PopulateView(){
         int value=15;
         int hour=8;
         int current_val= Integer.parseInt(current_date);
@@ -258,9 +256,7 @@ public class DailyView extends AppCompatActivity
         Slot.setTextSize(18);
         Slot.setBackgroundColor(Color.parseColor("#008577"));
         String properTime;
-
         for(int i=0;i<40;++i){
-
             if(value==60){
                 value=0;
                 ++hour;
@@ -270,12 +266,10 @@ public class DailyView extends AppCompatActivity
             if(hour<10){
                 if(value!=0){
                     Time="0"+properTime;}
-
                 else{
                     Time="0"+properTime+"0";
                 }
             }
-
             else{
                 if(value!=0){
                     Time=""+properTime;}
@@ -288,25 +282,19 @@ public class DailyView extends AppCompatActivity
             if(hour<12){
                 Time=Time+" AM";
             }
-
             else{
                 Time=Time+" PM";
             }
-
             //have one version of cardview with textview then duplicate its layout
-
             CardView cardView=new CardView(this);
             LinearLayout temp=new LinearLayout(this);
             temp.setLayoutParams(Items.getLayoutParams());
-
             TextView a=new TextView(this);
             a.setLayoutParams(time.getLayoutParams());
             a.setTextSize(15);
             a.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             a.setTextColor(Color.BLACK);
             a.setText(Time);
-
-
             TextView b=new TextView(this);
             b.setId(i);
             b.setLayoutParams(Slot.getLayoutParams());
@@ -319,21 +307,16 @@ public class DailyView extends AppCompatActivity
             b.setBackgroundColor(Color.parseColor("#008577"));
             b.setText("Free");
             Slot.setText("Free");
-
             if(current_val-checked_val>0){
                 b.setBackgroundColor(Color.parseColor("#d13c04"));
                 Slot.setBackgroundColor(Color.parseColor("#d13c04"));
                 b.setText("--------------");
                 Slot.setText("-----------");
             }
-
-
             //note setting hint is used as way of keeping track of which textview belongs to which time
-
             View c=new View(this);
             c.setLayoutParams(Divider.getLayoutParams());
             c.setBackgroundColor(Color.LTGRAY);
-
 
             FrameLayout d=new FrameLayout(this);
             d.setBackgroundColor(Color.LTGRAY);
@@ -360,9 +343,7 @@ public class DailyView extends AppCompatActivity
         Slot.setTextColor(Color.WHITE);
         Slot.setHint("08:00");
         Slot.setPadding(12,12,12,12);
-
         TimeSlots.add(Slot);
-
         CardView cardView=new CardView(this);
         View c=new View(this);
         c.setLayoutParams(Divider.getLayoutParams());
@@ -374,6 +355,7 @@ public class DailyView extends AppCompatActivity
         Items.addView(cardView);
     }
 
+    //generates full name of month given a substring of its name
     public  String Month(String x){
         if(x.equals("Apr")){
            return  "April";
@@ -381,31 +363,23 @@ public class DailyView extends AppCompatActivity
         else if(x.equals("Mar")){
             return  "March";
         }
-
         else if(x.equals("Jan")){
             return  "January";
         }
-
         else if(x.equals("Feb")){
             return  "February";
         }
-
         else if(x.equals("May")){
-
             return  "May";
         }
-
         else if(x.equals("Jun")){
             return  "June";
         }
-
         else if(x.equals("Jul")){
             return  "July";}
-
         else if(x.equals("Aug")){
             return  "August";
         }
-
         else if(x.equals("Sep")){
             return  "September";}
 
@@ -417,15 +391,15 @@ public class DailyView extends AppCompatActivity
         else{
             return  "December";}
         }
-
+    /* queries the database for a schedule of the selected day */
     public void DailySchedule(String date){
+        //clear the array so that new data can be added
         Bookings.clear();
         ContentValues Params=new ContentValues();
-
         int current_value=Integer.parseInt(current_date);
         int checked_value=Integer.parseInt(checked_date);
         Params.put("DATE",date);
-
+        //currently works when a date is greater than or equals
         if(checked_value-current_value>=0){
             AsyncHTTPPost Schedule = new AsyncHTTPPost("http://lamp.ms.wits.ac.za/~s1611821/ConsultationSearch.php", Params) {
                 @Override
@@ -445,28 +419,23 @@ public class DailyView extends AppCompatActivity
                             Booking temp = new Booking(Name, Surname, Identity, Contact, Email, Date, Time, State);
                             Bookings.add(temp);
                         }
-
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
+                    // in case data has been deleted
                     for(int i=0;i<TimeSlots.size();++i){
                         TextView s=TimeSlots.get(i);
                         s.setBackgroundColor(Color.parseColor("#008577"));
                         s.setText("Free");
                         s.setTextColor(Color.WHITE);
                     }
-
                     for (int j = 0; j < Bookings.size(); ++j) {
                         Bookings.get(j).OccupySlots(TimeSlots);
                     }
-
                 }
             };
 
             Schedule.execute();}
-
         else{
             for(int i=0;i<TimeSlots.size();++i){
                 TextView s=TimeSlots.get(i);
@@ -479,6 +448,7 @@ public class DailyView extends AppCompatActivity
 
     }
 
+/* get a relevent popup when a textview is clicked depending when its appointment or free */
     public void PopUp(View V){
         TextView timeDetails=(TextView)booking.findViewById(R.id.timedetails);
         TextView Patient=(TextView)booking.findViewById(R.id.patient);
@@ -487,46 +457,36 @@ public class DailyView extends AppCompatActivity
         clickedtime=((TextView) V).getHint().toString();
 
         int value=Integer.parseInt(time.substring(3,5))+15;
-
         int duration=Integer.parseInt(time.substring(3,5))+value;
 
-        Toast.makeText(getApplicationContext(),""+duration,Toast.LENGTH_LONG).show();
         if(duration==105){
             int hour=Integer.parseInt(time.substring(0,2));
             hour=hour+1;
             timeDetails.setText(DayOfWeek+" , "+DayOfMonth+" "+MonthOfYear+"\n\nDuration "+time+"-0"+hour+":00");
         }
-
-
         else{
             timeDetails.setText(DayOfWeek+" , "+DayOfMonth+" "+MonthOfYear+"\n\nDuration "+time+"-"+time.substring(0,3)+""+value);
         }
 
         if(((TextView) V).getText().toString().equals("Appointment")){
-
             Booking viewing=FindBooking(time);
             Checkout.setText("Checkout");
             Cancel.setText("Cancel");
             Checkout.setBackgroundColor(Color.TRANSPARENT);
-
             if(viewing!=null){
                 String Name=viewing.getName();
                 String Surname=viewing.getSurname();
                 String Email=viewing.getEmail();
                 Patient.setText(Name+"  "+Surname);
                 Patientemail.setText(Email);
-
                 Checkout.setVisibility(View.VISIBLE);
                 Cancel.setVisibility(View.VISIBLE);
                 booking.show();
-
             }
         }
 
-
         else if(((TextView) V).getText().toString().equals("Attended")){
             Booking viewing=FindBooking(time);
-
             if(viewing!=null){
                 String Name=viewing.getName();
                 String Surname=viewing.getSurname();
@@ -538,10 +498,8 @@ public class DailyView extends AppCompatActivity
                 Checkout.setBackgroundColor(Color.parseColor("#32CD32"));
                 Cancel.setVisibility(View.INVISIBLE);
                 booking.show();
-
             }
         }
-
 
         else if(((TextView) V).getText().toString().equals("Free")){
             Patientemail.setText("");
@@ -562,6 +520,33 @@ public class DailyView extends AppCompatActivity
         }
     }
 
+    // when a slot is clicked we want to take action depending on what text it has
+    public void Action(View v){
+        //we want to do stuff depending on whether there was appoinment or slot is free or blocked
+        v=(TextView)v;
+        if(((TextView) v).getText().toString().equals("Checkout"))
+            if(current_date.equals(checked_date)){
+                ContentValues Params=new ContentValues();
+                Params.put("DATE",current_date);
+                Params.put("TIME",clickedtime);
+                AsyncHTTPPost chekoutAppointment=new AsyncHTTPPost("http://lamp.ms.wits.ac.za/~s1611821/Check.php",Params) {
+                    @Override
+                    protected void onPostExecute(String output) {
+                        if(output.equals("success")){
+                            booking.dismiss();
+                            DailySchedule(current_date);
+                            dialog.dismiss();
+                        }
+
+
+                    }
+                };
+                chekoutAppointment.execute();
+                dialog = ProgressDialog.show(DailyView.this, "",
+                        "Loading. Please wait...", true);
+            }}
+
+    //gets a booking in the day by mapping it using time
     public Booking FindBooking(String time){
         for(int i=0;i<Bookings.size();++i){
             Booking t=Bookings.get(i);
@@ -569,47 +554,13 @@ public class DailyView extends AppCompatActivity
                 return  t;
             }
         }
-
         return  null;
-
     }
-
-
+    //still to implement
     public  void BlockSlot(){
-
     }
-
+    //still to implement
     public void CancelSlot(){
-
     }
-
-    public void Action(View v){
-        //we want to do stuff depending on whether there was appoinment or slot is free or blocked
-        v=(TextView)v;
-        if(((TextView) v).getText().toString().equals("Checkout"))
-            if(current_date.equals(checked_date)){
-            ContentValues Params=new ContentValues();
-            Params.put("DATE",current_date);
-            Params.put("TIME",clickedtime);
-
-            AsyncHTTPPost chekoutAppointment=new AsyncHTTPPost("http://lamp.ms.wits.ac.za/~s1611821/Check.php",Params) {
-                @Override
-                protected void onPostExecute(String output) {
-                    if(output.equals("success")){
-                        booking.dismiss();
-                        DailySchedule(current_date);
-                        dialog.dismiss();
-                    }
-
-
-                }
-            };
-
-            chekoutAppointment.execute();
-            dialog = ProgressDialog.show(DailyView.this, "",
-                    "Loading. Please wait...", true);
-
-        }}
-
 
     }
