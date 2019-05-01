@@ -1,5 +1,6 @@
 package com.example.calendar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,9 +14,23 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.anychart.AnyChart;
+import com.anychart.AnyChartView;
+import com.anychart.chart.common.dataentry.DataEntry;
+import com.anychart.chart.common.dataentry.ValueDataEntry;
+import com.anychart.charts.Pie;
+import com.anychart.enums.Align;
+import com.anychart.enums.LegendLayout;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class Progress extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    ArrayList<Integer>Statistics;
+    Intent currentIntent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +55,33 @@ public class Progress extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        currentIntent=getIntent();
+        Statistics=currentIntent.getIntegerArrayListExtra("Statistics");
+
+        Pie pie = AnyChart.pie();
+        pie.title("Fruits imported in 2015 (in kg)");
+
+        List<DataEntry> data = new ArrayList<>();
+        data.add(new ValueDataEntry("Pending", Statistics.get(1)));
+       // data.add(new ValueDataEntry("Jake", 12000));
+        data.add(new ValueDataEntry("Completed", Statistics.get(0)));
+
+        pie.data(data);
+        pie.labels().position("outside");
+        pie.legend().title().enabled(true);
+        pie.legend().title()
+                .text("Retail channels")
+                .padding(0d, 0d, 10d, 0d);
+
+        pie.legend()
+                .position("center-bottom")
+                .itemsLayout(LegendLayout.HORIZONTAL)
+                .align(Align.CENTER);
+
+        AnyChartView anyChartView = (AnyChartView) findViewById(R.id.PieChart);
+        anyChartView.setChart(pie);
+
     }
 
     @Override
@@ -95,5 +137,10 @@ public class Progress extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    public void PieComputation(){
+
     }
 }

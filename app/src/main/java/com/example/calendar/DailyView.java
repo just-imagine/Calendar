@@ -6,11 +6,13 @@ import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -59,6 +61,8 @@ public class DailyView extends AppCompatActivity
     ScrollView UpdateData;
     String clickedtime;
     ProgressDialog dialog;
+    CardView lastcarddone,FirstCard;
+    LinearLayout Master;
     @TargetApi(Build.VERSION_CODES.M)
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
@@ -68,6 +72,7 @@ public class DailyView extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Master=(LinearLayout)findViewById(R.id.master);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -109,7 +114,8 @@ public class DailyView extends AppCompatActivity
         current_date=m.getStringExtra("Current");
         checked_date=m.getStringExtra("Checked");
 
-
+        lastcarddone=(CardView)findViewById(R.id.sample);
+        FirstCard=(CardView)findViewById(R.id.sample);
         WeekDay.setText(Information);
 
         Display(Picture);
@@ -182,6 +188,8 @@ public class DailyView extends AppCompatActivity
 
         if (id == R.id.nav_progress) {
             Intent Progress=new Intent(getApplicationContext(),Progress.class);
+            ArrayList<Integer>Statistics=PieComputation();
+            Progress.putIntegerArrayListExtra("Statistics",Statistics);
             startActivity(Progress);
         } else if (id == R.id.nav_week) {
             Intent weekView=new Intent(getApplicationContext(),WeekView.class);
@@ -287,6 +295,7 @@ public class DailyView extends AppCompatActivity
             }
             //have one version of cardview with textview then duplicate its layout
             CardView cardView=new CardView(this);
+            cardView.setId(i+100);
             LinearLayout temp=new LinearLayout(this);
             temp.setLayoutParams(Items.getLayoutParams());
             TextView a=new TextView(this);
@@ -394,7 +403,9 @@ public class DailyView extends AppCompatActivity
     /* queries the database for a schedule of the selected day */
     public void DailySchedule(String date){
         //clear the array so that new data can be added
-        Bookings.clear();
+
+        Bookings=new ArrayList<>();
+
         ContentValues Params=new ContentValues();
         int current_value=Integer.parseInt(current_date);
         int checked_value=Integer.parseInt(checked_date);
@@ -404,6 +415,7 @@ public class DailyView extends AppCompatActivity
             AsyncHTTPPost Schedule = new AsyncHTTPPost("http://lamp.ms.wits.ac.za/~s1611821/ConsultationSearch.php", Params) {
                 @Override
                 protected void onPostExecute(String output) {
+                    Bookings=new ArrayList<>();
                     try {
                         JSONArray results = new JSONArray(output);
                         for (int i = 0; i < results.length(); ++i) {
@@ -430,9 +442,17 @@ public class DailyView extends AppCompatActivity
                         s.setText("Free");
                         s.setTextColor(Color.WHITE);
                     }
+
+                    Booking other=LastAttended();
+
                     for (int j = 0; j < Bookings.size(); ++j) {
-                        Bookings.get(j).OccupySlots(TimeSlots);
+                        Bookings.get(j).OccupySlots(TimeSlots,other);
                     }
+
+
+                    MoveTracker(other);
+
+
                 }
             };
 
@@ -496,7 +516,7 @@ public class DailyView extends AppCompatActivity
                 Patientemail.setText(Email);
                 Checkout.setVisibility(View.VISIBLE);
                 Checkout.setText("  Attended ");
-                Checkout.setBackgroundColor(Color.parseColor("#32CD32"));
+                Checkout.setBackgroundColor(Color.parseColor("#003366"));
                 Cancel.setVisibility(View.INVISIBLE);
                 booking.show();
             }
@@ -530,6 +550,7 @@ public class DailyView extends AppCompatActivity
                 ContentValues Params=new ContentValues();
                 Params.put("DATE",current_date);
                 Params.put("TIME",clickedtime);
+
                 AsyncHTTPPost chekoutAppointment=new AsyncHTTPPost("http://lamp.ms.wits.ac.za/~s1611821/Check.php",Params) {
                     @Override
                     protected void onPostExecute(String output) {
@@ -539,13 +560,34 @@ public class DailyView extends AppCompatActivity
                             dialog.dismiss();
                         }
 
+                        else{
+                            booking.dismiss();
+                            DailySchedule(current_date);
+                            dialog.dismiss();
+                        }
+
 
                     }
+
+
+
                 };
                 chekoutAppointment.execute();
                 dialog = ProgressDialog.show(DailyView.this, "",
                         "Loading. Please wait...", true);
-            }}
+            }
+
+            else{
+                dialog = ProgressDialog.show(DailyView.this, "",
+                        "Loading. Please wait...", true);
+
+                Snackbar.make(Master, "Cannot checkout a future  event", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+
+                booking.dismiss();
+                dialog.dismiss();
+            }
+    }
 
     //gets a booking in the day by mapping it using time
     public Booking FindBooking(String time){
@@ -557,11 +599,69 @@ public class DailyView extends AppCompatActivity
         }
         return  null;
     }
+
+    public Booking LastAttended() {
+        Booking LastAttended = null;
+        for (int i = 0; i < Bookings.size(); ++i) {
+            Booking t = Bookings.get(i);
+            if (t.Completed()) {
+                LastAttended=t;
+            }
+
+        }
+        return  LastAttended;
+    }
+
+    public void MoveTracker(Booking other){
+        //any slot not the first one
+       if(lastcarddone!=null && other!=null && !other.getTime().equals("08:00")){
+           lastcarddone.setElevation(0);
+           lastcarddone.setBackgroundColor(Color.TRANSPARENT);
+           FirstCard.setElevation(0);
+           FirstCard.setBackgroundColor(Color.TRANSPARENT);
+
+           lastcarddone=(CardView)findViewById(other.getCardidentifier()+100);
+           if(lastcarddone!=null){
+               lastcarddone.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.borders));
+               lastcarddone.setElevation(20);
+           }
+       }
+
+       else if(other!=null && other.getTime().equals("08:00")){
+           FirstCard.setElevation(20);
+           FirstCard.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.borders));
+          // lastcarddone=FirstCard;
+       }
+
+    }
+
+    public  ArrayList<Integer> PieComputation(){
+        int AttendedBookings=0;
+        int PendingBookings=0;
+        int ScheduleTime=0;
+        for(int i=0;i<Bookings.size();++i){
+            Booking B=Bookings.get(i);
+            if(B.Completed()){
+                ++AttendedBookings;
+            }
+
+            else if(B.Booked()){
+                ++PendingBookings;
+            }
+        }
+
+        ArrayList<Integer>Statistics=new ArrayList<>();
+        Collections.addAll(Statistics,AttendedBookings,PendingBookings,ScheduleTime);
+
+        return  Statistics;
+    }
     //still to implement
     public  void BlockSlot(){
     }
     //still to implement
     public void CancelSlot(){
     }
+
+
 
     }

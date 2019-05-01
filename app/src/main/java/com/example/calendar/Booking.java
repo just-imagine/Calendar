@@ -1,6 +1,7 @@
 package com.example.calendar;
 
 import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ public class Booking {
    private String Checkeouttime;
    private String Contact;
    private String Email;
+   private int cardidentifier;
    private int state;
 
 
@@ -32,6 +34,9 @@ public class Booking {
     }
 
 
+    public void SetCardidentifier(int id){
+        this.cardidentifier=id;
+    }
     public String getName(){
         return  Name;
     }
@@ -64,6 +69,18 @@ public class Booking {
         return  Checkeouttime;
     }
 
+    public int getCardidentifier(){
+        return  cardidentifier;
+    }
+
+
+    boolean Equal(Booking other){
+        if(other!=null) {
+            if (this.Time.equals(other.getTime()) && this.Date.equals(other.getDate()))
+                return true;
+        }
+        return  false;
+    }
     boolean Empty(){
         if(Identity.equals("")){
             return true;
@@ -100,11 +117,12 @@ public class Booking {
 
 
 
-    public void OccupySlots(ArrayList<TextView>SLots){
+
+
+    public void OccupySlots(ArrayList<TextView>SLots,Booking Other){
         for(int i=0;i< SLots.size();++i){
             TextView Slot=SLots.get(i);
             if(Slot.getHint().equals(Time)){
-
 
                 if(this.Booked()){
                     Slot.setBackgroundColor(Color.parseColor("#4eacc8"));
@@ -112,10 +130,17 @@ public class Booking {
                     Slot.setTextColor(Color.WHITE);
                 }
 
-                else if(this.Completed()){
-                    Slot.setBackgroundColor(Color.parseColor("#32CD32"));
+                else if(this.Completed() && !this.Equal(Other)){
+                    Slot.setBackgroundColor(Color.parseColor("#003366"));
                     Slot.setText("Attended");
                     Slot.setTextColor(Color.WHITE);
+                }
+
+                else if(this.Completed() && this.Equal(Other)){
+                    Slot.setBackgroundColor(Color.parseColor("#003366"));
+                    Slot.setText("Attended");
+                    Slot.setTextColor(Color.WHITE);
+                    Other.SetCardidentifier(Slot.getId());
                 }
                 else if(this.Blocked()){
                     Slot.setBackgroundColor(Color.parseColor("#d13c04"));
@@ -135,6 +160,7 @@ public class Booking {
 
         }
     }
+
 
 
 
