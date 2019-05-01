@@ -339,7 +339,10 @@ public class WeekView extends AppCompatActivity
         String Order[]=DateOrder(line1.split("\n")[1],line2.split("\n")[1]);
         ContentValues Params=new ContentValues();
         Params.put("LDATE",Order[0]);
+
         Params.put("UDATE",Order[1]);
+        int x=1;
+
         final AsyncHTTPPost WeekSchedule=new AsyncHTTPPost("http://lamp.ms.wits.ac.za/~s1611821/ConsultationWeek.php",Params) {
             @Override
             protected void onPostExecute(String output) {
@@ -353,9 +356,10 @@ public class WeekView extends AppCompatActivity
                        String Email = obj.getString("EMAIL_ADDRESS");
                         String Contact = obj.getString("CONTACT_NO");
                         String Date = obj.getString("DATE");
+                        String CheckoutTime=obj.getString("CHECKOUT_TIME");
                         String Time = obj.getString("TIME").substring(0, 5);
                         int State = obj.getInt("STATE");
-                        Booking temp = new Booking(Name, Surname, Identity, Contact, Email, Date, Time, State);
+                        Booking temp = new Booking(Name, Surname, Identity, Contact, Email, Date, Time,CheckoutTime, State);
                         Schedule.add(temp);
                     }
                         PopulateDays(WeekDays);
@@ -540,7 +544,7 @@ public class WeekView extends AppCompatActivity
         }
 
         else{
-            int nextmonth=Integer.parseInt(CheckedDate.substring(4,6))+1;
+            int nextmonth=Integer.parseInt(CheckedDate.substring(4,6));
             int year=Integer.parseInt(CheckedDate.substring(0,4));
             if(nextmonth==13){
                 year=year+1;
@@ -548,25 +552,29 @@ public class WeekView extends AppCompatActivity
 
             }
             String month="";
-            if(nextmonth<10){
-                month="0"+nextmonth;
+            int prevmonth=nextmonth-1;
+
+            if(prevmonth<10){
+                month="0"+prevmonth;
             }
+
             else{
-                month=""+nextmonth;
+                month=month+prevmonth;
             }
+
 
             if(DateOneValue<10){
-                DateOne=CheckedDate.substring(0,4)+CheckedDate.substring(4,6)+"0"+DateOneValue;}
+                DateOne=CheckedDate.substring(0,4)+month+"0"+DateOneValue;}
 
             else{
-                DateOne=CheckedDate.substring(0,4)+CheckedDate.substring(4,6)+""+DateOneValue;
+                DateOne=CheckedDate.substring(0,4)+month+""+DateOneValue;
             }
             if(DateTwoValue<10){
-                DateTwo=""+year+""+month+"0"+DateTwoValue;
+                DateTwo=""+year+""+CheckedDate.substring(0,4)+"0"+DateTwoValue;
             }
 
             else{
-                DateTwo=year+""+month+""+DateTwoValue;
+                DateTwo=year+""+CheckedDate.substring(0,4)+""+DateTwoValue;
             }
 
             String Dates[]={DateOne,DateTwo};
@@ -600,18 +608,21 @@ public class WeekView extends AppCompatActivity
                 Booking temp=Hour.get(j);
                 LinearLayout t=(LinearLayout) View.inflate(this,R.layout.booking_textview,null);
                 if(temp.Booked()) {
-                    String time = temp.getTime().substring(1, 5);
+                    String time = temp.getTime().substring(0, 5);
                     String duration = "";
-                    int value = Integer.parseInt(time.substring(2, 4)) + 15;
+                    int value = Integer.parseInt(time.substring(3, 5) )+ 15;
+
+                    int d=1;
                     if (value < 60) {
-                        duration = time.substring(0, 2) + "" + value;
+                        duration = time.substring(0, 2) + ":" + value;
 
                     } else {
-                        int nexthour = Integer.parseInt(time.substring(0, 1)) + 1;
-                        duration = "" + nexthour + "00";
+                        int nexthour = Integer.parseInt(time.substring(0, 2)) + 1;
+                        duration = "" + nexthour + ":00";
                     }
                     TextView a = (TextView) t.findViewById(R.id.hourdivision);
                     a.setText("APPOINTMENT" + "\n" + time + "-" + duration);
+
                     L.addView(t);
                 }
             }
@@ -625,6 +636,8 @@ public class WeekView extends AppCompatActivity
             a.setVisibility(View.INVISIBLE);
             L.addView(t);}
         }
+
+     //   Allign();
     }
 
     /* getBookings maps down to which day and hour of day the activity belongs this is done by using the time and date that the booking has
@@ -687,6 +700,12 @@ public class WeekView extends AppCompatActivity
         LinearLayout L=(LinearLayout)findViewById(r.getIdentifier(line,"id",name));
         L.removeAllViews();
         return  L;
+    }
+
+    public void Allign(){
+       for(int i=0;i<MaskWeekdays.length;++i){
+            WeekDays[i].setLayoutParams(MaskWeekdays[i].getLayoutParams());
+       }
     }
 
 }

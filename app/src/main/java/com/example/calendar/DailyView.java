@@ -415,8 +415,9 @@ public class DailyView extends AppCompatActivity
                             String Contact = obj.getString("CONTACT_NO");
                             String Date = obj.getString("DATE");
                             String Time = obj.getString("TIME").substring(0, 5);
+                            String CheckoutTime=obj.getString("CHECKOUT_TIME").substring(0, 5);
                             int State = obj.getInt("STATE");
-                            Booking temp = new Booking(Name, Surname, Identity, Contact, Email, Date, Time, State);
+                            Booking temp = new Booking(Name, Surname, Identity, Contact, Email, Date, Time,CheckoutTime, State);
                             Bookings.add(temp);
                         }
                     } catch (JSONException e) {

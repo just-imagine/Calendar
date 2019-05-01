@@ -13,13 +13,13 @@ public class Booking {
    private String Identity;
    private String Date;
    private String Time;
+   private String Checkeouttime;
    private String Contact;
    private String Email;
    private int state;
 
 
-
-    public Booking(String Name, String Surname, String Identity,String Contact,String Email, String Date, String Time,int state){
+    public Booking(String Name, String Surname, String Identity,String Contact,String Email, String Date, String Time,String checkeouttime,int state){
         this.Name=Name;
         this.Surname=Surname;
         this.Identity=Identity;
@@ -27,8 +27,8 @@ public class Booking {
         this.Email=Email;
         this.Date=Date;
         this.Time=Time;
+        this.Checkeouttime=checkeouttime;
         this.state=state;
-
     }
 
 
@@ -60,6 +60,10 @@ public class Booking {
         return Date;
     }
 
+    public  String getCheckeouttime(){
+        return  Checkeouttime;
+    }
+
     boolean Empty(){
         if(Identity.equals("")){
             return true;
@@ -75,6 +79,8 @@ public class Booking {
 
         return  false;
     }
+
+
 
     boolean Booked(){
         if(!Identity.equals("null") && !Blocked() && state==0){
@@ -92,11 +98,13 @@ public class Booking {
         return  false;
     }
 
+
+
     public void OccupySlots(ArrayList<TextView>SLots){
         for(int i=0;i< SLots.size();++i){
             TextView Slot=SLots.get(i);
             if(Slot.getHint().equals(Time)){
-                String s=Identity;
+
 
                 if(this.Booked()){
                     Slot.setBackgroundColor(Color.parseColor("#4eacc8"));
@@ -127,6 +135,8 @@ public class Booking {
 
         }
     }
+
+
 
 
 }
