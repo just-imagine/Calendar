@@ -648,7 +648,13 @@ public class DailyView extends AppCompatActivity
             else if(B.Booked()){
                 ++PendingBookings;
             }
+
+            int x=B.Difference();
+
+            int a=1;
         }
+
+
 
         ArrayList<Integer>Statistics=new ArrayList<>();
         Collections.addAll(Statistics,AttendedBookings,PendingBookings,ScheduleTime);

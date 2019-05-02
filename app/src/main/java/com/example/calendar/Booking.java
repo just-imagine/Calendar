@@ -1,5 +1,6 @@
 package com.example.calendar;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.widget.TextView;
@@ -113,6 +114,20 @@ public class Booking {
         }
 
         return  false;
+    }
+
+    int Difference(){
+        String dataOne[]=Time.split(":");
+        String dataTwo[]=Checkeouttime.split(":");
+
+        String line1="";
+        String line2="";
+        for(int i=0;i<dataOne.length;++i){
+            line1=line1+dataOne[i];
+            line2=line2+dataTwo[i];
+        }
+
+        return Integer.parseInt(line2)-Integer.parseInt(line1);
     }
 
 
