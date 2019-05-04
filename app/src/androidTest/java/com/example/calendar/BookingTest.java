@@ -16,7 +16,7 @@ public class BookingTest {
 
     @Test
     public void getName() {
-        temp=  new Booking("Tshifhiwa","","","","","","",0);
+        temp=  new Booking("Tshifhiwa","","","","","","","",0);
         final String actual =temp.getName();
         final String expected ="Tshifhiwa";
         assertEquals(expected,actual);
@@ -24,7 +24,7 @@ public class BookingTest {
 
     @Test
     public void getContact() {
-        temp=  new Booking("","","","0659545378","","","",0);
+        temp=  new Booking("","","","0659545378","","","","",0);
         final String actual =temp.getContact();
         final String expected ="0659545378";
         assertEquals(expected,actual);
@@ -33,7 +33,7 @@ public class BookingTest {
 
     @Test
     public void getEmail() {
-        temp=  new Booking("","","","","tmavhona@gmail.com","","",0);
+        temp=  new Booking("","","","","tmavhona@gmail.com","","","",0);
         final String actual =temp.getEmail();
         final String expected ="tmavhona@gmail.com";
         assertEquals(expected,actual);
@@ -41,7 +41,7 @@ public class BookingTest {
 
     @Test
     public void getIdentity() {
-        temp=  new Booking("","","9812176232089","","","","",0);
+        temp=  new Booking("","","9812176232089","","","","","",0);
         final String actual =temp.getIdentity();
         final String expected ="9812176232089";
         assertEquals(expected,actual);
@@ -50,7 +50,7 @@ public class BookingTest {
 
     @Test
     public void getTime() {
-        temp=  new Booking("","","","","","","08:00",0);
+        temp=  new Booking("","","","","","","08:00","",0);
         final String actual =temp.getTime();
         final String expected ="08:00";
         assertEquals(expected,actual);
@@ -59,7 +59,7 @@ public class BookingTest {
 
     @Test
     public void getSurname() {
-        temp=  new Booking("","Mavhona","","","","","",0);
+        temp=  new Booking("","Mavhona","","","","","","",0);
         final String actual =temp.getSurname();
         final String expected ="Mavhona";
         assertEquals(expected,actual);
@@ -67,7 +67,7 @@ public class BookingTest {
 
     @Test
     public void getDate() {
-        temp=  new Booking("","","","","","2019-04-19","",0);
+        temp=  new Booking("","","","","","2019-04-19","","",0);
         final String actual =temp.getDate();
         final String expected ="2019-04-19";
         assertEquals(expected,actual);
@@ -76,23 +76,23 @@ public class BookingTest {
 
     @Test
     public void empty() {
-        temp=  new Booking("Tshifhiwa","Mavhona","","0659545378","tmavhona@gmail.com","2019-04-19","08:15",0);
+        temp=  new Booking("Tshifhiwa","Mavhona","","0659545378","tmavhona@gmail.com","2019-04-19","08:15","",0);
         assertTrue(temp.Empty());
-        temp=  new Booking("Tshifhiwa","Mavhona","Admin","0659545378","tmavhona@gmail.com","2019-04-19","08:15",0);
+        temp=  new Booking("Tshifhiwa","Mavhona","Admin","0659545378","tmavhona@gmail.com","2019-04-19","08:15","",0);
         assertFalse(temp.Empty());
     }
 
     @Test
     public void blocked() {
-        temp=  new Booking("Tshifhiwa","Mavhona","Admin","0659545378","tmavhona@gmail.com","2019-04-19","08:15",0);
+        temp=  new Booking("Tshifhiwa","Mavhona","Admin","0659545378","tmavhona@gmail.com","2019-04-19","08:15","",0);
         assertTrue(temp.Blocked());
-        temp=  new Booking("Tshifhiwa","Mavhona","","0659545378","tmavhona@gmail.com","2019-04-19","08:15",0);
+        temp=  new Booking("Tshifhiwa","Mavhona","","0659545378","tmavhona@gmail.com","2019-04-19","08:15","",0);
         assertFalse(temp.Blocked());
     }
 
     //@Test
     public void booked() {
-        temp=  new Booking("Tshifhiwa","Mavhona","9812176232089","0659545378","tmavhona@gmail.com","2019-04-19","08:15",0);
+        temp=  new Booking("Tshifhiwa","Mavhona","9812176232089","0659545378","tmavhona@gmail.com","2019-04-19","08:15","",0);
         //temp.setCurrentUser("9907126232089");
         assertTrue(temp.Booked());
         //temp.setCurrentUser("9812176232089");
@@ -102,9 +102,9 @@ public class BookingTest {
 
     @Test
     public void completed() {
-        temp=  new Booking("Tshifhiwa","Mavhona","","0659545378","tmavhona@gmail.com","2019-04-19","08:15",1);
+        temp=  new Booking("Tshifhiwa","Mavhona","","0659545378","tmavhona@gmail.com","2019-04-19","08:15","",1);
         assertTrue(temp.Completed());
-        temp=  new Booking("Tshifhiwa","Mavhona","","0659545378","tmavhona@gmail.com","2019-04-19","08:15",0);
+        temp=  new Booking("Tshifhiwa","Mavhona","","0659545378","tmavhona@gmail.com","2019-04-19","08:15","",0);
         assertFalse(temp.Completed());
     }
 
