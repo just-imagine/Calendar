@@ -164,7 +164,7 @@ public class DailyViewTest {
                         isDisplayed()));
 //        textView.check(matches(withText("Block")));
     }
-    @Test
+   // @Test
     public void testForBookedSlot()
     {
         try {
