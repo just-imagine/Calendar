@@ -287,10 +287,6 @@ public class HomeScreenTest {
                         isDisplayed()));
         navigationMenuItemView.perform(click());
     }
-    //@Test
-    public void testForDrawerProgressItem(){
-
-    }
     @Test
     public void testForSelectedDate(){
         try {
