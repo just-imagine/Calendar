@@ -412,7 +412,7 @@ public class DailyView extends AppCompatActivity
         Params.put("DATE",date);
         //currently works when a date is greater than or equals
         if(checked_value-current_value>=0){
-            AsyncHTTPPost Schedule = new AsyncHTTPPost("http://lamp.ms.wits.ac.za/~s1611821/ConsultationSearch.php", Params) {
+            AsyncHTTPPost Schedule = new AsyncHTTPPost("http://lamp.ms.wits.ac.za/~s1611821/CSearches.php", Params) {
                 @Override
                 protected void onPostExecute(String output) {
                     Bookings=new ArrayList<>();
@@ -648,7 +648,13 @@ public class DailyView extends AppCompatActivity
             else if(B.Booked()){
                 ++PendingBookings;
             }
+
+            int x=B.Difference();
+
+            int a=1;
         }
+
+
 
         ArrayList<Integer>Statistics=new ArrayList<>();
         Collections.addAll(Statistics,AttendedBookings,PendingBookings,ScheduleTime);

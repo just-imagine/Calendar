@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.anychart.AnyChart;
 import com.anychart.AnyChartView;
@@ -31,6 +32,9 @@ public class Progress extends AppCompatActivity
 
     ArrayList<Integer>Statistics;
     Intent currentIntent;
+    TextView OnSchedeule;
+    TextView BehindSchedule;
+    TextView SlightlyBehind;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,8 +64,7 @@ public class Progress extends AppCompatActivity
         Statistics=currentIntent.getIntegerArrayListExtra("Statistics");
 
         Pie pie = AnyChart.pie();
-        pie.title("Fruits imported in 2015 (in kg)");
-
+        pie.title("Statistics for the day");
         List<DataEntry> data = new ArrayList<>();
         data.add(new ValueDataEntry("Pending", Statistics.get(1)));
        // data.add(new ValueDataEntry("Jake", 12000));
@@ -71,7 +74,7 @@ public class Progress extends AppCompatActivity
         pie.labels().position("outside");
         pie.legend().title().enabled(true);
         pie.legend().title()
-                .text("Retail channels")
+                .text("")
                 .padding(0d, 0d, 10d, 0d);
 
         pie.legend()
@@ -81,6 +84,13 @@ public class Progress extends AppCompatActivity
 
         AnyChartView anyChartView = (AnyChartView) findViewById(R.id.PieChart);
         anyChartView.setChart(pie);
+
+        OnSchedeule=(TextView)findViewById(R.id.OnTime);
+        SlightlyBehind=(TextView)findViewById(R.id.SlightBehind);
+        BehindSchedule=(TextView)findViewById(R.id.Behind);
+
+        Scheduletrack(Statistics.get(2));
+
 
     }
 
@@ -142,5 +152,11 @@ public class Progress extends AppCompatActivity
 
     public void PieComputation(){
 
+    }
+
+    public void Scheduletrack(int value){
+        if(value==0){
+            OnSchedeule.setText("On schedule");
+        }
     }
 }
