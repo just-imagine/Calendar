@@ -639,22 +639,35 @@ public class DailyView extends AppCompatActivity
         int AttendedBookings=0;
         int PendingBookings=0;
         int ScheduleTime=0;
+        int first=0;
         for(int i=0;i<Bookings.size();++i){
             Booking B=Bookings.get(i);
             if(B.Completed()){
                 ++AttendedBookings;
+                if(first==0) {
+
+                    ScheduleTime += B.getDelay();
+                    first=ScheduleTime;
+                }
+
+                else{
+                    ScheduleTime += B.getDelay()-first;
+                    int  x=1;
+                }
             }
 
             else if(B.Booked()){
                 ++PendingBookings;
             }
-
-            int x=B.Difference();
-
-            int a=1;
         }
 
+        if(ScheduleTime>2){
+            ScheduleTime=2;
+        }
 
+        else{
+            ScheduleTime=1;
+        }
 
         ArrayList<Integer>Statistics=new ArrayList<>();
         Collections.addAll(Statistics,AttendedBookings,PendingBookings,ScheduleTime);

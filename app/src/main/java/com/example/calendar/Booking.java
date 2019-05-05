@@ -20,7 +20,7 @@ public class Booking {
    private String Email;
    private int cardidentifier;
    private int state;
-
+   private int Delay=0;
 
     public Booking(String Name, String Surname, String Identity,String Contact,String Email, String Date, String Time,String checkeouttime,int state){
         this.Name=Name;
@@ -122,15 +122,30 @@ public class Booking {
 
         String line1="";
         String line2="";
-        for(int i=0;i<dataOne.length;++i){
-            line1=line1+dataOne[i];
-            line2=line2+dataTwo[i];
-        }
+        String m1="";
+        String m2="";
 
-        return Integer.parseInt(line2)-Integer.parseInt(line1);
+
+        line1=line1+dataOne[0];
+        line2=line2+dataTwo[0];
+        m1=dataOne[1];
+        m2=dataTwo[1];
+
+        int d=Math.abs(Integer.parseInt(m2)-Integer.parseInt(m1))/60;
+        //int x=Math.abs(Integer.parseInt(m2)-Integer.parseInt(m1));
+
+        int diff=(Integer.parseInt(line2)-Integer.parseInt(line1))+d;
+
+
+        //String l=""+diff+""+x;
+
+        return  diff;
+
     }
 
-
+    public double getDelay(){
+        return  this.Delay;
+    }
 
 
 
@@ -148,12 +163,14 @@ public class Booking {
                 else if(this.Completed() && !this.Equal(Other)){
                     Slot.setBackgroundColor(Color.parseColor("#003366"));
                     Slot.setText("Attended");
+                    this.Delay=this.Difference();
                     Slot.setTextColor(Color.WHITE);
                 }
 
                 else if(this.Completed() && this.Equal(Other)){
                     Slot.setBackgroundColor(Color.parseColor("#003366"));
                     Slot.setText("Attended");
+                    this.Delay=this.Difference();
                     Slot.setTextColor(Color.WHITE);
                     Other.SetCardidentifier(Slot.getId());
                 }

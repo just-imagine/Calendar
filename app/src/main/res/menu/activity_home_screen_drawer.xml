@@ -4,10 +4,7 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_progress"
-            android:icon="@mipmap/ic_schedule"
-            android:title="Progress" />
+
         <item
             android:id="@+id/nav_day"
             android:icon="@mipmap/ic_day"

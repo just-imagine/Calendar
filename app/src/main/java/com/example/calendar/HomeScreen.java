@@ -210,8 +210,8 @@ public class HomeScreen extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_progress) {
-            Intent Progress=new Intent(getApplicationContext(),Progress.class);
-            startActivity(Progress);
+           // Intent Progress=new Intent(getApplicationContext(),Progress.class);
+           // startActivity(Progress);
 
         }
         else if (id == R.id.nav_day) {

@@ -158,5 +158,16 @@ public class Progress extends AppCompatActivity
         if(value==0){
             OnSchedeule.setText("On schedule");
         }
+
+        else if(value<=1){
+            SlightlyBehind.setText("Slightly behind schedule");
+        }
+
+        else{
+            String line=""+value;
+            BehindSchedule.setText("Behind Schedule");
+        }
+
+
     }
 }
