@@ -165,8 +165,47 @@ public class DailyViewTest {
 //        textView.check(matches(withText("Block")));
     }
     @Test
-    public void testForBookedSlot()
-    {
+    public void testForUnavailableTimeSlots(){
+        try {
+            Thread.sleep(16);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction directionButton = onView(
+                allOf(withContentDescription("Go to previous"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                0),
+                        isDisplayed()));
+        directionButton.perform(click());
+
+        ViewInteraction dayView = onView(
+                allOf(withText("1"), withContentDescription("1"),
+                        childAtPosition(
+                                allOf(withContentDescription("Calendar"),
+                                        childAtPosition(
+                                                withId(R.id.mcv_pager),
+                                                1)),
+                                8),
+                        isDisplayed()));
+        dayView.perform(longClick());
+
+        ViewInteraction textView = onView(
+                allOf(withId(R.id.g), withText("unavailable"),
+                        childAtPosition(
+                                allOf(withId(R.id.l),
+                                        childAtPosition(
+                                                withId(R.id.sample),
+                                                0)),
+                                2),
+                        isDisplayed()));
+        textView.check(matches(withText("unavailable")));
+    }
+   // @Test
+    public void testForBookedSlot() {
         try {
             Thread.sleep(16);
         } catch (InterruptedException e) {
@@ -422,6 +461,526 @@ public class DailyViewTest {
                         0),
                         isDisplayed()));
         linearLayout.check(matches(isDisplayed()));
+    }
+    @Test
+    public void testForJanuary(){
+        try {
+            Thread.sleep(16);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction directionButton = onView(
+                allOf(withContentDescription("Go to previous"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                0),
+                        isDisplayed()));
+        directionButton.perform(click());
+
+        ViewInteraction directionButton2 = onView(
+                allOf(withContentDescription("Go to previous"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                0),
+                        isDisplayed()));
+        directionButton2.perform(click());
+
+        ViewInteraction directionButton3 = onView(
+                allOf(withContentDescription("Go to previous"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                0),
+                        isDisplayed()));
+        directionButton3.perform(click());
+
+        ViewInteraction directionButton4 = onView(
+                allOf(withContentDescription("Go to previous"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                0),
+                        isDisplayed()));
+        directionButton4.perform(click());
+
+        ViewInteraction dayView = onView(
+                allOf(withText("1"), withContentDescription("1"),
+                        childAtPosition(
+                                allOf(withContentDescription("Calendar"),
+                                        childAtPosition(
+                                                withId(R.id.mcv_pager),
+                                                1)),
+                                9),
+                        isDisplayed()));
+        dayView.perform(longClick());
+    }
+    @Test
+    public void testForFebruary(){
+        try {
+            Thread.sleep(16);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction directionButton = onView(
+                allOf(withContentDescription("Go to previous"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                0),
+                        isDisplayed()));
+        directionButton.perform(click());
+
+        ViewInteraction directionButton2 = onView(
+                allOf(withContentDescription("Go to previous"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                0),
+                        isDisplayed()));
+        directionButton2.perform(click());
+
+        ViewInteraction directionButton3 = onView(
+                allOf(withContentDescription("Go to previous"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                0),
+                        isDisplayed()));
+        directionButton3.perform(click());
+
+        ViewInteraction dayView = onView(
+                allOf(withText("1"), withContentDescription("1"),
+                        childAtPosition(
+                                allOf(withContentDescription("Calendar"),
+                                        childAtPosition(
+                                                withId(R.id.mcv_pager),
+                                                1)),
+                                12),
+                        isDisplayed()));
+        dayView.perform(longClick());
+    }
+    @Test
+    public void testForMarch(){
+        try {
+            Thread.sleep(16);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction directionButton = onView(
+                allOf(withContentDescription("Go to previous"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                0),
+                        isDisplayed()));
+        directionButton.perform(click());
+
+        ViewInteraction directionButton2 = onView(
+                allOf(withContentDescription("Go to previous"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                0),
+                        isDisplayed()));
+        directionButton2.perform(click());
+
+        ViewInteraction dayView = onView(
+                allOf(withText("1"), withContentDescription("1"),
+                        childAtPosition(
+                                allOf(withContentDescription("Calendar"),
+                                        childAtPosition(
+                                                withId(R.id.mcv_pager),
+                                                1)),
+                                12),
+                        isDisplayed()));
+        dayView.perform(longClick());
+    }
+    @Test
+    public void testForApril(){
+        try {
+            Thread.sleep(16);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction directionButton = onView(
+                allOf(withContentDescription("Go to previous"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                0),
+                        isDisplayed()));
+        directionButton.perform(click());
+
+        ViewInteraction dayView = onView(
+                allOf(withText("1"), withContentDescription("1"),
+                        childAtPosition(
+                                allOf(withContentDescription("Calendar"),
+                                        childAtPosition(
+                                                withId(R.id.mcv_pager),
+                                                1)),
+                                8),
+                        isDisplayed()));
+        dayView.perform(longClick());
+    }
+    @Test
+    public void testForJune(){
+        try {
+            Thread.sleep(16);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction directionButton = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton.perform(click());
+
+        ViewInteraction dayView = onView(
+                allOf(withText("1"), withContentDescription("1"),
+                        childAtPosition(
+                                allOf(withContentDescription("Calendar"),
+                                        childAtPosition(
+                                                withId(R.id.mcv_pager),
+                                                1)),
+                                13),
+                        isDisplayed()));
+        dayView.perform(longClick());
+    }
+    @Test
+    public void testForJuly(){
+        try {
+            Thread.sleep(16);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction directionButton = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton.perform(click());
+
+        ViewInteraction directionButton2 = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton2.perform(click());
+
+        ViewInteraction dayView = onView(
+                allOf(withText("1"), withContentDescription("1"),
+                        childAtPosition(
+                                allOf(withContentDescription("Calendar"),
+                                        childAtPosition(
+                                                withId(R.id.mcv_pager),
+                                                1)),
+                                8),
+                        isDisplayed()));
+        dayView.perform(longClick());
+    }
+    @Test
+    public void testForAugust(){
+        try {
+            Thread.sleep(16);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction directionButton = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton.perform(click());
+
+        ViewInteraction directionButton2 = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton2.perform(click());
+
+        ViewInteraction directionButton3 = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton3.perform(click());
+
+        ViewInteraction dayView = onView(
+                allOf(withText("1"), withContentDescription("1"),
+                        childAtPosition(
+                                allOf(withContentDescription("Calendar"),
+                                        childAtPosition(
+                                                withId(R.id.mcv_pager),
+                                                1)),
+                                11),
+                        isDisplayed()));
+        dayView.perform(longClick());
+    }
+    @Test
+    public void testForSeptember(){
+        try {
+            Thread.sleep(16);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction directionButton = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton.perform(click());
+
+        ViewInteraction directionButton2 = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton2.perform(click());
+
+        ViewInteraction directionButton3 = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton3.perform(click());
+
+        ViewInteraction directionButton4 = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton4.perform(click());
+
+        ViewInteraction dayView = onView(
+                allOf(withText("1"), withContentDescription("1"),
+                        childAtPosition(
+                                allOf(withContentDescription("Calendar"),
+                                        childAtPosition(
+                                                withId(R.id.mcv_pager),
+                                                1)),
+                                7),
+                        isDisplayed()));
+        dayView.perform(longClick());
+    }
+    @Test
+    public void testForOctober(){
+        try {
+            Thread.sleep(16);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction directionButton = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton.perform(click());
+
+        ViewInteraction directionButton2 = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton2.perform(click());
+
+        ViewInteraction directionButton3 = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton3.perform(click());
+
+        ViewInteraction directionButton4 = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton4.perform(click());
+
+        ViewInteraction directionButton5 = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton5.perform(click());
+
+        ViewInteraction dayView = onView(
+                allOf(withText("1"), withContentDescription("1"),
+                        childAtPosition(
+                                allOf(withContentDescription("Calendar"),
+                                        childAtPosition(
+                                                withId(R.id.mcv_pager),
+                                                1)),
+                                9),
+                        isDisplayed()));
+        dayView.perform(longClick());
+    }
+    @Test
+    public void testForNovember(){
+        try {
+            Thread.sleep(16);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction directionButton = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton.perform(click());
+
+        ViewInteraction directionButton2 = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton2.perform(click());
+
+        ViewInteraction directionButton3 = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton3.perform(click());
+
+        ViewInteraction directionButton4 = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton4.perform(click());
+
+        ViewInteraction directionButton5 = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton5.perform(click());
+
+        ViewInteraction directionButton6 = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton6.perform(click());
+
+        ViewInteraction directionButton7 = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton7.perform(click());
+
+        ViewInteraction directionButton8 = onView(
+                allOf(withContentDescription("Go to previous"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                0),
+                        isDisplayed()));
+        directionButton8.perform(click());
+
+        ViewInteraction dayView = onView(
+                allOf(withText("1"), withContentDescription("1"),
+                        childAtPosition(
+                                allOf(withContentDescription("Calendar"),
+                                        childAtPosition(
+                                                withId(R.id.mcv_pager),
+                                                0)),
+                                12),
+                        isDisplayed()));
+        dayView.perform(longClick());
     }
     private static Matcher<View> childAtPosition(
             final Matcher<View> parentMatcher, final int position) {
