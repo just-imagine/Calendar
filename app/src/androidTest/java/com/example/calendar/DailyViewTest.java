@@ -41,10 +41,6 @@ public class DailyViewTest {
     public ActivityTestRule<HomeScreen> mActivityTestRule = new ActivityTestRule<>(HomeScreen.class);
     @Test
     public void testForFreeSlot() {
-
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try {
             Thread.sleep(16);
         } catch (InterruptedException e) {
@@ -161,7 +157,6 @@ public class DailyViewTest {
                                                 4)),
                                 1),
                         isDisplayed()));
-//        textView.check(matches(withText("Block")));
     }
     @Test
     public void testForUnavailableTimeSlots(){
@@ -330,7 +325,6 @@ public class DailyViewTest {
                                         2),
                                 0),
                         isDisplayed()));
-//        textView2.check(matches(withText("Tue , 3 December  Duration 08:00-08:15")));
 
         ViewInteraction textView3 = onView(
                 allOf(withId(R.id.email), withText("1629230@students.wits.ac.za"),
