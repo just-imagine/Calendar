@@ -570,7 +570,6 @@ public class DailyView extends AppCompatActivity
                     }
 
 
-
                 };
                 chekoutAppointment.execute();
                 dialog = ProgressDialog.show(DailyView.this, "",

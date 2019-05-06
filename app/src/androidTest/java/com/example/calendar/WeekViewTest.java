@@ -12,7 +12,6 @@ import android.view.ViewParent;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-import org.hamcrest.core.IsInstanceOf;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +22,6 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.longClick;
 import static android.support.test.espresso.action.ViewActions.replaceText;
-import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
@@ -35,315 +33,13 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class DailyViewTest {
+public class WeekViewTest {
 
     @Rule
-    public ActivityTestRule<HomeScreen> mActivityTestRule = new ActivityTestRule<>(HomeScreen.class);
+    public ActivityTestRule<HomeScreen > mActivityTestRule = new ActivityTestRule<>(HomeScreen.class);
+
     @Test
-    public void testForFreeSlot() {
-
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
-        try {
-            Thread.sleep(16);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        ViewInteraction directionButton = onView(
-                allOf(withContentDescription("Go to next"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.thing),
-                                        0),
-                                2),
-                        isDisplayed()));
-        directionButton.perform(click());
-
-        ViewInteraction directionButton2 = onView(
-                allOf(withContentDescription("Go to next"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.thing),
-                                        0),
-                                2),
-                        isDisplayed()));
-        directionButton2.perform(click());
-
-        ViewInteraction directionButton3 = onView(
-                allOf(withContentDescription("Go to next"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.thing),
-                                        0),
-                                2),
-                        isDisplayed()));
-        directionButton3.perform(click());
-
-        ViewInteraction directionButton4 = onView(
-                allOf(withContentDescription("Go to next"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.thing),
-                                        0),
-                                2),
-                        isDisplayed()));
-        directionButton4.perform(click());
-
-        ViewInteraction directionButton5 = onView(
-                allOf(withContentDescription("Go to next"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.thing),
-                                        0),
-                                2),
-                        isDisplayed()));
-        directionButton5.perform(click());
-
-        ViewInteraction directionButton6 = onView(
-                allOf(withContentDescription("Go to next"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.thing),
-                                        0),
-                                2),
-                        isDisplayed()));
-        directionButton6.perform(click());
-
-        ViewInteraction directionButton7 = onView(
-                allOf(withContentDescription("Go to next"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.thing),
-                                        0),
-                                2),
-                        isDisplayed()));
-        directionButton7.perform(click());
-
-        ViewInteraction dayView = onView(
-                allOf(withText("2"), withContentDescription("2"),
-                        childAtPosition(
-                                allOf(withContentDescription("Calendar"),
-                                        childAtPosition(
-                                                withId(R.id.mcv_pager),
-                                                1)),
-                                8),
-                        isDisplayed()));
-        dayView.perform(longClick());
-
-        ViewInteraction appCompatTextView = onView(
-                allOf(withId(R.id.g), withText("Free"),
-                        childAtPosition(
-                                allOf(withId(R.id.l),
-                                        childAtPosition(
-                                                withId(R.id.sample),
-                                                0)),
-                                2)));
-        appCompatTextView.perform(scrollTo(), click());
-
-        ViewInteraction linearLayout = onView(
-                allOf(childAtPosition(
-                        allOf(withId(android.R.id.content),
-                                childAtPosition(
-                                        IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class),
-                                        0)),
-                        0),
-                        isDisplayed()));
-        linearLayout.check(matches(isDisplayed()));
-
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.cancel), withText("Block"),
-                        childAtPosition(
-                                allOf(withId(R.id.pop),
-                                        childAtPosition(
-                                                IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
-                                                4)),
-                                1),
-                        isDisplayed()));
-//        textView.check(matches(withText("Block")));
-    }
-    @Test
-    public void testForUnavailableTimeSlots(){
-        try {
-            Thread.sleep(16);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        ViewInteraction directionButton = onView(
-                allOf(withContentDescription("Go to previous"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.thing),
-                                        0),
-                                0),
-                        isDisplayed()));
-        directionButton.perform(click());
-
-        ViewInteraction dayView = onView(
-                allOf(withText("1"), withContentDescription("1"),
-                        childAtPosition(
-                                allOf(withContentDescription("Calendar"),
-                                        childAtPosition(
-                                                withId(R.id.mcv_pager),
-                                                1)),
-                                8),
-                        isDisplayed()));
-        dayView.perform(longClick());
-
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.g), withText("unavailable"),
-                        childAtPosition(
-                                allOf(withId(R.id.l),
-                                        childAtPosition(
-                                                withId(R.id.sample),
-                                                0)),
-                                2),
-                        isDisplayed()));
-        textView.check(matches(withText("unavailable")));
-    }
-    @Test
-    public void testForBookedSlot() {
-        try {
-            Thread.sleep(16);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        ViewInteraction directionButton = onView(
-                allOf(withContentDescription("Go to next"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.thing),
-                                        0),
-                                2),
-                        isDisplayed()));
-        directionButton.perform(click());
-
-        ViewInteraction directionButton2 = onView(
-                allOf(withContentDescription("Go to next"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.thing),
-                                        0),
-                                2),
-                        isDisplayed()));
-        directionButton2.perform(click());
-
-        ViewInteraction directionButton3 = onView(
-                allOf(withContentDescription("Go to next"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.thing),
-                                        0),
-                                2),
-                        isDisplayed()));
-        directionButton3.perform(click());
-
-        ViewInteraction directionButton4 = onView(
-                allOf(withContentDescription("Go to next"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.thing),
-                                        0),
-                                2),
-                        isDisplayed()));
-        directionButton4.perform(click());
-
-        ViewInteraction directionButton5 = onView(
-                allOf(withContentDescription("Go to next"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.thing),
-                                        0),
-                                2),
-                        isDisplayed()));
-        directionButton5.perform(click());
-
-        ViewInteraction directionButton6 = onView(
-                allOf(withContentDescription("Go to next"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.thing),
-                                        0),
-                                2),
-                        isDisplayed()));
-        directionButton6.perform(click());
-
-        ViewInteraction directionButton7 = onView(
-                allOf(withContentDescription("Go to next"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.thing),
-                                        0),
-                                2),
-                        isDisplayed()));
-        directionButton7.perform(click());
-
-        ViewInteraction dayView = onView(
-                allOf(withText("3"), withContentDescription("3"),
-                        childAtPosition(
-                                allOf(withContentDescription("Calendar"),
-                                        childAtPosition(
-                                                withId(R.id.mcv_pager),
-                                                1)),
-                                9),
-                        isDisplayed()));
-        dayView.perform(longClick());
-
-        ViewInteraction appCompatTextView = onView(
-                allOf(withId(R.id.g), withText("Appointment"),
-                        childAtPosition(
-                                allOf(withId(R.id.l),
-                                        childAtPosition(
-                                                withId(R.id.sample),
-                                                0)),
-                                2)));
-        appCompatTextView.perform(scrollTo(), click());
-
-        ViewInteraction linearLayout = onView(
-                allOf(childAtPosition(
-                        allOf(withId(android.R.id.content),
-                                childAtPosition(
-                                        IsInstanceOf.<View>instanceOf(android.widget.FrameLayout.class),
-                                        0)),
-                        0),
-                        isDisplayed()));
-        linearLayout.check(matches(isDisplayed()));
-
-        ViewInteraction textView = onView(
-                allOf(withId(R.id.patient), withText("Bafana  Mbata"),
-                        childAtPosition(
-                                childAtPosition(
-                                        IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
-                                        2),
-                                1),
-                        isDisplayed()));
-        textView.check(matches(withText("Bafana  Mbata")));
-
-        ViewInteraction textView2 = onView(
-                allOf(withId(R.id.timedetails), withText("Tue , 3 December\n\nDuration 08:00-08:15"),
-                        childAtPosition(
-                                childAtPosition(
-                                        IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
-                                        2),
-                                0),
-                        isDisplayed()));
-//        textView2.check(matches(withText("Tue , 3 December  Duration 08:00-08:15")));
-
-        ViewInteraction textView3 = onView(
-                allOf(withId(R.id.email), withText("1629230@students.wits.ac.za"),
-                        childAtPosition(
-                                childAtPosition(
-                                        IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
-                                        2),
-                                2),
-                        isDisplayed()));
-        textView3.check(matches(withText("1629230@students.wits.ac.za")));
-    }
-    @Test
-    public void testForAttendedAppointment(){
+    public void testForDisplayOfAppointments() {
         try {
             Thread.sleep(16);
         } catch (InterruptedException e) {
@@ -361,89 +57,43 @@ public class DailyViewTest {
                         isDisplayed()));
         dayView.perform(longClick());
 
-        ViewInteraction appCompatTextView = onView(
-                allOf(withId(R.id.g), withText("Attended"),
+        ViewInteraction appCompatImageButton = onView(
+                allOf(withContentDescription("Open navigation drawer"),
                         childAtPosition(
-                                allOf(withId(R.id.l),
+                                allOf(withId(R.id.toolbar),
                                         childAtPosition(
-                                                withId(R.id.sample),
+                                                withClassName(is("android.support.design.widget.AppBarLayout")),
                                                 0)),
-                                2)));
-        appCompatTextView.perform(scrollTo(), click());
+                                1),
+                        isDisplayed()));
+        appCompatImageButton.perform(click());
+
+        ViewInteraction navigationMenuItemView = onView(
+                allOf(childAtPosition(
+                        allOf(withId(R.id.design_navigation_view),
+                                childAtPosition(
+                                        withId(R.id.nav_view),
+                                        0)),
+                        2),
+                        isDisplayed()));
+        navigationMenuItemView.perform(click());
+        try {
+            Thread.sleep(16);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         ViewInteraction textView = onView(
-                allOf(withId(R.id.checkout), withText("  Attended "),
-                        childAtPosition(
-                                allOf(withId(R.id.pop),
-                                        childAtPosition(
-                                                IsInstanceOf.<View>instanceOf(android.widget.LinearLayout.class),
-                                                4)),
-                                0),
-                        isDisplayed()));
-        textView.check(matches(withText("  Attended ")));
-    }
-
-    @Test
-    public void testForJanuary(){
-        try {
-            Thread.sleep(16);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        ViewInteraction directionButton = onView(
-                allOf(withContentDescription("Go to previous"),
+                allOf(withId(R.id.hourdivision), withText("APPOINTMENT\n09:00-09:15"),
                         childAtPosition(
                                 childAtPosition(
-                                        withId(R.id.thing),
+                                        withId(R.id.M9),
                                         0),
                                 0),
                         isDisplayed()));
-        directionButton.perform(click());
-
-        ViewInteraction directionButton2 = onView(
-                allOf(withContentDescription("Go to previous"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.thing),
-                                        0),
-                                0),
-                        isDisplayed()));
-        directionButton2.perform(click());
-
-        ViewInteraction directionButton3 = onView(
-                allOf(withContentDescription("Go to previous"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.thing),
-                                        0),
-                                0),
-                        isDisplayed()));
-        directionButton3.perform(click());
-
-        ViewInteraction directionButton4 = onView(
-                allOf(withContentDescription("Go to previous"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.thing),
-                                        0),
-                                0),
-                        isDisplayed()));
-        directionButton4.perform(click());
-
-        ViewInteraction dayView = onView(
-                allOf(withText("1"), withContentDescription("1"),
-                        childAtPosition(
-                                allOf(withContentDescription("Calendar"),
-                                        childAtPosition(
-                                                withId(R.id.mcv_pager),
-                                                1)),
-                                9),
-                        isDisplayed()));
-        dayView.perform(longClick());
     }
     @Test
-    public void testForFebruary(){
+    public void testForFebruaryDisplay(){
         try {
             Thread.sleep(16);
         } catch (InterruptedException e) {
@@ -490,9 +140,30 @@ public class DailyViewTest {
                                 12),
                         isDisplayed()));
         dayView.perform(longClick());
+
+        ViewInteraction appCompatImageButton = onView(
+                allOf(withContentDescription("Open navigation drawer"),
+                        childAtPosition(
+                                allOf(withId(R.id.toolbar),
+                                        childAtPosition(
+                                                withClassName(is("android.support.design.widget.AppBarLayout")),
+                                                0)),
+                                1),
+                        isDisplayed()));
+        appCompatImageButton.perform(click());
+
+        ViewInteraction navigationMenuItemView = onView(
+                allOf(childAtPosition(
+                        allOf(withId(R.id.design_navigation_view),
+                                childAtPosition(
+                                        withId(R.id.nav_view),
+                                        0)),
+                        2),
+                        isDisplayed()));
+        navigationMenuItemView.perform(click());
     }
     @Test
-    public void testForMarch(){
+    public void testForMarchDisplay(){
         try {
             Thread.sleep(16);
         } catch (InterruptedException e) {
@@ -529,9 +200,29 @@ public class DailyViewTest {
                                 12),
                         isDisplayed()));
         dayView.perform(longClick());
+        ViewInteraction appCompatImageButton = onView(
+                allOf(withContentDescription("Open navigation drawer"),
+                        childAtPosition(
+                                allOf(withId(R.id.toolbar),
+                                        childAtPosition(
+                                                withClassName(is("android.support.design.widget.AppBarLayout")),
+                                                0)),
+                                1),
+                        isDisplayed()));
+        appCompatImageButton.perform(click());
+
+        ViewInteraction navigationMenuItemView = onView(
+                allOf(childAtPosition(
+                        allOf(withId(R.id.design_navigation_view),
+                                childAtPosition(
+                                        withId(R.id.nav_view),
+                                        0)),
+                        2),
+                        isDisplayed()));
+        navigationMenuItemView.perform(click());
     }
     @Test
-    public void testForApril(){
+    public void testForAprilDisplay(){
         try {
             Thread.sleep(16);
         } catch (InterruptedException e) {
@@ -558,9 +249,30 @@ public class DailyViewTest {
                                 8),
                         isDisplayed()));
         dayView.perform(longClick());
+
+        ViewInteraction appCompatImageButton = onView(
+                allOf(withContentDescription("Open navigation drawer"),
+                        childAtPosition(
+                                allOf(withId(R.id.toolbar),
+                                        childAtPosition(
+                                                withClassName(is("android.support.design.widget.AppBarLayout")),
+                                                0)),
+                                1),
+                        isDisplayed()));
+        appCompatImageButton.perform(click());
+
+        ViewInteraction navigationMenuItemView = onView(
+                allOf(childAtPosition(
+                        allOf(withId(R.id.design_navigation_view),
+                                childAtPosition(
+                                        withId(R.id.nav_view),
+                                        0)),
+                        2),
+                        isDisplayed()));
+        navigationMenuItemView.perform(click());
     }
     @Test
-    public void testForJune(){
+    public void testForJuneDisplay(){
         try {
             Thread.sleep(16);
         } catch (InterruptedException e) {
@@ -578,18 +290,39 @@ public class DailyViewTest {
         directionButton.perform(click());
 
         ViewInteraction dayView = onView(
-                allOf(withText("1"), withContentDescription("1"),
+                allOf(withText("2"), withContentDescription("2"),
                         childAtPosition(
                                 allOf(withContentDescription("Calendar"),
                                         childAtPosition(
                                                 withId(R.id.mcv_pager),
                                                 1)),
-                                13),
+                                14),
                         isDisplayed()));
         dayView.perform(longClick());
+
+        ViewInteraction appCompatImageButton = onView(
+                allOf(withContentDescription("Open navigation drawer"),
+                        childAtPosition(
+                                allOf(withId(R.id.toolbar),
+                                        childAtPosition(
+                                                withClassName(is("android.support.design.widget.AppBarLayout")),
+                                                0)),
+                                1),
+                        isDisplayed()));
+        appCompatImageButton.perform(click());
+
+        ViewInteraction navigationMenuItemView = onView(
+                allOf(childAtPosition(
+                        allOf(withId(R.id.design_navigation_view),
+                                childAtPosition(
+                                        withId(R.id.nav_view),
+                                        0)),
+                        2),
+                        isDisplayed()));
+        navigationMenuItemView.perform(click());
     }
     @Test
-    public void testForJuly(){
+    public void testForJulyDisplay(){
         try {
             Thread.sleep(16);
         } catch (InterruptedException e) {
@@ -626,9 +359,30 @@ public class DailyViewTest {
                                 8),
                         isDisplayed()));
         dayView.perform(longClick());
+
+        ViewInteraction appCompatImageButton = onView(
+                allOf(withContentDescription("Open navigation drawer"),
+                        childAtPosition(
+                                allOf(withId(R.id.toolbar),
+                                        childAtPosition(
+                                                withClassName(is("android.support.design.widget.AppBarLayout")),
+                                                0)),
+                                1),
+                        isDisplayed()));
+        appCompatImageButton.perform(click());
+
+        ViewInteraction navigationMenuItemView = onView(
+                allOf(childAtPosition(
+                        allOf(withId(R.id.design_navigation_view),
+                                childAtPosition(
+                                        withId(R.id.nav_view),
+                                        0)),
+                        2),
+                        isDisplayed()));
+        navigationMenuItemView.perform(click());
     }
     @Test
-    public void testForAugust(){
+    public void testForAugustDisplay(){
         try {
             Thread.sleep(16);
         } catch (InterruptedException e) {
@@ -675,9 +429,30 @@ public class DailyViewTest {
                                 11),
                         isDisplayed()));
         dayView.perform(longClick());
+
+        ViewInteraction appCompatImageButton = onView(
+                allOf(withContentDescription("Open navigation drawer"),
+                        childAtPosition(
+                                allOf(withId(R.id.toolbar),
+                                        childAtPosition(
+                                                withClassName(is("android.support.design.widget.AppBarLayout")),
+                                                0)),
+                                1),
+                        isDisplayed()));
+        appCompatImageButton.perform(click());
+
+        ViewInteraction navigationMenuItemView = onView(
+                allOf(childAtPosition(
+                        allOf(withId(R.id.design_navigation_view),
+                                childAtPosition(
+                                        withId(R.id.nav_view),
+                                        0)),
+                        2),
+                        isDisplayed()));
+        navigationMenuItemView.perform(click());
     }
     @Test
-    public void testForSeptember(){
+    public void testForSeptemberDisplay(){
         try {
             Thread.sleep(16);
         } catch (InterruptedException e) {
@@ -734,9 +509,30 @@ public class DailyViewTest {
                                 7),
                         isDisplayed()));
         dayView.perform(longClick());
+
+        ViewInteraction appCompatImageButton = onView(
+                allOf(withContentDescription("Open navigation drawer"),
+                        childAtPosition(
+                                allOf(withId(R.id.toolbar),
+                                        childAtPosition(
+                                                withClassName(is("android.support.design.widget.AppBarLayout")),
+                                                0)),
+                                1),
+                        isDisplayed()));
+        appCompatImageButton.perform(click());
+
+        ViewInteraction navigationMenuItemView = onView(
+                allOf(childAtPosition(
+                        allOf(withId(R.id.design_navigation_view),
+                                childAtPosition(
+                                        withId(R.id.nav_view),
+                                        0)),
+                        2),
+                        isDisplayed()));
+        navigationMenuItemView.perform(click());
     }
     @Test
-    public void testForOctober(){
+    public void testForOctoberDisplay(){
         try {
             Thread.sleep(16);
         } catch (InterruptedException e) {
@@ -794,18 +590,139 @@ public class DailyViewTest {
         directionButton5.perform(click());
 
         ViewInteraction dayView = onView(
+                allOf(withText("2"), withContentDescription("2"),
+                        childAtPosition(
+                                allOf(withContentDescription("Calendar"),
+                                        childAtPosition(
+                                                withId(R.id.mcv_pager),
+                                                1)),
+                                10),
+                        isDisplayed()));
+        dayView.perform(longClick());
+
+        ViewInteraction appCompatImageButton = onView(
+                allOf(withContentDescription("Open navigation drawer"),
+                        childAtPosition(
+                                allOf(withId(R.id.toolbar),
+                                        childAtPosition(
+                                                withClassName(is("android.support.design.widget.AppBarLayout")),
+                                                0)),
+                                1),
+                        isDisplayed()));
+        appCompatImageButton.perform(click());
+
+        ViewInteraction navigationMenuItemView = onView(
+                allOf(childAtPosition(
+                        allOf(withId(R.id.design_navigation_view),
+                                childAtPosition(
+                                        withId(R.id.nav_view),
+                                        0)),
+                        2),
+                        isDisplayed()));
+        navigationMenuItemView.perform(click());
+    }
+    @Test
+    public void testForNovemberDisplay(){
+        try {
+            Thread.sleep(16);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ViewInteraction directionButton = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton.perform(click());
+
+        ViewInteraction directionButton2 = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton2.perform(click());
+
+        ViewInteraction directionButton3 = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton3.perform(click());
+
+        ViewInteraction directionButton4 = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton4.perform(click());
+
+        ViewInteraction directionButton5 = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton5.perform(click());
+
+        ViewInteraction directionButton6 = onView(
+                allOf(withContentDescription("Go to next"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(R.id.thing),
+                                        0),
+                                2),
+                        isDisplayed()));
+        directionButton6.perform(click());
+
+        ViewInteraction dayView = onView(
                 allOf(withText("1"), withContentDescription("1"),
                         childAtPosition(
                                 allOf(withContentDescription("Calendar"),
                                         childAtPosition(
                                                 withId(R.id.mcv_pager),
                                                 1)),
-                                9),
+                                12),
                         isDisplayed()));
         dayView.perform(longClick());
+
+        ViewInteraction appCompatImageButton = onView(
+                allOf(withContentDescription("Open navigation drawer"),
+                        childAtPosition(
+                                allOf(withId(R.id.toolbar),
+                                        childAtPosition(
+                                                withClassName(is("android.support.design.widget.AppBarLayout")),
+                                                0)),
+                                1),
+                        isDisplayed()));
+        appCompatImageButton.perform(click());
+
+        ViewInteraction navigationMenuItemView = onView(
+                allOf(childAtPosition(
+                        allOf(withId(R.id.design_navigation_view),
+                                childAtPosition(
+                                        withId(R.id.nav_view),
+                                        0)),
+                        2),
+                        isDisplayed()));
+        navigationMenuItemView.perform(click());
     }
     @Test
-    public void testForNovember(){
+    public void testForDecemberDisplay(){
         try {
             Thread.sleep(16);
         } catch (InterruptedException e) {
@@ -882,27 +799,43 @@ public class DailyViewTest {
                         isDisplayed()));
         directionButton7.perform(click());
 
-        ViewInteraction directionButton8 = onView(
-                allOf(withContentDescription("Go to previous"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withId(R.id.thing),
-                                        0),
-                                0),
-                        isDisplayed()));
-        directionButton8.perform(click());
-
         ViewInteraction dayView = onView(
                 allOf(withText("1"), withContentDescription("1"),
                         childAtPosition(
                                 allOf(withContentDescription("Calendar"),
                                         childAtPosition(
                                                 withId(R.id.mcv_pager),
-                                                0)),
-                                12),
+                                                1)),
+                                7),
                         isDisplayed()));
         dayView.perform(longClick());
+
+        ViewInteraction appCompatImageButton = onView(
+                allOf(withContentDescription("Open navigation drawer"),
+                        childAtPosition(
+                                allOf(withId(R.id.toolbar),
+                                        childAtPosition(
+                                                withClassName(is("android.support.design.widget.AppBarLayout")),
+                                                0)),
+                                1),
+                        isDisplayed()));
+        appCompatImageButton.perform(click());
+
+        ViewInteraction navigationMenuItemView = onView(
+                allOf(childAtPosition(
+                        allOf(withId(R.id.design_navigation_view),
+                                childAtPosition(
+                                        withId(R.id.nav_view),
+                                        0)),
+                        2),
+                        isDisplayed()));
+        navigationMenuItemView.perform(click());
     }
+
+
+
+
+
 
     private static Matcher<View> childAtPosition(
             final Matcher<View> parentMatcher, final int position) {
