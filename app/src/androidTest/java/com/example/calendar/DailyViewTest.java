@@ -377,7 +377,7 @@ public class DailyViewTest {
         textView.check(matches(withText("  Attended ")));
     }
 
-    @Test
+    //@Test
     public void testForJanuary(){
         try {
             Thread.sleep(16);
@@ -436,7 +436,7 @@ public class DailyViewTest {
                         isDisplayed()));
         dayView.perform(longClick());
     }
-    @Test
+    //@Test
     public void testForFebruary(){
         try {
             Thread.sleep(16);
@@ -485,7 +485,7 @@ public class DailyViewTest {
                         isDisplayed()));
         dayView.perform(longClick());
     }
-    @Test
+    //@Test
     public void testForMarch(){
         try {
             Thread.sleep(16);
@@ -524,7 +524,7 @@ public class DailyViewTest {
                         isDisplayed()));
         dayView.perform(longClick());
     }
-    @Test
+  //  @Test
     public void testForApril(){
         try {
             Thread.sleep(16);
@@ -553,7 +553,7 @@ public class DailyViewTest {
                         isDisplayed()));
         dayView.perform(longClick());
     }
-    @Test
+   // @Test
     public void testForJune(){
         try {
             Thread.sleep(16);
@@ -582,7 +582,7 @@ public class DailyViewTest {
                         isDisplayed()));
         dayView.perform(longClick());
     }
-    @Test
+    //@Test
     public void testForJuly(){
         try {
             Thread.sleep(16);
@@ -621,7 +621,7 @@ public class DailyViewTest {
                         isDisplayed()));
         dayView.perform(longClick());
     }
-    @Test
+    //@Test
     public void testForAugust(){
         try {
             Thread.sleep(16);
@@ -670,7 +670,7 @@ public class DailyViewTest {
                         isDisplayed()));
         dayView.perform(longClick());
     }
-    @Test
+   // @Test
     public void testForSeptember(){
         try {
             Thread.sleep(16);
@@ -729,7 +729,7 @@ public class DailyViewTest {
                         isDisplayed()));
         dayView.perform(longClick());
     }
-    @Test
+    //@Test
     public void testForOctober(){
         try {
             Thread.sleep(16);
@@ -798,7 +798,7 @@ public class DailyViewTest {
                         isDisplayed()));
         dayView.perform(longClick());
     }
-    @Test
+    //@Test
     public void testForNovember(){
         try {
             Thread.sleep(16);

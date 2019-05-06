@@ -92,7 +92,7 @@ public class WeekViewTest {
                                 0),
                         isDisplayed()));
     }
-    @Test
+    //@Test
     public void testForFebruaryDisplay(){
         try {
             Thread.sleep(16);
@@ -162,7 +162,7 @@ public class WeekViewTest {
                         isDisplayed()));
         navigationMenuItemView.perform(click());
     }
-    @Test
+   // @Test
     public void testForMarchDisplay(){
         try {
             Thread.sleep(16);
@@ -221,7 +221,7 @@ public class WeekViewTest {
                         isDisplayed()));
         navigationMenuItemView.perform(click());
     }
-    @Test
+    //@Test
     public void testForAprilDisplay(){
         try {
             Thread.sleep(16);
@@ -271,7 +271,7 @@ public class WeekViewTest {
                         isDisplayed()));
         navigationMenuItemView.perform(click());
     }
-    @Test
+    //@Test
     public void testForJuneDisplay(){
         try {
             Thread.sleep(16);
@@ -321,7 +321,7 @@ public class WeekViewTest {
                         isDisplayed()));
         navigationMenuItemView.perform(click());
     }
-    @Test
+    //@Test
     public void testForJulyDisplay(){
         try {
             Thread.sleep(16);
@@ -381,7 +381,7 @@ public class WeekViewTest {
                         isDisplayed()));
         navigationMenuItemView.perform(click());
     }
-    @Test
+    //@Test
     public void testForAugustDisplay(){
         try {
             Thread.sleep(16);
@@ -451,7 +451,7 @@ public class WeekViewTest {
                         isDisplayed()));
         navigationMenuItemView.perform(click());
     }
-    @Test
+    //@Test
     public void testForSeptemberDisplay(){
         try {
             Thread.sleep(16);
@@ -531,7 +531,7 @@ public class WeekViewTest {
                         isDisplayed()));
         navigationMenuItemView.perform(click());
     }
-    @Test
+    //@Test
     public void testForOctoberDisplay(){
         try {
             Thread.sleep(16);
@@ -621,7 +621,7 @@ public class WeekViewTest {
                         isDisplayed()));
         navigationMenuItemView.perform(click());
     }
-    @Test
+    //@Test
     public void testForNovemberDisplay(){
         try {
             Thread.sleep(16);
@@ -721,7 +721,7 @@ public class WeekViewTest {
                         isDisplayed()));
         navigationMenuItemView.perform(click());
     }
-    @Test
+   // @Test
     public void testForDecemberDisplay(){
         try {
             Thread.sleep(16);
