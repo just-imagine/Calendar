@@ -66,9 +66,9 @@ public class Progress extends AppCompatActivity
         Pie pie = AnyChart.pie();
         pie.title("Statistics for the day");
         List<DataEntry> data = new ArrayList<>();
-        data.add(new ValueDataEntry("Pending", Statistics.get(1)));
+        data.add(new ValueDataEntry("Pending", Statistics.get(0)));
        // data.add(new ValueDataEntry("Jake", 12000));
-        data.add(new ValueDataEntry("Completed", Statistics.get(0)));
+        data.add(new ValueDataEntry("Completed", Statistics.get(1)));
 
         pie.data(data);
         pie.labels().position("outside");
@@ -89,7 +89,7 @@ public class Progress extends AppCompatActivity
         SlightlyBehind=(TextView)findViewById(R.id.SlightBehind);
         BehindSchedule=(TextView)findViewById(R.id.Behind);
 
-        Scheduletrack(Statistics.get(2));
+
 
 
     }
@@ -150,24 +150,5 @@ public class Progress extends AppCompatActivity
     }
 
 
-    public void PieComputation(){
 
-    }
-
-    public void Scheduletrack(int value){
-        if(value==0){
-            OnSchedeule.setText("On schedule");
-        }
-
-        else if(value<=1){
-            SlightlyBehind.setText("Slightly behind schedule");
-        }
-
-        else{
-            String line=""+value;
-            BehindSchedule.setText("Behind Schedule");
-        }
-
-
-    }
 }

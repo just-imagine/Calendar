@@ -346,6 +346,8 @@ public class WeekView extends AppCompatActivity
         final AsyncHTTPPost WeekSchedule=new AsyncHTTPPost("http://lamp.ms.wits.ac.za/~s1611821/ConsultationWeek.php",Params) {
             @Override
             protected void onPostExecute(String output) {
+
+                int a=1;
                 try {
                     JSONArray results = new JSONArray(output);
                     for (int i = 0; i < results.length(); ++i) {
@@ -359,7 +361,7 @@ public class WeekView extends AppCompatActivity
                         String CheckoutTime=obj.getString("CHECKOUT_TIME");
                         String Time = obj.getString("TIME").substring(0, 5);
                         int State = obj.getInt("STATE");
-                        Booking temp = new Booking(Name, Surname, Identity, Contact, Email, Date, Time,CheckoutTime, State);
+                        Booking temp = new Booking(Date,Time,Identity);
                         Schedule.add(temp);
                     }
                         PopulateDays(WeekDays);

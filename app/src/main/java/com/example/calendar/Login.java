@@ -18,6 +18,7 @@ public class Login extends AppCompatActivity {
     EditText username,password;
     Button Login;
     TextView res;
+    User Administrator;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,24 +31,13 @@ public class Login extends AppCompatActivity {
 
     }
     public void doLogin(View v){
-        String userna="Admin";
-        String pass="Admin";
-        if(username.getText().toString().trim().equals(userna) && password.getText().toString().trim().equals(pass) ){
-            Intent Home=new Intent(getApplicationContext(),HomeScreen.class);
-            startActivity(Home);
-        }
-        else if(username.getText().length()==0 && password.getText().length()==0){
-            username.setError("Enter username.");
-            password.setError("Enter password.");
-        }
-        else if(username.getText().length()==0 && password.getText().length()>0){
-            username.setError("Enter username.");
-        }
-        else if(username.getText().length()>0 && password.getText().length()==0){
-            password.setError("Enter password.");
-        }
-        else{
-            Toast.makeText(getApplicationContext(),"Incorrect Credentials",Toast.LENGTH_SHORT).show();
+        Administrator=new User();
+        Administrator.setEmail(username.getText().toString().trim());
+        Administrator.setPassword(password.getText().toString().trim());
+
+        if(Administrator.getEmail().equals("Admin") && Administrator.getPassword().equals("Admin")){
+            Intent Homescreen=new Intent(getApplicationContext(),HomeScreen.class);
+            startActivity(Homescreen);
         }
 
     }
