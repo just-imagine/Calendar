@@ -44,15 +44,6 @@ public class HomeScreen extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     //global variables that we need access to anywhere
-    Date currentDate;
-    String current_date,checked_date;
-    String DayOfWeek;
-    String DayOfMonth;
-    String MonthOfYear;
-    String globalDate;
-    String globalDateDay;
-    ImageView display;
-
     Intent currentIntent;
     MaterialCalendarView Calendar;
     Month calendarMonth;
@@ -186,12 +177,7 @@ public class HomeScreen extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_progress) {
-           // Intent Progress=new Intent(getApplicationContext(),Progress.class);
-           // startActivity(Progress);
-
-        }
-        else if (id == R.id.nav_day) {
+        if (id == R.id.nav_day) {
             Intent DailyView=new Intent(getApplicationContext(),DailyView.class);
             DailyView.putExtra("checkedDate",calendarMonth.getCheckedDate());
             startActivity(DailyView);
@@ -204,12 +190,6 @@ public class HomeScreen extends AppCompatActivity
             weekView.putExtra("CheckedDate",calendarMonth.getCheckedDate());
             weekView.putExtra("LongCurrentDate",""+Calendar.getSelectedDate().getDate());
             startActivity(weekView);
-
-        } else if (id == R.id.nav_month) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
 
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

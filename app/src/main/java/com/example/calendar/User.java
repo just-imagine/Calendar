@@ -15,8 +15,6 @@ public class User {
     private String confirmPassword;
 
     //aall getter methods to retieve data
-
-
     public String getPassword() {
         return Password;
     }

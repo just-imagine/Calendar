@@ -56,6 +56,7 @@ public class DailyView extends AppCompatActivity
     String clickedTime;
     Dialog moveAppoint;
     ImageView monthTheme;
+    ProgressDialog Loading;
     @TargetApi(Build.VERSION_CODES.M)
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
@@ -101,6 +102,8 @@ public class DailyView extends AppCompatActivity
 
         //populates the view with textviews representing time slots
         addSlots(thisDay);
+        Loading=new ProgressDialog(this);
+        thisDay.setLoading(Loading);
 
         thisDay.DailySchedule();
 
@@ -173,7 +176,7 @@ public class DailyView extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_progress) {
-            Intent Progress=new Intent(getApplicationContext(),Progress.class);
+            Intent Progress=new Intent(getApplicationContext(),Statistics.class);
             Progress.putExtra("Statistics",thisDay.Stats());
             startActivity(Progress);
         } else if (id == R.id.nav_week) {
@@ -186,11 +189,6 @@ public class DailyView extends AppCompatActivity
 
         } else if (id == R.id.nav_month) {
             finish();
-
-        }  else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -269,44 +267,49 @@ public class DailyView extends AppCompatActivity
     }
 
     // when a slot is clicked we want to take action depending on what text it has
-    public void Action(View v){
-        v=(TextView)v;
-        if(((TextView) v).getText().toString().equals("Cancel")){
-            Booking b=thisDay.findBooking(clickedTime);
-            if(b!=null)
-            thisDay.cancelBooking(b,mainView);
+    public void Action(View v) {
+        v = (TextView) v;
+        if (((TextView) v).getText().toString().equals("Cancel")) {
+            Booking b = thisDay.findBooking(clickedTime);
+            if (b != null)
+                thisDay.cancelBooking(b, mainView);
 
-            else{
+            else {
 
             }
-        }
-
-        else if(((TextView) v).getText().toString().equals("Checkout ")){
-            Booking b=thisDay.findBooking(clickedTime);
-            if(b!=null){
-                int a=1;
-                thisDay.checkoutBooking(b,mainView);
+        } else if (((TextView) v).getText().toString().equals("Checkout ")) {
+            Booking b = thisDay.findBooking(clickedTime);
+            if (b != null) {
+                int a = 1;
+                thisDay.checkoutBooking(b, mainView);
             }
-        }
+        } else if (((TextView) v).getText().toString().equals("Move")) {
 
-        else if(((TextView) v).getText().toString().equals("Move")){
-            Booking b=thisDay.findBooking(clickedTime);
             moveAppoint.show();
-        }
+        } else if (((Button) v).getText().toString().equals("move")) {
+            Booking prior = thisDay.findBooking(clickedTime);
+            EditText newDay = moveAppoint.findViewById(R.id.newday);
+            EditText newTime = moveAppoint.findViewById(R.id.newtime);
+            if (prior != null) {
 
-        else if(((Button) v).getText().toString().equals("move")){
-            Booking prior=thisDay.findBooking(clickedTime);
-            if(prior!=null){
-                EditText newDay=moveAppoint.findViewById(R.id.newday);
-                EditText newTime=moveAppoint.findViewById(R.id.newtime);
+                String moveToday = newDay.getText().toString();
+                String line[] = moveToday.split("-");
+                String day = "";
+                String time = newTime.getText().toString();
+                try{
+                    day = line[0] + line[1] + line[2];
+                    if(!time.equals("null") && time.length()==5 && time.contains(":")){
+                    Booking after = new Booking(day, time, prior.getIdentity());
+                    thisDay.moveSlot(prior, after, mainView, moveAppoint);}
+                    else{
+                        newTime.setError("The time format is HH:mm");
+                    }
 
-                String line[]=newDay.getText().toString().split("-");
-                String day=line[0]+line[1]+line[2];
-                String time=newTime.getText().toString();
+                    }
+                    catch (IndexOutOfBoundsException e){
+                    newDay.setError("The date format is YYYY-MM-dd");
+                }
 
-                int a=1;
-                Booking after=new Booking(day,time,prior.getIdentity());
-                thisDay.moveSlot(prior,after,mainView,moveAppoint);
             }
         }
 
@@ -328,13 +331,6 @@ public class DailyView extends AppCompatActivity
           L.setBackgroundColor(Color.RED);
           L.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.borders));}
 
-          //else{
-            //  TextView last=slots.get(slots.size()-1);
-              //LinearLayout L=(LinearLayout)last.getParent();
-              //L.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.borders));
-          //}
-
-          //find the textview corresponding to where we should be
       }
     }
 

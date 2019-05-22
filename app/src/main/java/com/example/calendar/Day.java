@@ -40,8 +40,13 @@ public class Day extends Month {
         slotCards=new ArrayList<>();
         timeSlots=new ArrayList<TextView>();
         this.context=context;
-        Loading=new ProgressDialog(context);
+        //Loading=new ProgressDialog(context);
         this.completedSlots=new ArrayList<>();
+    }
+
+
+    public void  setLoading(ProgressDialog loading){
+        Loading=loading;
     }
 
     //set the current user
@@ -231,7 +236,6 @@ public class Day extends Month {
     public void updateSlots(){
 
         Date date=new Date();
-        String actualtime=""+date;
         completedSlots=new ArrayList<>();
             for(int j=0;j<timeSlots.size();++j){
                 TextView slot=timeSlots.get(j);
@@ -414,10 +418,6 @@ public class Day extends Month {
 
     }
 
-    //trackes the progress to the last attended appointment
-    public void progressTrack(){
-
-    }
 
     public int timeValue(String time){
         String subs[]=time.split(":");
