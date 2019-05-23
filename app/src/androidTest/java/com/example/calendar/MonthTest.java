@@ -4,7 +4,7 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 
 import static org.junit.Assert.*;
 
-import com.prolificinteractive.materialcalendarview.CalendarDay;
+
 
 import org.junit.After;
 import org.junit.Before;
