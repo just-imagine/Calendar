@@ -66,17 +66,6 @@ public class DailyView extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -117,6 +106,7 @@ public class DailyView extends AppCompatActivity
             public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 thisDay.DailySchedule();
                 progressTrack(thisDay.completedSlots);
+                expectedProgress();
             }
         });
 
@@ -298,6 +288,7 @@ public class DailyView extends AppCompatActivity
                 String time = newTime.getText().toString();
                 try{
                     day = line[0] + line[1] + line[2];
+                    int a=1;
                     if(!time.equals("null") && time.length()==5 && time.contains(":")){
                     Booking after = new Booking(day, time, prior.getIdentity());
                     thisDay.moveSlot(prior, after, mainView, moveAppoint);}
@@ -319,20 +310,32 @@ public class DailyView extends AppCompatActivity
 
         ArrayList<LinearLayout>cards=thisDay.slotCards;
 
-        for(int i=0;i<cards.size();++i){
-            cards.get(i).setBackgroundColor(Color.TRANSPARENT);
+
+        for(int i=0;i<thisDay.timeSlots.size();++i){
+            TextView s=thisDay.timeSlots.get(i);
+            LinearLayout L=(LinearLayout)s.getParent();
+            L.setBackgroundColor(Color.TRANSPARENT);
         }
 
+
+      ///getst las attended appointment
       if(!slots.isEmpty()){
           if(slots.size()>=1){
-         // p.setBackgroundColor(Color.TRANSPARENT);
           TextView last=slots.get(slots.size()-1);
           LinearLayout L=(LinearLayout)last.getParent();
-          L.setBackgroundColor(Color.RED);
           L.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.borders));}
-
       }
+
+
+      //move to any slot that should
+
     }
+
+    public void expectedProgress(){
+        ArrayList<LinearLayout>cards=thisDay.slotCards;
+        ArrayList<Booking>bookings=thisDay.dailyBookings;
+
+        }
 
     public void setTheme(){
         String Month=thisDay.getMonth();

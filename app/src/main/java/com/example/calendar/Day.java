@@ -236,15 +236,25 @@ public class Day extends Month {
     public void updateSlots(){
 
         Date date=new Date();
+        String actualtime=""+date;
+        String sub=actualtime.substring(11,16);
+        int currenttimevalue=timeValue(sub);
+        boolean found=false;
         completedSlots=new ArrayList<>();
             for(int j=0;j<timeSlots.size();++j){
+
                 TextView slot=timeSlots.get(j);
+                slot.setBackgroundColor(Color.TRANSPARENT);
                 String time=slot.getHint().toString();
                 Booking b=findBooking(time);
                 if(b!=null){
+
                     if(b.Booked() && !b.Completed() && !b.Blocked()){
                       slot.setBackgroundColor(Color.parseColor("#4eacc8"));
-                      slot.setText("Appointment");}
+                      slot.setText("Appointment");
+
+
+                    }
 
                      else if(b.Completed()){
                         slot.setBackgroundColor(Color.parseColor("#003366"));
@@ -275,6 +285,8 @@ public class Day extends Month {
             Params.put("DATE",after.getDate());
             Params.put("TIME",after.getDbTime());
 
+            //first check that its being moved to a date greater thean or equals to current
+        if(Futuretime(prior,after)){
             AsyncHTTPPost book=new AsyncHTTPPost("http://lamp.ms.wits.ac.za/~s1611821/move.php",Params) {
                 @Override
                 protected void onPostExecute(String output) {
@@ -286,7 +298,21 @@ public class Day extends Month {
             book.execute();
 
             Loading = ProgressDialog.show(context, "",
-                    "Loading. Please wait...", true);
+                    "Loading. Please wait...", true);}
+        else{
+            status.dismiss();
+            bookingDialog.dismiss();
+            Loading.dismiss();
+
+            Snackbar error=Snackbar.make(mainView, "failed to move booking", Snackbar.LENGTH_LONG)
+                    .setAction("Action", null);
+            View snackBarView = error.getView();
+            snackBarView.setBackgroundColor(Color.RED);
+            TextView message = (TextView)snackBarView.findViewById(android.support.design.R.id.snackbar_text);
+            message.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            message.setTextSize(17);
+            error.show();
+        }
     }
 
     public void moveSlotUpdate(String output,Dialog status,LinearLayout mainView){
@@ -325,6 +351,8 @@ public class Day extends Month {
             Params.put("DATE",getCheckedDate());
             Params.put("TIME",b.getDbTime());
             Params.put("ID_NUMBER",b.getIdentity());
+
+
             AsyncHTTPPost cancel=new AsyncHTTPPost("http://lamp.ms.wits.ac.za/~s1611821/c.php",Params) {
                 @Override
                 protected void onPostExecute(String output) {
@@ -447,4 +475,33 @@ public class Day extends Month {
     }
 
 
+    public boolean Futuretime(Booking prior,Booking after){
+        String format[]=prior.getDate().split("-");
+
+        String priorDate=format[0]+format[1]+format[2];
+        String newDate=after.getDate();
+
+        Date date=new Date();
+        String actualtime=""+date;
+        String sub=actualtime.substring(11,16);
+        int currenttimevalue=timeValue(sub);
+        int timevalue=timeValue(after.getTime());
+
+        int a=1;
+        //move to later time today
+        if(Integer.parseInt(newDate)==Integer.parseInt(getCurrentDate())){
+            if(timevalue>currenttimevalue){
+                return  true;
+            }
+        }
+
+        else if(Integer.parseInt(newDate)>Integer.parseInt(getCurrentDate())){
+            return  true;
+        }
+
+
+        return  false;
+        //the  new date and time have to be in the furutr
+
+    }
 }

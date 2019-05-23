@@ -28,7 +28,6 @@ public class Login extends AppCompatActivity {
         Login=(Button)findViewById(R.id.loginbut);
         res=(TextView)findViewById(R.id.textView);
 
-
     }
     public void doLogin(View v){
         Administrator=new User();
@@ -39,7 +38,5 @@ public class Login extends AppCompatActivity {
             Intent Homescreen=new Intent(getApplicationContext(),HomeScreen.class);
             startActivity(Homescreen);
         }
-
     }
-
 }
