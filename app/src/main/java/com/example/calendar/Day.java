@@ -10,9 +10,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.anychart.core.Text;
-import com.anychart.core.annotations.Line;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
