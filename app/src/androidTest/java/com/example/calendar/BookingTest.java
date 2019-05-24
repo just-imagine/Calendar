@@ -6,9 +6,11 @@ import org.junit.Test;
 
 import java.lang.reflect.Field;
 
+
 import static org.junit.Assert.*;
 
 public class BookingTest {
+
 
     @Before
     public void setUp() throws Exception {
@@ -40,6 +42,7 @@ public class BookingTest {
     }
 
     @Test
+
     public void getEmail() throws NoSuchFieldException, IllegalAccessException {
         final Booking temp= new Booking("","","");
         final Field field= temp.getClass().getDeclaredField("Email");
@@ -51,14 +54,17 @@ public class BookingTest {
 
     @Test
     public void getIdentity() {
+
         final  Booking temp = new Booking("","","9812176232089");
         final String results= temp.getIdentity();
         assertEquals("9812176232089",results);
+
 
     }
 
     @Test
     public void getTime() {
+
         final Booking temp= new Booking("","12:30","");
         final String results= temp.getTime();
         assertEquals("12:30",results);
@@ -70,6 +76,7 @@ public class BookingTest {
         final String results= temp.getDbTime();
         assertEquals("123000",results);
 
+
     }
 
     @Test
@@ -80,11 +87,11 @@ public class BookingTest {
         field.set(temp,"Mavhona");
         final  String results= temp.getSurname();
         assertEquals("Mavhona",results);
-
     }
 
     @Test
     public void getDate() {
+
         final Booking temp= new Booking("12/12/2029","","");
         final  String results= temp.getDate();
         assertEquals("12/12/2029",results);
@@ -137,7 +144,6 @@ public class BookingTest {
         final  Field field =temp.getClass().getDeclaredField("Email");
         field.setAccessible(true);
         assertEquals("tmavhona@gmail.com",field.get(temp));
-
     }
 
     @Test

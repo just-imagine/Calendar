@@ -265,7 +265,6 @@ public class DailyView extends AppCompatActivity
                 thisDay.cancelBooking(b, mainView);
 
             else {
-
             }
         } else if (((TextView) v).getText().toString().equals("Checkout ")) {
             Booking b = thisDay.findBooking(clickedTime);
