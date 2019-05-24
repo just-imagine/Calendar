@@ -223,15 +223,6 @@ public class WeekView extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_month) {
-            finish();
-        } else if (id == R.id.nav_progress) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -346,6 +337,8 @@ public class WeekView extends AppCompatActivity
         final AsyncHTTPPost WeekSchedule=new AsyncHTTPPost("http://lamp.ms.wits.ac.za/~s1611821/ConsultationWeek.php",Params) {
             @Override
             protected void onPostExecute(String output) {
+
+                int a=1;
                 try {
                     JSONArray results = new JSONArray(output);
                     for (int i = 0; i < results.length(); ++i) {
@@ -359,7 +352,7 @@ public class WeekView extends AppCompatActivity
                         String CheckoutTime=obj.getString("CHECKOUT_TIME");
                         String Time = obj.getString("TIME").substring(0, 5);
                         int State = obj.getInt("STATE");
-                        Booking temp = new Booking(Name, Surname, Identity, Contact, Email, Date, Time,CheckoutTime, State);
+                        Booking temp = new Booking(Date,Time,Identity);
                         Schedule.add(temp);
                     }
                         PopulateDays(WeekDays);
@@ -570,11 +563,11 @@ public class WeekView extends AppCompatActivity
                 DateOne=CheckedDate.substring(0,4)+month+""+DateOneValue;
             }
             if(DateTwoValue<10){
-                DateTwo=""+year+""+CheckedDate.substring(0,4)+"0"+DateTwoValue;
+                DateTwo=""+year+""+CheckedDate.substring(4,6)+"0"+DateTwoValue;
             }
 
             else{
-                DateTwo=year+""+CheckedDate.substring(0,4)+""+DateTwoValue;
+                DateTwo=year+""+CheckedDate.substring(4,6)+""+DateTwoValue;
             }
 
             String Dates[]={DateOne,DateTwo};
@@ -702,10 +695,5 @@ public class WeekView extends AppCompatActivity
         return  L;
     }
 
-    public void Allign(){
-       for(int i=0;i<MaskWeekdays.length;++i){
-            WeekDays[i].setLayoutParams(MaskWeekdays[i].getLayoutParams());
-       }
-    }
 
 }

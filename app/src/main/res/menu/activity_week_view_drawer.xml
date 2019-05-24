@@ -3,18 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_progress"
-            android:icon="@mipmap/ic_schedule"
-            android:title="Progress" />
 
-        <item
-            android:id="@+id/nav_month"
-            android:icon="@mipmap/ic_month"
-            android:title="month" />
-            android:title="Tools" />
-    </group>
 
     <item android:title="Communicate">
         <menu>

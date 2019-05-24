@@ -1,8 +1,6 @@
 package com.example.calendar;
 
-import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.widget.CardView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -10,34 +8,24 @@ import java.util.ArrayList;
 public class Booking {
 
 
-   private String Name;
-   private String Surname;
-   private String Identity;
-   private String Date;
-   private String Time;
-   private String Checkeouttime;
-   private String Contact;
-   private String Email;
-   private int cardidentifier;
-   private int state;
+    private String Name;
+    private String Surname;
+    private String Identity;
+    private String Date;
+    private String Time;
+    private String Contact;
+    private String Email;
+    private int state;
+    private String currentUser;
 
 
-    public Booking(String Name, String Surname, String Identity,String Contact,String Email, String Date, String Time,String checkeouttime,int state){
-        this.Name=Name;
-        this.Surname=Surname;
+
+    public Booking(String Date, String Time,String Identity){
         this.Identity=Identity;
-        this.Contact=Contact;
-        this.Email=Email;
         this.Date=Date;
         this.Time=Time;
-        this.Checkeouttime=checkeouttime;
-        this.state=state;
     }
 
-
-    public void SetCardidentifier(int id){
-        this.cardidentifier=id;
-    }
     public String getName(){
         return  Name;
     }
@@ -54,8 +42,16 @@ public class Booking {
         return Identity;
     }
 
-    public String getTime() {
-        return Time;
+    public String getTime(){
+        return  Time;
+    }
+    //return the time in the db format
+    public String getDbTime() {
+        String line="";
+        String data[]=Time.split(":");
+
+        line=data[0]+data[1]+"00";
+        return line;
     }
 
     public String getSurname() {
@@ -66,22 +62,30 @@ public class Booking {
         return Date;
     }
 
-    public  String getCheckeouttime(){
-        return  Checkeouttime;
+    public  void setCurrentUser(String user){
+        currentUser=user;
     }
 
-    public int getCardidentifier(){
-        return  cardidentifier;
+    public void setName(String name){
+        Name=name;
     }
 
-
-    boolean Equal(Booking other){
-        if(other!=null) {
-            if (this.Time.equals(other.getTime()) && this.Date.equals(other.getDate()))
-                return true;
-        }
-        return  false;
+    public void setSurname(String surname) {
+        Surname = surname;
     }
+
+    public void setContact(String contact) {
+        Contact = contact;
+    }
+
+    public void setEmail(String email) {
+        Email = email;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
     boolean Empty(){
         if(Identity.equals("")){
             return true;
@@ -94,17 +98,13 @@ public class Booking {
         if(Identity.equals("Admin")){
             return  true;
         }
-
         return  false;
     }
 
-
-
     boolean Booked(){
-        if(!Identity.equals("null") && !Blocked() && state==0){
+        if(!Identity.equals("null") && !Blocked() && !Identity.equals(currentUser)){
             return  true;
         }
-
         return  false;
     }
 
@@ -112,54 +112,55 @@ public class Booking {
         if(state==1){
             return  true;
         }
-
         return  false;
     }
 
-    int Difference(){
-        String dataOne[]=Time.split(":");
-        String dataTwo[]=Checkeouttime.split(":");
-
-        String line1="";
-        String line2="";
-        for(int i=0;i<dataOne.length;++i){
-            line1=line1+dataOne[i];
-            line2=line2+dataTwo[i];
+    boolean MyBooking(){
+        if(currentUser.equals(Identity)){
+            return  true;
         }
-
-        return Integer.parseInt(line2)-Integer.parseInt(line1);
+        return  false;
     }
 
+    @Override
+    public boolean equals(Object obj){
+        if(this==obj){
+            return  true;
+        }
 
+        else{
+            Booking temp=(Booking)obj;
+            if(this.Time.equals(temp.getTime()) && this.Date.equals(temp.getDate()) && !temp.Blocked()){
+                return  true;
+            }
 
+            return  false;
+        }
 
+    }
 
-    public void OccupySlots(ArrayList<TextView>SLots,Booking Other){
+   /* public void OccupySlots(ArrayList<TextView>SLots){
         for(int i=0;i< SLots.size();++i){
             TextView Slot=SLots.get(i);
             if(Slot.getHint().equals(Time)){
 
-                if(this.Booked()){
+
+                if(this.MyBooking() && !this.Completed()){
                     Slot.setBackgroundColor(Color.parseColor("#4eacc8"));
                     Slot.setText("Appointment");
                     Slot.setTextColor(Color.WHITE);
                 }
 
-                else if(this.Completed() && !this.Equal(Other)){
+
+                else if(this.MyBooking() && this.Completed()){
                     Slot.setBackgroundColor(Color.parseColor("#003366"));
                     Slot.setText("Attended");
                     Slot.setTextColor(Color.WHITE);
                 }
 
-                else if(this.Completed() && this.Equal(Other)){
-                    Slot.setBackgroundColor(Color.parseColor("#003366"));
-                    Slot.setText("Attended");
-                    Slot.setTextColor(Color.WHITE);
-                    Other.SetCardidentifier(Slot.getId());
-                }
                 else if(this.Blocked()){
                     Slot.setBackgroundColor(Color.parseColor("#d13c04"));
-                    Slot.setText("Blocked");
+                    Slot.setText("Unavailable");
                     Slot.setTextColor(Color.WHITE);
                 }
 
@@ -169,15 +170,20 @@ public class Booking {
                     Slot.setTextColor(Color.WHITE);
                 }
 
+                else if(this.Booked()){
+                    Slot.setBackgroundColor(Color.parseColor("#d13c04"));
+                    Slot.setText("Unavailable");
+                    Slot.setTextColor(Color.WHITE);
+                }
+
+
+
+
+
                 break;
             }
-
-
         }
-    }
-
-
-
+    }*/
 
 
 }

@@ -7,7 +7,6 @@
     >
 
 
-
         <LinearLayout
             android:id="@+id/viewOne"
             android:orientation="vertical"
