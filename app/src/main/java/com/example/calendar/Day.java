@@ -243,6 +243,7 @@ public class Day extends Month {
                 TextView slot=timeSlots.get(j);
                 slot.setBackgroundColor(Color.TRANSPARENT);
                 String time=slot.getHint().toString();
+                
                 Booking b=findBooking(time);
                 if(b!=null){
 
@@ -251,8 +252,10 @@ public class Day extends Month {
                       slot.setText("Appointment");
 
 
+                      if(timeValue(slot.getHint().toString())<currenttimevalue && getCheckedDate().equals(getCurrentDate())){
+                      slot.setBackgroundColor(Color.RED);
+                      }
                     }
-
                      else if(b.Completed()){
                         slot.setBackgroundColor(Color.parseColor("#003366"));
                         slot.setText("Attended");
@@ -501,4 +504,6 @@ public class Day extends Month {
         //the  new date and time have to be in the furutr
 
     }
+
+
 }
