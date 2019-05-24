@@ -563,11 +563,11 @@ public class WeekView extends AppCompatActivity
                 DateOne=CheckedDate.substring(0,4)+month+""+DateOneValue;
             }
             if(DateTwoValue<10){
-                DateTwo=""+year+""+CheckedDate.substring(0,4)+"0"+DateTwoValue;
+                DateTwo=""+year+""+CheckedDate.substring(4,6)+"0"+DateTwoValue;
             }
 
             else{
-                DateTwo=year+""+CheckedDate.substring(0,4)+""+DateTwoValue;
+                DateTwo=year+""+CheckedDate.substring(4,6)+""+DateTwoValue;
             }
 
             String Dates[]={DateOne,DateTwo};
