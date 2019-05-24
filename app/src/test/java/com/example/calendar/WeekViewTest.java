@@ -35,6 +35,8 @@ public class WeekViewTest {
     @Test
     public void check() {
         assertNotNull(myHome);
+        myHome.BottomHorizontal.scrollTo(2,3);
+
     }
 
 }

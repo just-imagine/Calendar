@@ -695,10 +695,5 @@ public class WeekView extends AppCompatActivity
         return  L;
     }
 
-    public void Allign(){
-       for(int i=0;i<MaskWeekdays.length;++i){
-            WeekDays[i].setLayoutParams(MaskWeekdays[i].getLayoutParams());
-       }
-    }
-
+ 
 }
