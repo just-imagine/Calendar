@@ -243,7 +243,7 @@ public class Day extends Month {
                 TextView slot=timeSlots.get(j);
                 slot.setBackgroundColor(Color.TRANSPARENT);
                 String time=slot.getHint().toString();
-                
+
                 Booking b=findBooking(time);
                 if(b!=null){
 
