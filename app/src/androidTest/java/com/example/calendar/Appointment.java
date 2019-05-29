@@ -35,7 +35,7 @@ public class Appointment {
     @Rule
     public ActivityTestRule<Login> mActivityTestRule = new ActivityTestRule<>(Login.class);
 
-    @Test
+   // @Test
     public void appointment() {
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.user),
