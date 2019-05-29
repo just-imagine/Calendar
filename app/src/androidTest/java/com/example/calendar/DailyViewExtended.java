@@ -37,7 +37,7 @@ public class DailyViewExtended {
     @Rule
     public ActivityTestRule<HomeScreen> mActivityTestRule = new ActivityTestRule<>(HomeScreen.class);
 
-    @Test
+    //@Test
     public void testForWeekView() {
         try {
             Thread.sleep(16);
@@ -104,5 +104,9 @@ public class DailyViewExtended {
                         && view.equals(((ViewGroup) parent).getChildAt(position));
             }
         };
+    }
+    @Test
+    public void cancel(){
+
     }
 }

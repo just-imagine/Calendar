@@ -36,8 +36,11 @@ public class LoginTestPlusViews {
 
     @Rule
     public ActivityTestRule<Login> mActivityTestRule = new ActivityTestRule<>(Login.class);
-
     @Test
+    public void cancel(){
+
+    }
+    //@Test
     public void loginTestPlusViews() {
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.user),
