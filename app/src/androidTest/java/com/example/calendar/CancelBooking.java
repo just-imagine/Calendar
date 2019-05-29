@@ -32,13 +32,13 @@ import static org.hamcrest.Matchers.is;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class MoveBooking {
+public class CancelBooking {
 
     @Rule
     public ActivityTestRule<Login> mActivityTestRule = new ActivityTestRule<>(Login.class);
 
-   // @Test
-    public void loginTest() {
+    //@Test
+    public void cancelBooking() {
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.user),
                         childAtPosition(
@@ -69,7 +69,6 @@ public class MoveBooking {
                         isDisplayed()));
         appCompatEditText3.perform(replaceText("Admin"), closeSoftKeyboard());
 
-        //pressBack();
 
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.loginbut), withText("Login"),
@@ -120,44 +119,15 @@ public class MoveBooking {
         appCompatTextView.perform(click());
 
         ViewInteraction appCompatTextView2 = onView(
-                allOf(withId(R.id.moveBooking), withText("Move"),
+                allOf(withId(R.id.cancel), withText("Cancel"),
                         childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.widget.LinearLayout")),
-                                        2),
-                                5),
-                        isDisplayed()));
-        appCompatTextView2.perform(click());
-
-        ViewInteraction appCompatEditText4 = onView(
-                allOf(withId(R.id.newday),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.support.v7.widget.CardView")),
-                                        0),
+                                allOf(withId(R.id.pop),
+                                        childAtPosition(
+                                                withClassName(is("android.widget.LinearLayout")),
+                                                4)),
                                 2),
                         isDisplayed()));
-        appCompatEditText4.perform(replaceText("2019-06-21"), closeSoftKeyboard());
-
-        ViewInteraction appCompatEditText5 = onView(
-                allOf(withId(R.id.newtime),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.support.v7.widget.CardView")),
-                                        0),
-                                4),
-                        isDisplayed()));
-        appCompatEditText5.perform(replaceText("08:00"), closeSoftKeyboard());
-
-        ViewInteraction appCompatButton2 = onView(
-                allOf(withText("move"),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("android.support.v7.widget.CardView")),
-                                        0),
-                                5),
-                        isDisplayed()));
-        appCompatButton2.perform(click());
+        appCompatTextView2.perform(click());
     }
 
     private static Matcher<View> childAtPosition(
