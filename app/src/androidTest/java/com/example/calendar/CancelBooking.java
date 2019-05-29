@@ -148,4 +148,8 @@ public class CancelBooking {
             }
         };
     }
+    @Test
+    public void cancel(){
+
+    }
 }

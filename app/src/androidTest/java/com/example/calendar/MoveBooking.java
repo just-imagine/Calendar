@@ -159,7 +159,10 @@ public class MoveBooking {
                         isDisplayed()));
         appCompatButton2.perform(click());
     }
+    @Test
+    public void cancel(){
 
+    }
     private static Matcher<View> childAtPosition(
             final Matcher<View> parentMatcher, final int position) {
 
