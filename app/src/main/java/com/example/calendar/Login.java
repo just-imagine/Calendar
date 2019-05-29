@@ -1,5 +1,6 @@
 package com.example.calendar;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +28,17 @@ public class Login extends AppCompatActivity {
         username=(EditText) this.findViewById(R.id.user);
         Login=(Button)findViewById(R.id.loginbut);
         res=(TextView)findViewById(R.id.textView);
+
+        ContentValues Params=new ContentValues();
+        Params.put("","");
+        AsyncHTTPPost setConditions=new AsyncHTTPPost("http://lamp.ms.wits.ac.za/~s1611821/testing.php",Params) {
+            @Override
+            protected void onPostExecute(String output) {
+
+            }
+        };
+
+        setConditions.execute();
 
     }
     public void doLogin(View v){
