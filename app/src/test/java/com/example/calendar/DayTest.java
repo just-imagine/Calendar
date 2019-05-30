@@ -17,6 +17,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
@@ -202,6 +203,34 @@ public class DayTest {
 
         output="sdag";
         myDay.cancellationUpdate(output,myDialy.mainView);
+
+    }
+
+    @Test
+    public void moveSlotUpdate(){
+        myDay.bookingDialog=new Dialog(myDialy.getApplicationContext());
+        myDay.Loading=new ProgressDialog(myDialy.getApplicationContext());
+        Dialog status=new Dialog(myDialy.getApplicationContext());
+
+        myDay.moveSlotUpdate("success",status,myDialy.mainView);
+        myDay.moveSlotUpdate("s",status,myDialy.mainView);
+    }
+
+    @Test
+    public void checkoutUpdate() throws NoSuchFieldException, IllegalAccessException {
+        Booking b=new Booking("20190605","12:00","");
+        myDay.dailyBookings.add(b);
+        myDay.bookingDialog=new Dialog(myDialy.getApplicationContext());
+        myDay.Loading=new ProgressDialog(myDialy.getApplicationContext());
+        myDay.checkoutUpdate(b,myDialy.mainView,"success");
+        myDay.checkoutUpdate(b,myDialy.mainView,"s");
+
+        final Field field =b.getClass().getDeclaredField("state");
+        field.setAccessible(true);
+
+        assertEquals(1,field.get(b));
+
+
 
     }
 
