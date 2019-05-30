@@ -25,7 +25,7 @@ public class MonthTest {
     @After
     public void tearDown() throws Exception {
     }
-   // @Test
+    @Test
     public void getDay() throws NoSuchFieldException, IllegalAccessException{
         final Month temp= new Month();
         final Field field= temp.getClass().getDeclaredField("checkedDate");
@@ -34,7 +34,7 @@ public class MonthTest {
         final  String results= temp.getDay();
         assertEquals("29",results);
     }
-  //  @Test
+    @Test
     public void getYear() throws NoSuchFieldException, IllegalAccessException{
         final Month temp=new Month();
         final Field field=temp.getClass().getDeclaredField("checkedDate");
@@ -43,7 +43,7 @@ public class MonthTest {
         final String results=temp.getYear();
         assertEquals("2019",results);
     }
-   // @Test
+    @Test
     public void getMonth() throws NoSuchFieldException, IllegalAccessException{
         final Month temp=new Month();
         final Field field=temp.getClass().getDeclaredField("checkedDate");
@@ -52,7 +52,7 @@ public class MonthTest {
         final String results=temp.getMonth();
         assertEquals("September",results);
     }
-    //@Test
+    @Test
     public void setCheckedDate() throws NoSuchFieldException, IllegalAccessException{
         final Month temp=new Month();
         temp.setCheckedDate("20190929");
@@ -60,7 +60,7 @@ public class MonthTest {
         field.setAccessible(true);
         assertEquals("20190929",field.get(temp));
     }
-    //@Test
+    @Test
     public void setDate() throws NoSuchFieldException, IllegalAccessException{
         final Month temp=new Month();
         Date date = Calendar.getInstance().getTime();
@@ -69,7 +69,7 @@ public class MonthTest {
         field.setAccessible(true);
         assertEquals(date,field.get(temp));
     }
-    //@Test
+    @Test
     public void getWeekDay() throws NoSuchFieldException, IllegalAccessException{
         final Month temp=new Month();
         final Field field=temp.getClass().getDeclaredField("date");
@@ -80,7 +80,7 @@ public class MonthTest {
         assertEquals((""+date).substring(0,3),results);
 
     }
-   // @Test
+    @Test
     public void getCheckedDate() throws NoSuchFieldException, IllegalAccessException{
         final Month temp=new Month();
         final Field field=temp.getClass().getDeclaredField("checkedDate");
@@ -89,7 +89,7 @@ public class MonthTest {
         final String results=temp.getCheckedDate();
         assertEquals("20190929",results);
     }
-    //@Test
+    @Test
     public void getCurrentDate() throws NoSuchFieldException, IllegalAccessException{
         final Month temp=new Month();
         final Field field=temp.getClass().getDeclaredField("currentDate");
@@ -101,7 +101,7 @@ public class MonthTest {
         final String newresult=temp.getCurrentDate();
         assertEquals("20190404",newresult);
     }
-    //@Test
+    @Test
     public void changeCheckedDate(){
         final Month temp=new Month();
         CalendarDay day=CalendarDay.from(2019,9,29);
@@ -115,7 +115,7 @@ public class MonthTest {
         assertEquals("20191210",myresults);
 
     }
-    //@Test
+    @Test
     public void getMonthName(){
         final Month temp=new Month();
         final String results=temp.getMonthName(9);
