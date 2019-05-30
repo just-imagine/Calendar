@@ -37,8 +37,8 @@ public class MoveBooking {
     @Rule
     public ActivityTestRule<Login> mActivityTestRule = new ActivityTestRule<>(Login.class);
 
-   // @Test
-    public void loginTest() {
+    @Test
+    public void moveTest() {
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.user),
                         childAtPosition(

@@ -78,7 +78,6 @@ public class MonthTest {
         field.set(temp,date);
         final String results=temp.getWeekDay();
         assertEquals((""+date).substring(0,3),results);
-
     }
     @Test
     public void getCheckedDate() throws NoSuchFieldException, IllegalAccessException{
