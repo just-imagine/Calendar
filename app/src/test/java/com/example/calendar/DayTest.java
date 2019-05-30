@@ -17,6 +17,8 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
+import java.util.ArrayList;
+
 import static org.junit.Assert.*;
 @RunWith(RobolectricTestRunner.class)
 public class DayTest {
@@ -158,6 +160,49 @@ public class DayTest {
         myDay.dailyBookings.add(temp);
         myDay.updateSlots();
     }
+    @Test
+    public void futureTimeTest(){
+        Booking prior=new Booking("2019-06-10","09:00","");
+        Booking after=new Booking("20190624","09:00","");
 
+        assertEquals(true,myDay.Futuretime(prior,after));
+
+        after=new Booking("20190610","23:59","");
+
+        assertEquals(true,myDay.Futuretime(prior,after));
+
+        after=new Booking("2019","23:59","");
+
+        assertEquals(false,myDay.Futuretime(prior,after));
+    }
+
+    @Test
+    public  void StatsTest(){
+
+        TextView t1=new TextView(myDialy.getApplicationContext());
+        t1.setText("Appointment");
+        TextView t2=new TextView(myDialy.getApplicationContext());
+        t2.setText("Attended");
+        myDay.timeSlots.add(t1);
+        myDay.timeSlots.add(t2);
+        ArrayList<Integer>exp=new ArrayList<>();
+        exp.add(1);
+        exp.add(1);
+        ArrayList<Integer>Result=myDay.Stats();
+        assertEquals(false,Result.retainAll(myDay.Stats()));
+
+    }
+
+    @Test
+    public void cancellationUpdate(){
+        String output="success";
+        myDay.bookingDialog=new Dialog(myDialy.getApplicationContext());
+        myDay.Loading=new ProgressDialog(myDialy.getApplicationContext());
+        myDay.cancellationUpdate(output,myDialy.mainView);
+
+        output="sdag";
+        myDay.cancellationUpdate(output,myDialy.mainView);
+
+    }
 
 }
