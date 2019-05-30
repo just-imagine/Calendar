@@ -37,7 +37,7 @@ public class CancelBooking {
     @Rule
     public ActivityTestRule<Login> mActivityTestRule = new ActivityTestRule<>(Login.class);
 
-    //@Test
+    @Test
     public void cancelBooking() {
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.user),
@@ -97,13 +97,13 @@ public class CancelBooking {
         directionButton.perform(click());
 
         ViewInteraction dayView = onView(
-                allOf(withText("20"), withContentDescription("20"),
+                allOf(withText("6"), withContentDescription("6"),
                         childAtPosition(
                                 allOf(withContentDescription("Calendar"),
                                         childAtPosition(
                                                 withId(R.id.mcv_pager),
                                                 1)),
-                                32),
+                                18),
                         isDisplayed()));
         dayView.perform(longClick());
 
@@ -148,8 +148,5 @@ public class CancelBooking {
             }
         };
     }
-    @Test
-    public void cancel(){
 
-    }
 }
