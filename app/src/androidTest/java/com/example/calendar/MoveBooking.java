@@ -98,13 +98,13 @@ public class MoveBooking {
         directionButton.perform(click());
 
         ViewInteraction dayView = onView(
-                allOf(withText("20"), withContentDescription("20"),
+                allOf(withText("6"), withContentDescription("6"),
                         childAtPosition(
                                 allOf(withContentDescription("Calendar"),
                                         childAtPosition(
                                                 withId(R.id.mcv_pager),
                                                 1)),
-                                32),
+                                18),
                         isDisplayed()));
         dayView.perform(longClick());
 
