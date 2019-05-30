@@ -227,10 +227,7 @@ public class DayTest {
 
         final Field field =b.getClass().getDeclaredField("state");
         field.setAccessible(true);
-
         assertEquals(1,field.get(b));
-
-
 
     }
 
