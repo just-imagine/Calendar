@@ -112,14 +112,13 @@ public class WeekViewTest {
         temp[0]="20190503";
         assertEquals(temp,results);
 
-        Dateone="13";
+        Dateone="30";
         Datetwo="4";
         results=myHome.DateOrder(Dateone,Datetwo);
         String temp1[]=new String[2];
-        temp1[1]="20190504";
-        temp1[0]="20190413";
+        temp1[1]="20190604";
+        temp1[0]="20190530";
         assertEquals(temp1,results);
-
 
     }
 

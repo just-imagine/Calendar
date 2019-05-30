@@ -537,14 +537,24 @@ public class WeekView extends AppCompatActivity
         }
 
         else{
-            int nextmonth=Integer.parseInt(CheckedDate.substring(4,6));
+            int nextmonth=Integer.parseInt(CheckedDate.substring(4,6))+1;
             int year=Integer.parseInt(CheckedDate.substring(0,4));
+            int k=1;
             if(nextmonth==13){
                 year=year+1;
                 nextmonth=1;
 
             }
             String month="";
+            String n="";
+
+            if(nextmonth<10){
+                n=""+"0"+nextmonth;
+            }
+
+            else{
+                n=""+nextmonth;
+            }
             int prevmonth=nextmonth-1;
 
             if(prevmonth<10){
@@ -563,11 +573,11 @@ public class WeekView extends AppCompatActivity
                 DateOne=CheckedDate.substring(0,4)+month+""+DateOneValue;
             }
             if(DateTwoValue<10){
-                DateTwo=""+year+""+CheckedDate.substring(4,6)+"0"+DateTwoValue;
+                DateTwo=""+year+""+n+"0"+DateTwoValue;
             }
 
             else{
-                DateTwo=year+""+CheckedDate.substring(4,6)+""+DateTwoValue;
+                DateTwo=year+""+n+""+DateTwoValue;
             }
 
             String Dates[]={DateOne,DateTwo};

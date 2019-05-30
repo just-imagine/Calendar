@@ -106,7 +106,7 @@ public class DailyView extends AppCompatActivity
             public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 thisDay.DailySchedule();
                 progressTrack(thisDay.completedSlots);
-                expectedProgress();
+               // expectedProgress();
             }
         });
 
@@ -141,15 +141,15 @@ public class DailyView extends AppCompatActivity
             super.onBackPressed();
         }
     }
-
+/*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.daily_view, menu);
         return true;
-    }
+    } */
 
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         int id = item.getItemId();
@@ -157,7 +157,7 @@ public class DailyView extends AppCompatActivity
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -329,12 +329,6 @@ public class DailyView extends AppCompatActivity
       //move to any slot that should
 
     }
-
-    public void expectedProgress(){
-        ArrayList<LinearLayout>cards=thisDay.slotCards;
-        ArrayList<Booking>bookings=thisDay.dailyBookings;
-
-        }
 
     public void setTheme(){
         String Month=thisDay.getMonth();
